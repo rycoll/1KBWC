@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f7426a35002d6148ae33979a4b217d5, type: 3}
+  m_Name: Example Card
+  m_EditorClassIdentifier: 
+  cardName: Example Card
+  cardArt: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  overrideRuleText: This is an example card. It has a lot of rules text. You'll probably
+    have to scroll to see it all! Good luck!
+  cardLocation: 0
