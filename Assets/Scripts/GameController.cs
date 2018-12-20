@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 // this needs to be networked or whatever
 public class GameController : MonoBehaviour {
@@ -13,13 +14,24 @@ public class GameController : MonoBehaviour {
     private void Start() {
         UI = this.GetComponent<UIController>();
         deck = new Deck();
-        players = new GamePlayer[] {new GamePlayer(), new GamePlayer()};
+        players = new GamePlayer[] {new GamePlayer("Player1"), new GamePlayer("Player2")};
         activePlayerIndex = 0;
+
+        UI.RefreshOpponentDisplay(this.GetOpponents());
 	}
 
     private GamePlayer GetActivePlayer ()
     {
         return players[activePlayerIndex];
+    }
+
+    private bool IsLocalPlayer(GamePlayer player) {
+        // update this eventually, obviously
+        return player == players[0];
+    }
+
+    private GamePlayer[] GetOpponents () {
+        return players.Where(player => !IsLocalPlayer(player)).ToArray();
     }
 
     public void PassTurn()
@@ -36,28 +48,18 @@ public class GameController : MonoBehaviour {
         GiveCardToPlayer(GetActivePlayer(), deck.Pop());
     }
 
-    private bool isLocalPlayer(GamePlayer player) {
-        // update this eventually, obviously
-        return true;
-    }
-
     private void GiveCardToPlayer(GamePlayer player, Card card)
     {
         if (player.AddToHand(card))
         {
-            // card was successfully added, update UI accordingly
-            // if it's the active player, add a card to their hand
-            if (isLocalPlayer(player))
+            if (IsLocalPlayer(player))
             {
                 UI.AddCardToHandDisplay(card);
+            } else {
+                // change display for opponent
             }
-            // if it's not, just increment the little hand-size counter for the appropriate player
-        }
-        else
-        {
+        } else {
             // card could not be added, UI should give some feedback
         }
-    }
-	
-    
+    }  
 }

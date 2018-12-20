@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class GamePlayer {
 
-    private Hand hand;
-    private int points;
-
-    public GamePlayer()
+    public GamePlayer(string name)
     {
-        hand = new Hand();
-        points = 0;
+        Name = name;
+        Hand = new Hand();
+        Points = 0;
     }
+
+    public string Name { get; set; }
+    public Hand Hand { get; set; }
+    public int Points { get; set; }
 
     public bool AddToHand (Card card)
     {
-        return hand.AddCard(card);
+        return Hand.AddCard(card);
     }
 }
