@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Hand : ScriptableObject {
+public class Hand {
 
     private int maxHandSize;
     private List<Card> cards;
+
+    public Hand() {
+        maxHandSize = 10;
+        cards = new List<Card>();
+    }
 
     // return true if successful, false otherwise
     public bool AddCard (Card cardToAdd)

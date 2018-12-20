@@ -15,9 +15,20 @@ public class CardDisplaySmall : MonoBehaviour, IPointerEnterHandler {
     public GameObject bigDisplayPrefab;
 
 	void Start () {
+        RefreshDisplay();
+	}
+
+    public void SetCard (Card c)
+    {
+        this.card = c;
+        RefreshDisplay();
+    }
+
+    private void RefreshDisplay ()
+    {
         titleText.text = card.cardName;
         cardImage.sprite = card.cardArt;
-	}
+    }
 
     // on mouse-over, display large version of card
     public void OnPointerEnter(PointerEventData eventData)
