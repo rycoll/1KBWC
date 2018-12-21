@@ -28,4 +28,8 @@ public class Hand {
         // pls don't exploit!
         return cards.ToArray();
     }
+
+    public int GetNumCards() {
+        return cards.Count;
+    }
 }

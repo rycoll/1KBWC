@@ -14,8 +14,20 @@ public class GameController : MonoBehaviour {
     private void Start() {
         UI = this.GetComponent<UIController>();
         deck = new Deck();
-        players = new GamePlayer[] {new GamePlayer("Player1"), new GamePlayer("Player2")};
+        players = new GamePlayer[] {
+            new GamePlayer("Player1"), 
+            new GamePlayer("Player2"),
+            new GamePlayer("Player3"),
+            new GamePlayer("Player4")
+        };
         activePlayerIndex = 0;
+
+        GiveCardToPlayer(players[0], deck.Pop());
+        GiveCardToPlayer(players[1], deck.Pop());
+        GiveCardToPlayer(players[2], deck.Pop());
+        GiveCardToPlayer(players[2], deck.Pop());
+        GiveCardToPlayer(players[2], deck.Pop());
+        GiveCardToPlayer(players[3], deck.Pop());
 
         UI.RefreshOpponentDisplay(this.GetOpponents());
 	}

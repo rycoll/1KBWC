@@ -9,11 +9,13 @@ public class GamePlayer {
         Name = name;
         Hand = new Hand();
         Points = 0;
+        Colour = Random.ColorHSV();
     }
 
     public string Name { get; set; }
     public Hand Hand { get; set; }
     public int Points { get; set; }
+    public Color Colour { get; set; }
 
     public bool AddToHand (Card card)
     {
