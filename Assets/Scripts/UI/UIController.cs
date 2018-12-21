@@ -11,10 +11,9 @@ public class UIController : MonoBehaviour {
     public GameObject smallCardDisplayPrefab;
     public GameObject opponentPrefab;
 
-    private void Start() {
+    public void Start() {
         OpponentDisplay.UI = this;
-    }
-
+    }        
     public void AddCardToHandDisplay (Card card)
     {
         GameObject cardDisplay = Instantiate(smallCardDisplayPrefab) as GameObject;
@@ -42,7 +41,9 @@ public class UIController : MonoBehaviour {
 
         Image background = opponentCardDisplay.GetComponent<Image>();
         background.color = opponent.Colour;
-        foreach (Card card in opponent.Hand.GetCards()) {
+
+        Card[] opponentCards = GetComponent<GameController>().Table.GetCardsByPlayer(opponent);
+        foreach (Card card in opponentCards) {
             GameObject cardDisplay = Instantiate(smallCardDisplayPrefab) as GameObject;
             cardDisplay.transform.SetParent(opponentCardDisplay.transform);
             CardDisplaySmall displayInfo = cardDisplay.GetComponent<CardDisplaySmall>();

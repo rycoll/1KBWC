@@ -8,12 +8,14 @@ public class GameController : MonoBehaviour {
 
     private UIController UI;
     private Deck deck;
+    public Table Table { get; set; }
     private GamePlayer[] players;
     private int activePlayerIndex;
 
     private void Start() {
         UI = this.GetComponent<UIController>();
         deck = new Deck();
+        Table = new Table();
         players = new GamePlayer[] {
             new GamePlayer("Player1"), 
             new GamePlayer("Player2"),
