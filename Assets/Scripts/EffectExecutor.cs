@@ -12,6 +12,7 @@ public class EffectExecutor : MonoBehaviour
     {
         gameController = GetComponent<GameController>();
         RunTimeValue.Executor = this;
+        Listener.Executor = this;
     }
 
     public List<EffectResult> Execute(List<CardEffect> cardEffects) {

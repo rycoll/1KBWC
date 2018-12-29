@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour {
     public Deck Discard { get; set; }
     public Table Table { get; set; }
     public GameVariables Variables { get; set; }
+    public GameListeners Listeners { get; set; }
     private GamePlayer[] players;
     private int activePlayerIndex;
 
@@ -19,6 +20,7 @@ public class GameController : MonoBehaviour {
         Deck = new Deck();
         Table = new Table();
         Variables = new GameVariables();
+        Listeners = new GameListeners();
         players = new GamePlayer[] {
             new GamePlayer("Player1"), 
             new GamePlayer("Player2"),
