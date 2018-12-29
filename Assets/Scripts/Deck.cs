@@ -18,6 +18,15 @@ public class Deck {
         return new PlaceholderCard();
     }
 
+    public int GetSize () {
+        return cards.Count;
+    }
+
+    public Card[] GetCards () {
+        // this probably needs to return a copy!
+        return cards.ToArray();
+    }
+
     public void Shuffle ()
     {
         for (int i = 0; i < cards.Count; i++)
@@ -28,15 +37,4 @@ public class Deck {
         }
     }
 	
-}
-
-public class PlaceholderCard : Card
-{
-    public PlaceholderCard ()
-    {
-        cardName = "Placeholder Card";
-        cardArt = null;
-        overrideRuleText = "This is just a placeholder.";
-        cardLocation = Location.HAND;
-}
 }

@@ -15,6 +15,7 @@ public class GamePlayer {
     public string Name { get; set; }
     public Hand Hand { get; set; }
     public int Points { get; set; }
+    public int DrawPerTurn { get; set; }
     public Color Colour { get; set; }
 
     public bool AddToHand (Card card)

@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Hand {
 
-    private int maxHandSize;
+    public int MaxHandSize { get; set; }
     private List<Card> cards;
 
     public Hand() {
-        maxHandSize = 10;
+        MaxHandSize = 10;
         cards = new List<Card>();
     }
 
     // return true if successful, false otherwise
     public bool AddCard (Card cardToAdd)
     {
-        if (cards.Count >= maxHandSize)
+        if (cards.Count >= MaxHandSize)
         {
             return false;
         }

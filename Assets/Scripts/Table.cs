@@ -15,6 +15,10 @@ public class Table
         cards.Add(new PlayedCard(player, card));
     }
 
+    public int GetSize () {
+        return cards.Count;
+    }
+
     public Card[] GetCards () {
         return cards.Select(playedCard => playedCard.Card).ToArray();
     }

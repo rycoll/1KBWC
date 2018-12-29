@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Card {
+public abstract class Card {
 
     public string cardName;
     public Sprite cardArt;
@@ -18,6 +18,5 @@ public class Card {
         return (string.IsNullOrEmpty(generatedRuleText)) ? overrideRuleText : generatedRuleText;
     }
 
-    // effects (including listeners)
-	
+	public abstract EffectResult Execute ();
 }

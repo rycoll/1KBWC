@@ -7,15 +7,18 @@ using System.Linq;
 public class GameController : MonoBehaviour {
 
     private UIController UI;
-    private Deck deck;
+    public Deck Deck { get; set;}
+    public Deck Discard { get; set; }
     public Table Table { get; set; }
+    public GameVariables Variables { get; set; }
     private GamePlayer[] players;
     private int activePlayerIndex;
 
     private void Start() {
         UI = this.GetComponent<UIController>();
-        deck = new Deck();
+        Deck = new Deck();
         Table = new Table();
+        Variables = new GameVariables();
         players = new GamePlayer[] {
             new GamePlayer("Player1"), 
             new GamePlayer("Player2"),
@@ -24,19 +27,23 @@ public class GameController : MonoBehaviour {
         };
         activePlayerIndex = 0;
 
-        GiveCardToPlayer(players[0], deck.Pop());
-        GiveCardToPlayer(players[1], deck.Pop());
-        GiveCardToPlayer(players[2], deck.Pop());
-        GiveCardToPlayer(players[2], deck.Pop());
-        GiveCardToPlayer(players[2], deck.Pop());
-        GiveCardToPlayer(players[3], deck.Pop());
+        GiveCardToPlayer(players[0], Deck.Pop());
+        GiveCardToPlayer(players[1], Deck.Pop());
+        GiveCardToPlayer(players[2], Deck.Pop());
+        GiveCardToPlayer(players[2], Deck.Pop());
+        GiveCardToPlayer(players[2], Deck.Pop());
+        GiveCardToPlayer(players[3], Deck.Pop());
 
         UI.RefreshOpponentDisplay(this.GetOpponents());
 	}
 
-    private GamePlayer GetActivePlayer ()
+    public GamePlayer GetActivePlayer ()
     {
         return players[activePlayerIndex];
+    }
+
+    public GamePlayer[] GetPlayers () {
+        return players;
     }
 
     private bool IsLocalPlayer(GamePlayer player) {
@@ -44,7 +51,7 @@ public class GameController : MonoBehaviour {
         return player == players[0];
     }
 
-    private GamePlayer[] GetOpponents () {
+    public GamePlayer[] GetOpponents () {
         return players.Where(player => !IsLocalPlayer(player)).ToArray();
     }
 
@@ -59,7 +66,7 @@ public class GameController : MonoBehaviour {
 
     public void DrawPhase()
     {
-        GiveCardToPlayer(GetActivePlayer(), deck.Pop());
+        GiveCardToPlayer(GetActivePlayer(), Deck.Pop());
     }
 
     private void GiveCardToPlayer(GamePlayer player, Card card)
