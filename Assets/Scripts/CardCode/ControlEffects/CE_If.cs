@@ -10,7 +10,7 @@ public class CE_If : ControlEffect {
     }
 
     // at the moment, all conditions need to pass in order for the effects to be executed
-    public List<CardEffect> Compile () {
+    public override List<CardEffect> Compile () {
         foreach (Condition condition in conditions) {
             if (!condition.Evaluate()) {
                 return new List<CardEffect>();

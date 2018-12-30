@@ -9,7 +9,7 @@ public class CE_NumLoop : ControlEffect {
         this.numLoops = n;
     }
 
-    public List<CardEffect> Compile () {
+    public override List<CardEffect> Compile () {
         List<CardEffect> returnList = new List<CardEffect>();
         for (int i = 0; i < numLoops; i++) {
             foreach (CardEffect effect in effects) {

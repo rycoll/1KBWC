@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ControlType {FOR_LOOP, NUM_LOOP, IF, CHOOSE_ITEM, CHOOSE_VALUE};
 
-public class ControlEffect : CardEffect {
+public abstract class ControlEffect : CardEffect {
     protected List<CardEffect> effects;
     protected ControlType Type;
     // loop: number to use, OR collection to iterate over
@@ -18,4 +18,6 @@ public class ControlEffect : CardEffect {
     public ControlType GetControlType() {
         return this.Type;
     }
+
+    public abstract List<CardEffect> Compile();
 }

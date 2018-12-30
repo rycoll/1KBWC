@@ -24,14 +24,7 @@ public class EffectExecutor : MonoBehaviour
             switch (current.GetType().Module.ToString()) {
                 case "ControlEffect":
                     ControlEffect control = (ControlEffect) current;
-                    switch(control.GetControlType()) {
-                        case ControlType.IF:
-                            cardEffects.InsertRange(0, ((CE_If) control).Compile());
-                            break;
-                        case ControlType.FOR_LOOP:
-                            cardEffects.InsertRange(0, ((CE_ForLoop) control).Compile());
-                            break;
-                    }
+                    cardEffects.InsertRange(0, control.Compile());
                     break;
                 case "Effect":
                     break;

@@ -9,7 +9,7 @@ public class CE_ForLoop : ControlEffect {
         this.list = objList;
     }
 
-    public List<CardEffect> Compile () {
+    public override List<CardEffect> Compile () {
         List<CardEffect> returnList = new List<CardEffect>();
         foreach (object obj in list) {
             foreach (CardEffect effect in effects) {
