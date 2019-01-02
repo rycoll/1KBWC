@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public enum QUERY_TARGET {
     FLAG, VARIABLE, COUNTER,
@@ -13,7 +12,7 @@ public enum QUERY_TARGET {
 };
 
 public class QueryRequest {
-    public QUERY_TARGET Target { get; set; }
+    public Query Query { get; set; }
     public QueryFilter Filter { get; set; }
 
     public object Target_Ref { get; set; }
