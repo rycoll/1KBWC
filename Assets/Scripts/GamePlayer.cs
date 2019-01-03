@@ -9,6 +9,7 @@ public class GamePlayer {
         Name = name;
         Hand = new Hand();
         Points = 0;
+        DrawPerTurn = 1;
         Colour = Random.ColorHSV();
     }
 

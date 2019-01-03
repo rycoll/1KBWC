@@ -71,7 +71,7 @@ public class GameController : MonoBehaviour {
         GiveCardToPlayer(GetActivePlayer(), Deck.Pop());
     }
 
-    private void GiveCardToPlayer(GamePlayer player, Card card)
+    public void GiveCardToPlayer(GamePlayer player, Card card)
     {
         if (player.AddToHand(card))
         {
