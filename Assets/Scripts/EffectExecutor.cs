@@ -28,14 +28,7 @@ public class EffectExecutor : MonoBehaviour
                     break;
                 case "RegularEffect":
                     RegularEffect effect = (RegularEffect) current;
-                    switch(effect.Target_Ref.GetType().Module.ToString()) {
-                        case "GamePlayer":
-                            break;
-                        case "PlayedCard":
-                        case "Card":
-                        case "null":
-                            break;
-                    }
+                    effect.Run(gameController);
                     break;
             }
         }
