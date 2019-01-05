@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Query {
+public abstract class Query : ScriptableObject {
     public abstract QueryResult Run(object target, GameController gameController);
 
     public static QueryResult RunSecondaryQueries (QueryRequest request, QueryResult result) {

@@ -17,6 +17,11 @@ public class QueryRequest {
 
     public object Target_Ref { get; set; }
     public SecondaryQuery SecondaryQuery { get; set; }
+
+    public QueryRequest(Query q, object target) {
+        Query = q;
+        Target_Ref = target;
+    } 
 }
 
 public enum LIST_QUERY { SIZE, LIST, RAND_ITEM };

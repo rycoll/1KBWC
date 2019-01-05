@@ -13,6 +13,10 @@ public class RunTimeValue {
         this.query = q;
     }
 
+    public RunTimeValue (Query q, object obj) {
+        this.query = new QueryRequest(q, obj);
+    }
+
     public RunTimeValue (object obj) {
         this.value = obj;
     }
