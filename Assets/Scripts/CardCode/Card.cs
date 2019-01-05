@@ -10,6 +10,8 @@ public abstract class Card {
     public string overrideRuleText = null;
     public enum Location {HAND, FIELD, DECK, DISCARD};
     public Location cardLocation;
+    public List<string> Tags { get; set; }
+    public List<CardEffect> Effects { get; set; }
 
     public string GetRuleText ()
     {
@@ -18,5 +20,18 @@ public abstract class Card {
         return (string.IsNullOrEmpty(generatedRuleText)) ? overrideRuleText : generatedRuleText;
     }
 
-	public abstract EffectResult Execute ();
+    public void AddTag (string tag) {
+        Tags.Add(tag);
+    }
+
+    public void RemoveTag (string tag) {
+        Tags.Remove(tag);
+    }
+
+	public void AddEffect (CardEffect effect) {
+        if (Effects == null) {
+            Effects = new List<CardEffect>();
+        }
+        Effects.Add(effect);
+    }
 }
