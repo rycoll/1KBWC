@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour {
     public GameObject playerHandDisplay;
     public GameObject opponentsDisplay;
     public GameObject opponentCardDisplay;
+    public Text deckText;
 
     public GameObject smallCardDisplayPrefab;
     public GameObject opponentPrefab;
@@ -21,6 +22,10 @@ public class UIController : MonoBehaviour {
 
         CardDisplaySmall displayInfo = cardDisplay.GetComponent<CardDisplaySmall>();
         displayInfo.card = card;
+    }
+
+    public void SetDeckText (int n) {
+        deckText.text = "DECK\n" + n.ToString();
     }
 
     public void RefreshOpponentDisplay (GamePlayer[] opponents) {

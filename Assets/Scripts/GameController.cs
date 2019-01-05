@@ -69,6 +69,7 @@ public class GameController : MonoBehaviour {
     public void DrawPhase()
     {
         GiveCardToPlayer(GetActivePlayer(), Deck.Pop());
+        UI.SetDeckText(Deck.GetSize());
     }
 
     public void GiveCardToPlayer(GamePlayer player, Card card)
