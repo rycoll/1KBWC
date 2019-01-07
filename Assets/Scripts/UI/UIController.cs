@@ -31,6 +31,9 @@ public class UIController : MonoBehaviour {
     }
 
     public void RefreshOpponentDisplay (GamePlayer[] opponents) {
+        foreach (Transform child in opponentsDisplay.transform) {
+            GameObject.Destroy(child.gameObject);
+        }
         foreach (GamePlayer opponent in opponents) {
             GameObject opponentDisplayObj = Instantiate(opponentPrefab) as GameObject;
             OpponentDisplay display = opponentDisplayObj.GetComponent<OpponentDisplay>();
