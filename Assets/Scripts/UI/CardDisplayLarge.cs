@@ -14,9 +14,13 @@ public class CardDisplayLarge : MonoBehaviour, IPointerExitHandler
     public Text rulesText;
     public Scrollbar rulesScrollbar;
 
+    public bool setInPlace = false;
+
     public void OnPointerExit(PointerEventData eventData)
     {
-        Destroy(this.gameObject);
+        if (!setInPlace) {
+            Destroy(this.gameObject);
+        }
     }
 
     public void SetCard(Card card)

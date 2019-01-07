@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler {
-
-    public Card.Location zoneType;
+public class PlayCardZone : MonoBehaviour
+{
+    private GameObject cardDisplay;
+    public GameController gameController;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -43,9 +44,9 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
             CardDisplaySmall cardObj = eventData.pointerDrag.GetComponent<CardDisplaySmall>();
             if (cardObj)
             {
-                cardObj.card.cardLocation = this.zoneType;
+                gameController.PlayCard(gameController.GetLocalPlayer(), cardObj.card);
+                cardDisplay = cardObj.bigDisplayPrefab;
             }
         }
     }
-	
 }

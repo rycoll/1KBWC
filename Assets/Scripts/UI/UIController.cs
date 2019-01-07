@@ -8,7 +8,9 @@ public class UIController : MonoBehaviour {
     public GameObject opponentsDisplay;
     public GameObject opponentCardDisplay;
     public Text deckText;
+    public Text discardText;
 
+    public GameObject cardInHandDisplayPrefab;
     public GameObject smallCardDisplayPrefab;
     public GameObject opponentPrefab;
 
@@ -17,7 +19,7 @@ public class UIController : MonoBehaviour {
     }        
     public void AddCardToHandDisplay (Card card)
     {
-        GameObject cardDisplay = Instantiate(smallCardDisplayPrefab) as GameObject;
+        GameObject cardDisplay = Instantiate(cardInHandDisplayPrefab) as GameObject;
         cardDisplay.transform.SetParent(playerHandDisplay.transform);
 
         CardDisplaySmall displayInfo = cardDisplay.GetComponent<CardDisplaySmall>();
@@ -54,6 +56,14 @@ public class UIController : MonoBehaviour {
             CardDisplaySmall displayInfo = cardDisplay.GetComponent<CardDisplaySmall>();
             displayInfo.card = card;
         }
+    }
+
+    public void SetDiscardText (int n) {
+        discardText.text = "DISCARD\n" + n.ToString();
+    }
+
+    public void DisplayDiscard () {
+
     }
 	
 }

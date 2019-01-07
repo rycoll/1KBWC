@@ -37,10 +37,6 @@ public class CardDisplaySmall : MonoBehaviour, IPointerEnterHandler {
         // this is gross, but basically we want to attach it to the canvas
         bigDisplay.transform.SetParent(this.transform);
         bigDisplay.transform.position = this.transform.position;
-        if (card.cardLocation == Card.Location.HAND)
-        {
-            bigDisplay.transform.Translate(0, 50f, 0);
-        }
 
         bigDisplay.GetComponent<CardDisplayLarge>().SetCard(this.card);
     }
