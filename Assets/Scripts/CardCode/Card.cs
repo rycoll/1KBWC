@@ -8,8 +8,6 @@ public abstract class Card {
     public Sprite cardArt;
     private string generatedRuleText = null;
     public string overrideRuleText = null;
-    public enum Location {HAND, FIELD, DECK, DISCARD};
-    public Location cardLocation;
     public List<string> Tags { get; set; }
     public List<CardEffect> Effects { get; set; }
 

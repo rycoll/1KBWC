@@ -2,26 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum QUERY_TARGET {
-    FLAG, VARIABLE, COUNTER,
-    DECK_SIZE, DECK_CARDS, 
-    DISCARD_SIZE, DISCARD_CARDS,
-    TABLE_SIZE, TABLE_CARDS,
-    PLAYERS, ACTIVE_PLAYER, OPPONENTS, 
-    PLAYER_NAME, PLAYER_HAND, PLAYER_POINTS, PLAYER_DRAW_SIZE, PLAYER_MAX_HAND
-};
-
 public class QueryRequest {
     public Query Query { get; set; }
     public QueryFilter Filter { get; set; }
 
-    public object Target_Ref { get; set; }
+    public RunTimeValue Target_Ref { get; set; }
     public SecondaryQuery SecondaryQuery { get; set; }
 
-    public QueryRequest(Query q, object target) {
+    public QueryRequest(Query q, RunTimeValue target) {
         Query = q;
         Target_Ref = target;
-    } 
+    }
+
+    public QueryRequest(Query q, object o) {
+        Query = q;
+        Target_Ref = new RunTimeValue(o);
+    }
 }
 
 public enum LIST_QUERY { SIZE, LIST, RAND_ITEM };

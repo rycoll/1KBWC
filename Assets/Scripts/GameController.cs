@@ -7,6 +7,7 @@ using System.Linq;
 public class GameController : MonoBehaviour {
 
     private UIController UI;
+    private EffectExecutor Executor;
     public Deck Deck { get; set;}
     public Deck Discard { get; set; }
     public Table Table { get; set; }
@@ -17,6 +18,7 @@ public class GameController : MonoBehaviour {
 
     private void Start() {
         UI = this.GetComponent<UIController>();
+        Executor = this.GetComponent<EffectExecutor>();
         Deck = new Deck();
         Table = new Table();
         Variables = new GameVariables();
@@ -29,19 +31,28 @@ public class GameController : MonoBehaviour {
         };
         activePlayerIndex = 0;
 
-        GiveCardToPlayer(players[0], Deck.Pop());
-        GiveCardToPlayer(players[1], Deck.Pop());
-        GiveCardToPlayer(players[2], Deck.Pop());
-        GiveCardToPlayer(players[2], Deck.Pop());
-        GiveCardToPlayer(players[2], Deck.Pop());
-        GiveCardToPlayer(players[3], Deck.Pop());
+        GiveCardToPlayer(players[0], new Card_Gain1Point(this));
+        GiveCardToPlayer(players[1], new Card_Gain1Point(this));
+        GiveCardToPlayer(players[2], new Card_Gain1Point(this));
+        GiveCardToPlayer(players[2], new Card_Gain1Point(this));
+        GiveCardToPlayer(players[2], new Card_Gain1Point(this));
+        GiveCardToPlayer(players[3], new Card_Gain1Point(this));
+
+        Table.AddCard(players[1], Deck.Pop());
+        Table.AddCard(players[1], Deck.Pop());
+        Table.AddCard(players[3], Deck.Pop());
 
         UI.RefreshOpponentDisplay(this.GetOpponents());
+        UI.DisplayOpponentCards(players[1]);
 	}
 
     public GamePlayer GetActivePlayer ()
     {
         return players[activePlayerIndex];
+    }
+
+    public GamePlayer GetLocalPlayer () {
+        return (GamePlayer) players.Where(player => IsLocalPlayer(player)).First();
     }
 
     public GamePlayer[] GetPlayers () {
@@ -64,6 +75,19 @@ public class GameController : MonoBehaviour {
             activePlayerIndex = 0;
         }
         DrawPhase();
+        if (IsLocalPlayer(GetActivePlayer())) {
+            // indicate that it's your turn
+        } else {
+            // indicate whose turn it is
+
+            // for now, we'll just have NPCs play the first card in their hand
+            GamePlayer active = GetActivePlayer();
+            if (active.Hand.GetNumCards() > 0) {
+                PlayCard(active, active.Hand.GetCards()[0]);
+            } else {
+                PassTurn();
+            }
+        }
     }
 
     public void DrawPhase()
@@ -85,5 +109,21 @@ public class GameController : MonoBehaviour {
         } else {
             // card could not be added, UI should give some feedback
         }
-    }  
+    }
+
+    public void PlayCard(GamePlayer player, Card card) {
+        player.Hand.RemoveCard(card);
+        // clone card effects instead??
+        ExecuteEffects(card.Effects);
+        // rack up animations etc asynchronously, play them, THEN continue on
+        PassTurn();
+    }
+
+    public QueryResult RunQuery(QueryRequest request) {
+        return Executor.RunQuery(request);
+    }
+
+    public List<EffectResult> ExecuteEffects (List<CardEffect> list) {
+        return Executor.Execute(list);
+    }
 }

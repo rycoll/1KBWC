@@ -22,6 +22,10 @@ public class Hand {
         return true;
     }
 
+    public bool RemoveCard (Card cardToRemove) {
+        return cards.Remove(cardToRemove);
+    }
+
     public Card[] GetCards()
     {  
         // gives references to Card objects, which is technically insecure
