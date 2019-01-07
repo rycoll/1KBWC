@@ -1,6 +1,6 @@
 public class Q_PlayerHand : Query {
-    public override QueryResult Run(object target, GameController gameController) {
-        GamePlayer player = (GamePlayer) target;
+    public override QueryResult Run(RunTimeValue target, GameController gameController) {
+        GamePlayer player = (GamePlayer) target.Evaluate();
         QueryResult result = new QueryResult(player.Hand.GetCards());
         result.SetIsList(true);
         return result;

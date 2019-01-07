@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Query : ScriptableObject {
-    public abstract QueryResult Run(object target, GameController gameController);
+    public abstract QueryResult Run(RunTimeValue target, GameController gameController);
 
     public static QueryResult RunSecondaryQueries (QueryRequest request, QueryResult result) {
         // run filter

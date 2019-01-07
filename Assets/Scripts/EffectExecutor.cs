@@ -7,7 +7,7 @@ public class EffectExecutor : MonoBehaviour
     private GameController gameController;
     private const int MAX_EXECUTION_LOOPS = 1000;
 
-    void Start()
+    void Awake()
     {
         gameController = GetComponent<GameController>();
         RunTimeValue.Executor = this;
