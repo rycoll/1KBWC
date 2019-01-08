@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class CardDisplaySmall : MonoBehaviour, IPointerEnterHandler {
+public class CardDisplaySmall : MonoBehaviour, IPointerClickHandler {
 
     // make sure this is assigned as an INSTANCE of the card type
     // two cards of the same type shouldn't both be bound here
@@ -31,15 +31,26 @@ public class CardDisplaySmall : MonoBehaviour, IPointerEnterHandler {
     }
 
     // on mouse-over, display large version of card
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        GameObject bigDisplay = Instantiate(bigDisplayPrefab) as GameObject;
-        // this is gross, but basically we want to attach it to the canvas
-        bigDisplay.transform.SetParent(this.transform);
-        bigDisplay.transform.position = this.transform.position;
+    public void OnPointerClick(PointerEventData eventData)
+    {   
+        if (eventData.button == PointerEventData.InputButton.Right) {
+            GameObject bigDisplay = Instantiate(bigDisplayPrefab) as GameObject;
+            
+            bigDisplay.transform.position = this.transform.position;
 
-        bigDisplay.GetComponent<CardDisplayLarge>().SetCard(this.card);
+            // have to do some weird stuff about parenting for proper behaviour
+            ReparentChildCardUI reparentInfo = this.transform.parent.GetComponent<ReparentChildCardUI>();
+            if (reparentInfo) {
+                bigDisplay.transform.SetParent(reparentInfo.targetContainer);
+                if (reparentInfo.hand) {
+                    bigDisplay.transform.Translate(0f, 50f, 0f);
+                }
+            } else {
+                Debug.Log("Couldn't find the appropriate UI parent!");
+                bigDisplay.transform.SetParent(this.transform);
+            }
+            bigDisplay.GetComponent<CardDisplayLarge>().SetCard(this.card);
+        }
     }
-    
 
 }

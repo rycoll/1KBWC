@@ -38,9 +38,9 @@ public class GameController : MonoBehaviour {
         GiveCardToPlayer(players[2], new Card_Gain1Point(this));
         GiveCardToPlayer(players[3], new Card_Gain1Point(this));
 
-        Table.AddCard(players[1], Deck.Pop());
-        Table.AddCard(players[1], Deck.Pop());
-        Table.AddCard(players[3], Deck.Pop());
+        Table.AddCard(players[1], new Card_Gain1Point(this));
+        Table.AddCard(players[1], new Card_Gain1Point(this));
+        Table.AddCard(players[3], new Card_Gain1Point(this));
 
         UI.RefreshOpponentDisplay(this.GetOpponents());
         UI.DisplayOpponentCards(players[1]);
@@ -104,7 +104,7 @@ public class GameController : MonoBehaviour {
             {
                 UI.AddCardToHandDisplay(card);
             } else {
-                // change display for opponent
+                UI.RefreshOpponentDisplay(GetOpponents());
             }
         } else {
             // card could not be added, UI should give some feedback

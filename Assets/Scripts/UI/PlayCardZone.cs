@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayCardZone : MonoBehaviour
+public class PlayCardZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private GameObject cardDisplay;
     public GameController gameController;
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -45,8 +44,16 @@ public class PlayCardZone : MonoBehaviour
             if (cardObj)
             {
                 gameController.PlayCard(gameController.GetLocalPlayer(), cardObj.card);
-                cardDisplay = cardObj.bigDisplayPrefab;
+                DisplayCard(cardObj);
             }
         }
+    }
+
+    public void DisplayCard (CardDisplaySmall cardDisplay) {
+        foreach (Transform child in transform) {
+            GameObject.Destroy(child.gameObject);
+        }
+        cardDisplay.transform.SetParent(this.transform.parent);
+        cardDisplay.transform.position = this.transform.position;
     }
 }

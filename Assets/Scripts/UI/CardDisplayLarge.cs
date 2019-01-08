@@ -6,21 +6,15 @@ using UnityEngine.EventSystems;
 
 public class CardDisplayLarge : MonoBehaviour, IPointerExitHandler
 {
-
     public Card card;
-
     public Text titleText;
     public Image cardImage;
     public Text rulesText;
     public Scrollbar rulesScrollbar;
 
-    public bool setInPlace = false;
-
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!setInPlace) {
-            Destroy(this.gameObject);
-        }
+        Destroy(this.gameObject);
     }
 
     public void SetCard(Card card)

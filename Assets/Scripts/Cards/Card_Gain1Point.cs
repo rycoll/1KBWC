@@ -19,6 +19,6 @@ public class Card_Gain1Point : Card {
         RunTimeValue newPoints = new RunTimeValue(currPoints + 1);
 
         CardEffect GainPointEffect = new RE_SetPlayerPoints(player, newPoints);
-        Effects.Add(GainPointEffect);
+        AddEffect(GainPointEffect);
     }
 }
