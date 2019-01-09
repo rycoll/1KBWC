@@ -36,5 +36,25 @@ public class Deck {
             cards.Insert(Random.Range(0, cards.Count), cardToShuffle);
         }
     }
-	
+
+    public void AddCard (Card card, DECK_LOCATION location) {
+        switch (location) {
+            case DECK_LOCATION.BOTTOM:
+                cards.Add(card);
+                break;
+            case DECK_LOCATION.TOP:
+                cards.Insert(0, card);
+                break;
+            case DECK_LOCATION.RANDOM:
+                cards.Insert(Random.Range(0, GetSize() - 1), card);
+                break;
+            default:
+                cards.Add(card);
+                break;
+        }
+    }
+}
+
+public enum DECK_LOCATION {
+    TOP, BOTTOM, RANDOM
 }

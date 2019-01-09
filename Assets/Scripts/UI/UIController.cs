@@ -9,6 +9,8 @@ public class UIController : MonoBehaviour {
     public GameObject opponentCardDisplay;
     public Text deckText;
     public Text discardText;
+    public Text flagsText;
+    public GameObject discardedCardsDisplay;
 
     public GameObject cardInHandDisplayPrefab;
     public GameObject smallCardDisplayPrefab;
@@ -65,8 +67,34 @@ public class UIController : MonoBehaviour {
         discardText.text = "DISCARD\n" + n.ToString();
     }
 
-    public void DisplayDiscard () {
+    public void AddToDiscardDisplay (Card card) {
+        GameObject cardDisplay = Instantiate(smallCardDisplayPrefab) as GameObject;
+        cardDisplay.transform.SetParent(discardedCardsDisplay.transform);
 
+        CardDisplaySmall displayInfo = cardDisplay.GetComponent<CardDisplaySmall>();
+        displayInfo.card = card;
+    }
+
+    public void ToggleDisplayDiscard () {
+        GameObject parent = discardedCardsDisplay.transform.parent.gameObject;
+        parent.SetActive(!parent.activeSelf);
+    }
+
+    public void UpdateFlagsText () {
+        GameVariables gameVariables = GetComponent<GameController>().Variables;
+        string newText = "";
+
+        foreach (string str in gameVariables.GetFlags()) {
+            newText += str + "\n";
+        }
+        foreach (KeyValuePair<string, string> kvp in gameVariables.GetVariables()) {
+            newText += kvp.Key + ": " + kvp.Value + "\n";
+        }
+        foreach (KeyValuePair<string, int> kvp in gameVariables.GetCounters()) {
+            newText += kvp.Key + ": " + kvp.Value + "\n";
+        }
+
+        flagsText.text = newText;
     }
 	
 }

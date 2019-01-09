@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour {
         UI = this.GetComponent<UIController>();
         Executor = this.GetComponent<EffectExecutor>();
         Deck = new Deck();
+        Discard = new Deck();
         Table = new Table();
         Variables = new GameVariables();
         Listeners = new GameListeners();
@@ -115,8 +116,15 @@ public class GameController : MonoBehaviour {
         player.Hand.RemoveCard(card);
         // clone card effects instead??
         ExecuteEffects(card.Effects);
+        AddToDiscard(card, DECK_LOCATION.TOP);
         // rack up animations etc asynchronously, play them, THEN continue on
         PassTurn();
+    }
+
+    public void AddToDiscard(Card card, DECK_LOCATION loc) {
+        Discard.AddCard(card, loc);
+        UI.AddToDiscardDisplay(card);
+        UI.SetDiscardText(Discard.GetSize());
     }
 
     public QueryResult RunQuery(QueryRequest request) {
@@ -125,5 +133,18 @@ public class GameController : MonoBehaviour {
 
     public List<EffectResult> ExecuteEffects (List<CardEffect> list) {
         return Executor.Execute(list);
+    }
+
+    public void SetFlag (string flag, bool add) {
+        Variables.SetFlag(flag, add);
+        UI.UpdateFlagsText();
+    }
+    public void SetVariable (string key, string value) {
+        Variables.SetVariable(key, value);
+        UI.UpdateFlagsText();
+    }
+    public void SetCounter (string key, int value) {
+        Variables.SetFlag(key, value);
+        UI.UpdateFlagsText();
     }
 }

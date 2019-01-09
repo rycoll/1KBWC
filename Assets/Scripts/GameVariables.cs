@@ -48,4 +48,18 @@ public class GameVariables {
         }
         return 0;
     }
+
+    public List<string> GetFlags () {
+        // should probably return a copy - this is supposed to be read-only
+        return flags;
+    }
+    public Dictionary<string, string> GetVariables () {
+        // should probably return a copy - this is supposed to be read-only
+        return variables;
+    }
+
+    public Dictionary<string, int> GetCounters () {
+        // should probably return a copy - this is supposed to be read-only
+        return counters;
+    }
 }
