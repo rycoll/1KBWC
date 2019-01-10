@@ -1,3 +1,5 @@
+using System;
+
 public class Condition {
     public RunTimeValue OperandA { get; set; }
     public RunTimeValue OperandB { get; set; }
@@ -18,13 +20,13 @@ public class Condition {
             case ConditionOperator.NOT_EQUAL:
                 return !(A.Equals(B));
             case ConditionOperator.MORE_THAN:
-                return (double)A > (double)B;
+                return Convert.ToDouble(A) > Convert.ToDouble(B);
             case ConditionOperator.AT_LEAST:
-                return (double)A >= (double)B;
+                return Convert.ToDouble(A) >= Convert.ToDouble(B);
             case ConditionOperator.LESS_THAN:
-                return (double)A < (double)B;
+                return Convert.ToDouble(A) < Convert.ToDouble(B);
             case ConditionOperator.AT_MOST:
-                return (double)A <= (double)B;
+                return Convert.ToDouble(A) <= Convert.ToDouble(B);
             default:
                 return false;
         }

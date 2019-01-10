@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour {
 
     public GameObject playerHandDisplay;
+    public Text playerPointText;
     public GameObject opponentsDisplay;
     public GameObject opponentCardDisplay;
     public Text deckText;
@@ -32,8 +33,9 @@ public class UIController : MonoBehaviour {
         deckText.text = "DECK\n" + n.ToString();
     }
 
-    public void UpdatePointDisplays () {
-        RefreshOpponentDisplay(GetComponent<GameController>().GetOpponents());
+    public void UpdatePointDisplays (GamePlayer local, GamePlayer[] opponents) {
+        playerPointText.text = local.Points.ToString() + " pts";
+        RefreshOpponentDisplay(opponents);
     }
 
     public void RefreshOpponentDisplay (GamePlayer[] opponents) {

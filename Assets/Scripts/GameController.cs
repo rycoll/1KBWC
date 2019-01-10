@@ -119,7 +119,21 @@ public class GameController : MonoBehaviour {
         ExecuteEffects(card.Effects);
         AddToDiscard(card, DECK_LOCATION.TOP);
         // rack up animations etc asynchronously, play them, THEN continue on
+
+        if (CheckForWinner()) {
+            return;
+        }
         PassTurn();
+    }
+
+    public bool CheckForWinner () {
+        foreach (GamePlayer player in players) {
+            if (player.WinCondition.Evaluate()) {
+                Debug.Log(player.Name + " wins!");
+                return true;
+            }
+        }
+        return false;
     }
 
     public void AddToDiscard(Card card, DECK_LOCATION loc) {
@@ -151,7 +165,6 @@ public class GameController : MonoBehaviour {
 
     public void SetPlayerPoints (GamePlayer player, int points) {
         player.Points = points;
-        Debug.Log(players[0].Points);
-        UI.UpdatePointDisplays();
+        UI.UpdatePointDisplays(GetLocalPlayer(), GetOpponents());
     }
 }
