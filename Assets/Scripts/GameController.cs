@@ -33,15 +33,15 @@ public class GameController : MonoBehaviour {
         activePlayerIndex = 0;
 
         GiveCardToPlayer(players[0], new Card_Gain1Point(this));
+        GiveCardToPlayer(players[0], new Card_MassGainPoint(this));
+        GiveCardToPlayer(players[0], new Card_MoistenArena(this));
+        GiveCardToPlayer(players[0], new Card_FloorSuck(this));
+        GiveCardToPlayer(players[0], new Card_FloorSuck(this));
         GiveCardToPlayer(players[1], new Card_Gain1Point(this));
         GiveCardToPlayer(players[2], new Card_Gain1Point(this));
         GiveCardToPlayer(players[2], new Card_Gain1Point(this));
         GiveCardToPlayer(players[2], new Card_Gain1Point(this));
         GiveCardToPlayer(players[3], new Card_Gain1Point(this));
-
-        Table.AddCard(players[1], new Card_Gain1Point(this));
-        Table.AddCard(players[1], new Card_Gain1Point(this));
-        Table.AddCard(players[3], new Card_Gain1Point(this));
 
         UI.RefreshOpponentDisplay(this.GetOpponents());
         UI.DisplayOpponentCards(players[1]);
@@ -93,7 +93,8 @@ public class GameController : MonoBehaviour {
 
     public void DrawPhase()
     {
-        GiveCardToPlayer(GetActivePlayer(), Deck.Pop());
+        //GiveCardToPlayer(GetActivePlayer(), Deck.Pop());
+        GiveCardToPlayer(GetActivePlayer(), new Card_Gain1Point(this));
         UI.SetDeckText(Deck.GetSize());
     }
 
@@ -144,7 +145,13 @@ public class GameController : MonoBehaviour {
         UI.UpdateFlagsText();
     }
     public void SetCounter (string key, int value) {
-        Variables.SetFlag(key, value);
+        Variables.SetCounter(key, value);
         UI.UpdateFlagsText();
+    }
+
+    public void SetPlayerPoints (GamePlayer player, int points) {
+        player.Points = points;
+        Debug.Log(players[0].Points);
+        UI.UpdatePointDisplays();
     }
 }

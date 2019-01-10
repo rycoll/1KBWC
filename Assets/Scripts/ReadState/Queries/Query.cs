@@ -16,13 +16,15 @@ public abstract class Query : ScriptableObject {
     }
 
     private static QueryResult RunListQuery(QueryRequest request, QueryResult result) {
-        // casting to List<object> seems... suspect
-        RunListFilter((List<object>)result.GetReturnValue());
+        List<object> list = QueryResult.TryExtractObjectList(result);
+        if (list == null) {
+            return result;
+        }
+
+        RunListFilter(list);
+
         if (request.SecondaryQuery != null) {
-            object listQueryResult = RunListQuery(
-                (List<object>)result.GetReturnValue(), 
-                request.SecondaryQuery
-            );
+            object listQueryResult = RunListQuery(list, request.SecondaryQuery);
             result.SetReturnValue(listQueryResult);
         }
         // don't really need to return, because of referencing?

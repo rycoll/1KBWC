@@ -32,6 +32,10 @@ public class UIController : MonoBehaviour {
         deckText.text = "DECK\n" + n.ToString();
     }
 
+    public void UpdatePointDisplays () {
+        RefreshOpponentDisplay(GetComponent<GameController>().GetOpponents());
+    }
+
     public void RefreshOpponentDisplay (GamePlayer[] opponents) {
         foreach (Transform child in opponentsDisplay.transform) {
             GameObject.Destroy(child.gameObject);

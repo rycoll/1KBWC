@@ -4,16 +4,16 @@ using UnityEngine;
 
 public abstract class CardEffect
 {
-    protected Hashtable hash = new Hashtable();
-
-    public void AddInput (object input) {
-        hash.Add("input", input);
-    }
-
+    protected bool IgnoreInput;
     public CardEffect GetClone () {
         // there's a pretty decent chance this doesn't work at all
         CardEffect clone = (CardEffect) this.MemberwiseClone();
-        clone.hash = (Hashtable) this.hash.Clone();
         return clone;
+    }
+
+    public virtual void HandleInput (object obj) {}
+
+    public void SetIgnoreInput (bool b) {
+        IgnoreInput = b;
     }
 }

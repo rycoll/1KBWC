@@ -28,4 +28,24 @@ public class RunTimeValue {
         }
         return value;
     }
+
+    // return null if it's a no-go
+    public static List<object> TryExtractObjectList (RunTimeValue rtv) {
+        List<object> list;
+        object value = rtv.Evaluate();
+        if (value.GetType().IsArray) {
+            object[] array = value as object[];
+            if (value != null) {
+                list = new List<object>(array);
+            } else {
+                return null;
+            }
+        } else {
+            list = value as List<object>;
+            if (list == null) {
+                return null;
+            }
+        }
+        return list;
+    }
 }

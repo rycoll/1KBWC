@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class CE_NumLoop : ControlEffect {
     private int numLoops;
-    public CE_NumLoop(List<CardEffect> effects, int n) : base(effects) {
-        this.Type = ControlType.FOR_LOOP;
-        this.numLoops = n;
+    public CE_NumLoop(List<CardEffect> effects, RunTimeValue n) : base(effects) {
+        this.numLoops = (int) n.Evaluate();
     }
 
     public override List<CardEffect> Compile () {

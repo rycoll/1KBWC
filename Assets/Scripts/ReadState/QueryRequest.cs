@@ -9,6 +9,11 @@ public class QueryRequest {
     public RunTimeValue Target_Ref { get; set; }
     public SecondaryQuery SecondaryQuery { get; set; }
 
+    public QueryRequest(Query q) {
+        Query = q;
+        Target_Ref = null;
+    }
+
     public QueryRequest(Query q, RunTimeValue target) {
         Query = q;
         Target_Ref = target;

@@ -5,7 +5,6 @@ using UnityEngine;
 public class CE_If : ControlEffect {
     private List<Condition> conditions;
     public CE_If(List<CardEffect> effects, List<Condition> conditionList) : base(effects) {
-        this.Type = ControlType.IF;
         this.conditions = conditionList;
     }
 

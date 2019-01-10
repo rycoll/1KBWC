@@ -18,4 +18,18 @@ public class RE_AddToHand : RegularEffect {
         
         gameController.GiveCardToPlayer(player, card);
     }
+
+    public override void HandleInput(object obj) {
+        if (!IgnoreInput) {
+            GamePlayer playerObj = obj as GamePlayer;
+            if (playerObj != null) {
+                Player = new RunTimeValue(playerObj);
+                return;
+            }
+            Card cardObj = obj as Card;
+            if (cardObj != null) {
+                Card = new RunTimeValue(cardObj);
+            }
+        }
+    }
 }

@@ -1,3 +1,5 @@
+using System;
+
 public class RE_SetDrawSize : RegularEffect {
 
     private RunTimeValue Player { get; set; }
@@ -12,5 +14,19 @@ public class RE_SetDrawSize : RegularEffect {
         GamePlayer player = Player.Evaluate() as GamePlayer;
         if (CheckTypeError(Player, player)) return;
         player.DrawPerTurn = (int) Size.Evaluate();
+    }
+
+    public override void HandleInput(object obj) {
+        if (!IgnoreInput) {
+            GamePlayer playerObj = obj as GamePlayer;
+            if (playerObj != null) {
+                Player = new RunTimeValue(playerObj);
+                return;
+            }
+            try {
+                Size = new RunTimeValue((int) obj);
+                return;
+            } catch (InvalidCastException) {}
+        }
     }
 }

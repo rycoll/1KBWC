@@ -8,17 +8,12 @@ public class Card_Gain1Point : Card {
         overrideRuleText = "You get 1 point!";
         cardArt = null;
 
-        QueryRequest currPlayer = new QueryRequest(
+        QueryRequest currPlayerReq = new QueryRequest(
             ScriptableObject.CreateInstance<Q_ActivePlayer>(), null
         );
-        RunTimeValue player = new RunTimeValue(currPlayer);
-        QueryRequest reqCurrPoints = new QueryRequest(
-            ScriptableObject.CreateInstance<Q_PlayerPoints>(), player
-        );
-        int currPoints = (int) gameController.RunQuery(reqCurrPoints).GetReturnValue();
-        RunTimeValue newPoints = new RunTimeValue(currPoints + 1);
+        RunTimeValue player = new RunTimeValue(currPlayerReq);
 
-        CardEffect GainPointEffect = new RE_SetPlayerPoints(player, newPoints);
+        CardEffect GainPointEffect = new RE_IncrementPlayerPoints(player, new RunTimeValue(1));
         AddEffect(GainPointEffect);
     }
 }

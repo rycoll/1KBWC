@@ -1,19 +1,21 @@
 using System;
+using System.Collections;
 
-public class RE_SetMaxHandSize : RegularEffect {
+public class RE_IncrementPlayerPoints : RegularEffect {
 
     private RunTimeValue Player { get; set; }
-    private RunTimeValue Size { get; set; }
+    private RunTimeValue Points { get; set; }
 
-    public RE_SetMaxHandSize (RunTimeValue player, RunTimeValue size) {
+    public RE_IncrementPlayerPoints (RunTimeValue player, RunTimeValue points) {
         Player = player;
-        Size = size;
+        Points = points;
     }
 
     public override void Run(GameController gameController) {
         GamePlayer player = Player.Evaluate() as GamePlayer;
         if (CheckTypeError(Player, player)) return;
-        player.Hand.MaxHandSize = (int) Size.Evaluate();
+        int points = (int) Points.Evaluate();
+        gameController.SetPlayerPoints(player, player.Points + points);
     }
 
     public override void HandleInput(object obj) {
@@ -24,7 +26,7 @@ public class RE_SetMaxHandSize : RegularEffect {
                 return;
             }
             try {
-                Size = new RunTimeValue((int) obj);
+                Points = new RunTimeValue((int) obj);
                 return;
             } catch (InvalidCastException) {}
         }

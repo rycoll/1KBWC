@@ -37,4 +37,24 @@ public class QueryResult {
         }
         return false;
     }
+
+    // return null if it's a no-go
+    public static List<object> TryExtractObjectList (QueryResult result) {
+        List<object> list;
+        object returnValue = result.GetReturnValue();
+        if (returnValue.GetType().IsArray) {
+            object[] array = returnValue as object[];
+            if (returnValue != null) {
+                list = new List<object>(array);
+            } else {
+                return null;
+            }
+        } else {
+            list = returnValue as List<object>;
+            if (list == null) {
+                return null;
+            }
+        }
+        return list;
+    }
 }

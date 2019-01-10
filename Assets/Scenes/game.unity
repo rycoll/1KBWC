@@ -1181,9 +1181,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Flags, Counters, and Variables
-
-'
+  m_Text: 
 --- !u!222 &464983246
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1787,7 +1785,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00001660996, y: 0}
+  m_AnchoredPosition: {x: -0.00001652689, y: 0}
   m_SizeDelta: {x: 0, y: 104}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &995601673
@@ -1915,7 +1913,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00001660996, y: 0}
+  m_AnchoredPosition: {x: -0.00001652689, y: 0}
   m_SizeDelta: {x: 0, y: 104}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1167598418
@@ -2068,6 +2066,7 @@ MonoBehaviour:
   opponentCardDisplay: {fileID: 1386883706812094}
   deckText: {fileID: 933833365}
   discardText: {fileID: 663516243}
+  flagsText: {fileID: 464983245}
   discardedCardsDisplay: {fileID: 2116689477}
   cardInHandDisplayPrefab: {fileID: 1266920012355098, guid: caf2b0cb7b4658542a2bea12e16f7a4b,
     type: 3}
@@ -2952,7 +2951,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000028445754, y: 0}
+  m_AnchoredPosition: {x: 0.00000046714314, y: 0}
   m_SizeDelta: {x: 0, y: 104}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224386340653889600

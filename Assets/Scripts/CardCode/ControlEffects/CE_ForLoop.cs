@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class CE_ForLoop : ControlEffect {
     private List<object> list;
-    public CE_ForLoop(List<CardEffect> effects, List<object> objList) : base(effects) {
-        this.Type = ControlType.FOR_LOOP;
-        this.list = objList;
+    public CE_ForLoop(List<CardEffect> effects, RunTimeValue objList) : base(effects) {
+        this.list = RunTimeValue.TryExtractObjectList(objList);
+        if (this.list == null) {
+            this.list = new List<object>();
+        }
     }
 
     public override List<CardEffect> Compile () {
@@ -14,7 +16,7 @@ public class CE_ForLoop : ControlEffect {
         foreach (object obj in list) {
             foreach (CardEffect effect in effects) {
                 CardEffect newEffect = effect.GetClone();
-                newEffect.AddInput(obj);
+                newEffect.HandleInput(obj);
                 returnList.Add(newEffect);
             }
         }
