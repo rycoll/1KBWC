@@ -1,5 +1,6 @@
 using System;
 
+[System.Serializable]
 public class RE_SetDrawSize : RegularEffect {
 
     private RunTimeValue Player { get; set; }

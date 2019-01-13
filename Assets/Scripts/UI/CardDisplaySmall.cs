@@ -27,7 +27,7 @@ public class CardDisplaySmall : MonoBehaviour, IPointerClickHandler {
     private void RefreshDisplay ()
     {
         titleText.text = card.cardName;
-        cardImage.sprite = card.cardArt;
+        cardImage.sprite = (Sprite) card.cardArt;
     }
 
     // on mouse-over, display large version of card

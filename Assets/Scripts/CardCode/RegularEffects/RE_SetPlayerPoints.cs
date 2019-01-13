@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 
+[System.Serializable]
 public class RE_SetPlayerPoints : RegularEffect {
 
     private RunTimeValue Player { get; set; }

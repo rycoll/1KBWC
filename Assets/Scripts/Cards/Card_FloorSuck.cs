@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class Card_FloorSuck : Card {
     public Card_FloorSuck(GameController game) {
         cardName = "Floor Suck";
@@ -9,7 +10,7 @@ public class Card_FloorSuck : Card {
         cardArt = null;
 
         RunTimeValue checkArenaFlag = new RunTimeValue(
-            ScriptableObject.CreateInstance<Q_Variable>(), "Arena"
+            new Q_Variable(), "Arena"
         );
         Condition checkArenaWetness = new Condition(
             checkArenaFlag,
@@ -21,7 +22,7 @@ public class Card_FloorSuck : Card {
         conditions.Add(checkArenaWetness);
 
         QueryRequest currPlayerReq = new QueryRequest(
-            ScriptableObject.CreateInstance<Q_ActivePlayer>(), null
+            new Q_ActivePlayer(), null
         );
         RunTimeValue player = new RunTimeValue(currPlayerReq);
         CardEffect gainPointEffect = new RE_IncrementPlayerPoints(player, new RunTimeValue(40));

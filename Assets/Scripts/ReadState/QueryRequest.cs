@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class QueryRequest {
     public Query Query { get; set; }
     public QueryFilter Filter { get; set; }
@@ -26,6 +27,8 @@ public class QueryRequest {
 }
 
 public enum LIST_QUERY { SIZE, LIST, RAND_ITEM };
+
+[System.Serializable]
 public class SecondaryQuery {
     public LIST_QUERY QueryType { get; set; }
 }

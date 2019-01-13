@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class RunTimeValue {
-
-    public static EffectExecutor Executor;
 
     private QueryRequest query = null;
     private object value = null;
@@ -23,7 +22,7 @@ public class RunTimeValue {
 
     public object Evaluate () {
         if (query != null) {
-            QueryResult result = Executor.RunQuery(query);
+            QueryResult result = EffectExecutor.RunQuery(query);
             return result.GetReturnValue();
         }
         return value;

@@ -14,8 +14,13 @@ public class Deck {
     // return the top card and remove it from the deck
     public Card Pop ()
     {
-        // at the moment, this will just return an example card
-        return new PlaceholderCard();
+        if (GetSize() == 0) {
+            return new PlaceholderCard();
+        } else {
+            Card draw = cards[0];
+            cards.RemoveAt(0);
+            return draw;
+        }
     }
 
     public int GetSize () {

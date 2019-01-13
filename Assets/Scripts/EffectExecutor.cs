@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class EffectExecutor : MonoBehaviour
 {
-    private GameController gameController;
+    private static GameController GameController;
     private const int MAX_EXECUTION_LOOPS = 1000;
 
     void Awake()
     {
-        gameController = GetComponent<GameController>();
-        RunTimeValue.Executor = this;
-        Listener.Executor = this;
+        GameController = GetComponent<GameController>();
     }
 
-    public List<EffectResult> Execute(List<CardEffect> cardEffects) {
+    public static List<EffectResult> Execute(List<CardEffect> cardEffects) {
         int numLoops = 0;
         while (cardEffects.Count > 0 && numLoops++ < MAX_EXECUTION_LOOPS) {
             CardEffect current = cardEffects[0];
@@ -27,17 +25,17 @@ public class EffectExecutor : MonoBehaviour
             } else {
                 // regular effect
                 RegularEffect effect = (RegularEffect) current;
-                effect.Run(gameController);
+                effect.Run(GameController);
             }
         }
 
         return new List<EffectResult>();
     }
 
-    public QueryResult RunQuery (QueryRequest request) {
+    public static QueryResult RunQuery (QueryRequest request) {
         // Run needs request.Filter and request.SecondaryQuery to run secondary functions
         // alternatively, those could be run here.
-        QueryResult result =  request.Query.Run(request.Target_Ref, gameController);
+        QueryResult result =  request.Query.Run(request.Target_Ref, GameController);
         if (result.IsList()) {
             result = Query.RunSecondaryQueries(request, result);
         }

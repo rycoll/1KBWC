@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Query : ScriptableObject {
+[System.Serializable]
+public abstract class Query {
     public abstract QueryResult Run(RunTimeValue target, GameController gameController);
 
     public static QueryResult RunSecondaryQueries (QueryRequest request, QueryResult result) {

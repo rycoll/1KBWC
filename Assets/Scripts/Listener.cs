@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Listener {
 
-    public static EffectExecutor Executor;
-
     private Condition Trigger { get; set; }
     private List<CardEffect> Effects { get; set; }
     private bool DestroyOnTrigger { get; set; }
@@ -18,7 +16,7 @@ public class Listener {
 
     public void Check () {
         if (Trigger.Evaluate()) {
-            Executor.Execute(Effects);
+            EffectExecutor.Execute(Effects);
             // do something with the returned EffectResult
         }
     }

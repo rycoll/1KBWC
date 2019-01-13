@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Card_Gain1Point : Card {
     public Card_Gain1Point(GameController gameController) {
         cardName = "Gain A Point";
@@ -9,7 +10,7 @@ public class Card_Gain1Point : Card {
         cardArt = null;
 
         QueryRequest currPlayerReq = new QueryRequest(
-            ScriptableObject.CreateInstance<Q_ActivePlayer>(), null
+            new Q_ActivePlayer(), null
         );
         RunTimeValue player = new RunTimeValue(currPlayerReq);
 

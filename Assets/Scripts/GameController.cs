@@ -6,8 +6,8 @@ using System.Linq;
 // this needs to be networked or whatever
 public class GameController : MonoBehaviour {
 
+    private BinaryCardLoader BinaryLoader;
     private UIController UI;
-    private EffectExecutor Executor;
     public Deck Deck { get; set;}
     public Deck Discard { get; set; }
     public Table Table { get; set; }
@@ -17,8 +17,8 @@ public class GameController : MonoBehaviour {
     private int activePlayerIndex;
 
     private void Start() {
+        BinaryLoader = this.GetComponent<BinaryCardLoader>();
         UI = this.GetComponent<UIController>();
-        Executor = this.GetComponent<EffectExecutor>();
         Deck = new Deck();
         Discard = new Deck();
         Table = new Table();
@@ -27,8 +27,7 @@ public class GameController : MonoBehaviour {
         players = new GamePlayer[] {
             new GamePlayer("Player1"), 
             new GamePlayer("Player2"),
-            new GamePlayer("Player3"),
-            new GamePlayer("Player4")
+            new GamePlayer("Player3")
         };
         activePlayerIndex = 0;
 
@@ -39,9 +38,6 @@ public class GameController : MonoBehaviour {
         GiveCardToPlayer(players[0], new Card_FloorSuck(this));
         GiveCardToPlayer(players[1], new Card_Gain1Point(this));
         GiveCardToPlayer(players[2], new Card_Gain1Point(this));
-        GiveCardToPlayer(players[2], new Card_Gain1Point(this));
-        GiveCardToPlayer(players[2], new Card_Gain1Point(this));
-        GiveCardToPlayer(players[3], new Card_Gain1Point(this));
 
         UI.RefreshOpponentDisplay(this.GetOpponents());
         UI.DisplayOpponentCards(players[1]);
@@ -93,8 +89,7 @@ public class GameController : MonoBehaviour {
 
     public void DrawPhase()
     {
-        //GiveCardToPlayer(GetActivePlayer(), Deck.Pop());
-        GiveCardToPlayer(GetActivePlayer(), new Card_Gain1Point(this));
+        GiveCardToPlayer(GetActivePlayer(), Deck.Pop());
         UI.SetDeckText(Deck.GetSize());
     }
 
@@ -136,6 +131,11 @@ public class GameController : MonoBehaviour {
         return false;
     }
 
+    public void AddToDeck(Card card, DECK_LOCATION loc) {
+        Deck.AddCard(card, loc);
+        UI.SetDeckText(Deck.GetSize());
+    }
+
     public void AddToDiscard(Card card, DECK_LOCATION loc) {
         Discard.AddCard(card, loc);
         UI.AddToDiscardDisplay(card);
@@ -143,11 +143,11 @@ public class GameController : MonoBehaviour {
     }
 
     public QueryResult RunQuery(QueryRequest request) {
-        return Executor.RunQuery(request);
+        return EffectExecutor.RunQuery(request);
     }
 
     public List<EffectResult> ExecuteEffects (List<CardEffect> list) {
-        return Executor.Execute(list);
+        return EffectExecutor.Execute(list);
     }
 
     public void SetFlag (string flag, bool add) {

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public enum FILTER_OPERATOR {LESS, MORE, EQUAL}
 
+
+[System.Serializable]
 public class QueryFilter {
     public FILTER_OPERATOR Operator { get; set; }
     public object Operand1 { get; set; }

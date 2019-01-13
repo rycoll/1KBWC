@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class CE_If : ControlEffect {
     private List<Condition> conditions;
     public CE_If(List<CardEffect> effects, List<Condition> conditionList) : base(effects) {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class CE_NumLoop : ControlEffect {
     private int numLoops;
     public CE_NumLoop(List<CardEffect> effects, RunTimeValue n) : base(effects) {

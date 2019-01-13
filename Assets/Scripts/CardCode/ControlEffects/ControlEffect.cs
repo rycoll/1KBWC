@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public abstract class ControlEffect : CardEffect {
     protected List<CardEffect> effects;
     // loop: number to use, OR collection to iterate over

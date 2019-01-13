@@ -1,3 +1,5 @@
+
+[System.Serializable]
 public class Card_MoistenArena : Card {
     public Card_MoistenArena(GameController gameController) {
         cardName = "Moisten Arena";

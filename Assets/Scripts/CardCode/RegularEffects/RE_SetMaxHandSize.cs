@@ -1,5 +1,6 @@
 using System;
 
+[System.Serializable]
 public class RE_SetMaxHandSize : RegularEffect {
 
     private RunTimeValue Player { get; set; }

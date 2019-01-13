@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public abstract class Card {
 
     public string cardName;
-    public Sprite cardArt;
+    // cardArt ought to be a Sprite, but that's not serializable :/
+    public object cardArt;
     private string generatedRuleText = null;
     public string overrideRuleText = null;
     public List<string> Tags { get; set; }

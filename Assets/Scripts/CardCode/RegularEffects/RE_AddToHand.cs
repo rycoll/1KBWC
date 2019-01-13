@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Serializable]
 public class RE_AddToHand : RegularEffect {
 
     private RunTimeValue Player { get; set; }

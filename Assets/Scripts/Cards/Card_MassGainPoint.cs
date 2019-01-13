@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Card_MassGainPoint : Card {
     public Card_MassGainPoint(GameController gameController) {
         cardName = "Mass Gain Points";
@@ -12,7 +13,7 @@ public class Card_MassGainPoint : Card {
         List<CardEffect> effectList = new List<CardEffect>();
         effectList.Add(playerGainPoints);
 
-        QueryRequest requestPlayers = new QueryRequest(ScriptableObject.CreateInstance<Q_Players>());
+        QueryRequest requestPlayers = new QueryRequest(new Q_Players());
         RunTimeValue playerList = new RunTimeValue(requestPlayers);
 
         CardEffect loop = new CE_ForLoop(effectList, playerList);

@@ -12,7 +12,7 @@ public class GamePlayer {
         DrawPerTurn = 1;
         Colour = Random.ColorHSV();
         // set default win condition
-        Q_PlayerPoints pointQuery = ScriptableObject.CreateInstance<Q_PlayerPoints>();
+        Q_PlayerPoints pointQuery = new Q_PlayerPoints();
         RunTimeValue playerPointQuery = new RunTimeValue(pointQuery, this);
         RunTimeValue winThreshold = new RunTimeValue(100);
         WinCondition = new Condition(playerPointQuery, winThreshold, ConditionOperator.AT_LEAST);

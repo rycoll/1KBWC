@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Serializable]
 public class RE_SetVariable : RegularEffect {
 
     private RunTimeValue Key { get; set; }

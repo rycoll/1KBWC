@@ -1,5 +1,6 @@
 using System;
 
+[System.Serializable]
 public class Condition {
     public RunTimeValue OperandA { get; set; }
     public RunTimeValue OperandB { get; set; }
