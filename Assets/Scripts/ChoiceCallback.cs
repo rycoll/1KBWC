@@ -1,0 +1,1 @@
+public delegate void ChoiceCallback (object chosenObj, GameController game);

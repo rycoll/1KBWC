@@ -18,6 +18,8 @@ public class RE_AddToHand : RegularEffect {
         if (CheckTypeError(Card, card)) return;
         
         gameController.GiveCardToPlayer(player, card);
+
+        Done(gameController);
     }
 
     public override void HandleInput(object obj) {

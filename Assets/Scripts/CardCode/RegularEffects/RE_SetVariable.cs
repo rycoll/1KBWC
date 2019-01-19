@@ -16,8 +16,11 @@ public class RE_SetVariable : RegularEffect {
         string valueStr = Value.Evaluate() as string;
         if (keyStr == null || valueStr == null) {
             Debug.Log("Bad string evaluation :'''(");
-            return;
+            Done(gameController);
+        } else {
+            gameController.SetVariable(keyStr, valueStr);
         }
-        gameController.SetVariable(keyStr, valueStr);
+
+        Done(gameController);
     }
 }

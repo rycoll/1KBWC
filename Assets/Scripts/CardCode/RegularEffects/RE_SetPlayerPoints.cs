@@ -17,6 +17,8 @@ public class RE_SetPlayerPoints : RegularEffect {
         if (CheckTypeError(Player, player)) return;
         int points = (int) Points.Evaluate();
         gameController.SetPlayerPoints(player, points);
+
+        Done(gameController);
     }
 
     public override void HandleInput(object obj) {

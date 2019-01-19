@@ -12,10 +12,12 @@ public class UIController : MonoBehaviour {
     public Text discardText;
     public Text flagsText;
     public GameObject discardedCardsDisplay;
+    public GameObject choiceDisplay;
 
     public GameObject cardInHandDisplayPrefab;
     public GameObject smallCardDisplayPrefab;
     public GameObject opponentPrefab;
+    public GameObject choiceItemPrefab;
 
     public void Start() {
         OpponentDisplay.UI = this;
@@ -101,6 +103,45 @@ public class UIController : MonoBehaviour {
         }
 
         flagsText.text = newText;
+    }
+
+    public void PresentChoiceOfPlayers(List<GamePlayer> players, ChoiceCallback callback) {
+        choiceDisplay.SetActive(true);
+        foreach (GamePlayer player in players) {
+            GameObject display = Instantiate(choiceItemPrefab) as GameObject;
+            display.transform.SetParent(choiceDisplay.transform);
+            
+            ChoiceItemDisplay displayInfo = display.GetComponent<ChoiceItemDisplay>();
+            displayInfo.SetText(
+                player.Name,
+                player.Points + "pts\n" + player.Hand.GetNumCards() + "cards in hand"
+            );
+            Button button = display.GetComponent<Button>();
+            button.onClick.AddListener(() => callback((object) player, GetComponent<GameController>()));
+        }
+    }
+
+    public void PresentChoiceOfCards(List<Card> cards, ChoiceCallback callback) {
+        choiceDisplay.SetActive(true);
+        foreach (Card card in cards) {
+            GameObject display = Instantiate(choiceItemPrefab) as GameObject;
+            display.transform.SetParent(choiceDisplay.transform);
+            
+            ChoiceItemDisplay displayInfo = display.GetComponent<ChoiceItemDisplay>();
+            displayInfo.SetText(
+                card.cardName,
+                card.GetRuleText()
+            );
+            Button button = display.GetComponent<Button>();
+            button.onClick.AddListener(() => callback((object) card, GetComponent<GameController>()));
+        }
+    }
+
+    public void RemoveChoiceDisplay () {
+        foreach (Transform child in choiceDisplay.transform) {
+            GameObject.Destroy(child.gameObject);
+        }
+        choiceDisplay.SetActive(false);
     }
 	
 }

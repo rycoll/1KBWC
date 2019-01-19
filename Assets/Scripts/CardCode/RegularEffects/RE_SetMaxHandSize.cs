@@ -15,6 +15,8 @@ public class RE_SetMaxHandSize : RegularEffect {
         GamePlayer player = Player.Evaluate() as GamePlayer;
         if (CheckTypeError(Player, player)) return;
         player.Hand.MaxHandSize = (int) Size.Evaluate();
+
+        Done(gameController);
     }
 
     public override void HandleInput(object obj) {

@@ -15,6 +15,8 @@ public class RE_SetDrawSize : RegularEffect {
         GamePlayer player = Player.Evaluate() as GamePlayer;
         if (CheckTypeError(Player, player)) return;
         player.DrawPerTurn = (int) Size.Evaluate();
+
+        Done(gameController);
     }
 
     public override void HandleInput(object obj) {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -31,11 +32,12 @@ public class GameController : MonoBehaviour {
         };
         activePlayerIndex = 0;
 
+        GiveCardToPlayer(players[0], new Card_Draw2(this));
         GiveCardToPlayer(players[0], new Card_Gain1Point(this));
         GiveCardToPlayer(players[0], new Card_MassGainPoint(this));
         GiveCardToPlayer(players[0], new Card_MoistenArena(this));
         GiveCardToPlayer(players[0], new Card_FloorSuck(this));
-        GiveCardToPlayer(players[0], new Card_FloorSuck(this));
+        GiveCardToPlayer(players[0], new Card_Gift(this));
         GiveCardToPlayer(players[1], new Card_Gain1Point(this));
         GiveCardToPlayer(players[2], new Card_Gain1Point(this));
 
@@ -89,8 +91,12 @@ public class GameController : MonoBehaviour {
 
     public void DrawPhase()
     {
-        GiveCardToPlayer(GetActivePlayer(), Deck.Pop());
+        PlayerDrawCard(GetActivePlayer());
         UI.SetDeckText(Deck.GetSize());
+    }
+
+    public void PlayerDrawCard(GamePlayer player) {
+        GiveCardToPlayer(player, Deck.Pop());
     }
 
     public void GiveCardToPlayer(GamePlayer player, Card card)
@@ -114,10 +120,18 @@ public class GameController : MonoBehaviour {
         ExecuteEffects(card.Effects);
         AddToDiscard(card, DECK_LOCATION.TOP);
         // rack up animations etc asynchronously, play them, THEN continue on
+    }
 
+    public void Next() {
+        // make sure animations aren't still happening or whatever
         if (CheckForWinner()) {
             return;
         }
+
+        // if there are more effects,
+        // run the next effect
+
+        // if there are no more effects
         PassTurn();
     }
 
@@ -166,5 +180,30 @@ public class GameController : MonoBehaviour {
     public void SetPlayerPoints (GamePlayer player, int points) {
         player.Points = points;
         UI.UpdatePointDisplays(GetLocalPlayer(), GetOpponents());
+    }
+
+    public void PresentChoice (List<object> choiceSet, ChoiceCallback callback) {
+        if (choiceSet.Count == 0) {
+            callback(null, this);
+        }
+
+        // currently always presents to active player
+        if (GetActivePlayer() == GetLocalPlayer()) {
+            try {
+                List<GamePlayer> playerList = choiceSet.Cast<GamePlayer>().ToList();
+                UI.PresentChoiceOfPlayers(playerList, callback);
+                return;
+            } catch (InvalidCastException) {}
+
+            try {
+                List<Card> cardList = choiceSet.Cast<Card>().ToList();
+                UI.PresentChoiceOfCards(cardList, callback);
+                return;
+            } catch (InvalidCastException) {}
+
+            Debug.Log("ERROR: wasn't sure what kind of choice this was!");
+            Debug.Log(choiceSet);
+            callback(null, this);
+        }
     }
 }
