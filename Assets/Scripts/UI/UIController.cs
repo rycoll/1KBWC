@@ -106,7 +106,7 @@ public class UIController : MonoBehaviour {
     }
 
     public void PresentChoiceOfPlayers(List<GamePlayer> players, ChoiceCallback callback) {
-        choiceDisplay.SetActive(true);
+        choiceDisplay.transform.parent.gameObject.SetActive(true);
         foreach (GamePlayer player in players) {
             GameObject display = Instantiate(choiceItemPrefab) as GameObject;
             display.transform.SetParent(choiceDisplay.transform);
@@ -122,7 +122,7 @@ public class UIController : MonoBehaviour {
     }
 
     public void PresentChoiceOfCards(List<Card> cards, ChoiceCallback callback) {
-        choiceDisplay.SetActive(true);
+        choiceDisplay.transform.parent.gameObject.SetActive(true);
         foreach (Card card in cards) {
             GameObject display = Instantiate(choiceItemPrefab) as GameObject;
             display.transform.SetParent(choiceDisplay.transform);
@@ -141,7 +141,7 @@ public class UIController : MonoBehaviour {
         foreach (Transform child in choiceDisplay.transform) {
             GameObject.Destroy(child.gameObject);
         }
-        choiceDisplay.SetActive(false);
+        choiceDisplay.transform.parent.gameObject.SetActive(false);
     }
 	
 }
