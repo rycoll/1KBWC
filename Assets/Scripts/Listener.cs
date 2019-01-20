@@ -16,7 +16,7 @@ public class Listener {
 
     public void Check () {
         if (Trigger.Evaluate()) {
-            EffectExecutor.Execute(Effects);
+            EffectExecutor.BeginExecution(Effects);
             // do something with the returned EffectResult
         }
     }

@@ -15,7 +15,4 @@ public abstract class RegularEffect : CardEffect {
         return false;
     }
 
-    public virtual void Done (GameController game) {
-        game.Next();
-    }
 }

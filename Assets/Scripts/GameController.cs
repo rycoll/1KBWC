@@ -124,6 +124,7 @@ public class GameController : MonoBehaviour {
 
     public void Next() {
         // make sure animations aren't still happening or whatever
+        UI.RemoveChoiceDisplay();
         if (CheckForWinner()) {
             return;
         }
@@ -160,8 +161,8 @@ public class GameController : MonoBehaviour {
         return EffectExecutor.RunQuery(request);
     }
 
-    public List<EffectResult> ExecuteEffects (List<CardEffect> list) {
-        return EffectExecutor.Execute(list);
+    public void ExecuteEffects (List<CardEffect> list) {
+        EffectExecutor.BeginExecution(list);
     }
 
     public void SetFlag (string flag, bool add) {
