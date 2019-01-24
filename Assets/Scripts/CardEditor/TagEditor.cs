@@ -9,7 +9,7 @@ public class TagEditor : MonoBehaviour
     public GameObject existingTagPanel;
     public GameObject tagPrefab;
 
-    public Text newTagField;
+    public InputField newTagField;
     public Text newTagErrorText;
 
     private List<string> tags;
@@ -37,11 +37,12 @@ public class TagEditor : MonoBehaviour
         }
         if (unusedTags.Contains(newTag)) {
             //RemoveUnusedTag(newTag);
-        } 
+        }
         AddTag(newTag);
     }
 
     public void AddTag (string str) {
+        newTagErrorText.text = "";
         GameObject tagDisplay = Instantiate(tagPrefab) as GameObject;
         tagDisplay.transform.SetParent(activeTagPanel.transform);
         tagDisplay.GetComponent<TagItemDisplay>().SetTag(str);
