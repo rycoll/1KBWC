@@ -11,5 +11,6 @@ public class TabTag : MonoBehaviour
     public void OpenTab () {
         tab.SetActive(true);
         GetComponent<Image>().color = activeColour;
+        tab.GetComponent<Image>().color = activeColour;
     }
 }
