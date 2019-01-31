@@ -13,11 +13,9 @@ public class AddEffectUI : MonoBehaviour
     }
 
     public void AddEffect () {
-        GameObject effectObj = Instantiate(effectPanelPrefab) as GameObject;
-        GameObject addButton = Instantiate(gameObject) as GameObject;
-        effectObj.transform.SetParent(transform.parent);
-        //effectObj.transform.SetSiblingIndex(transform.parent.childCount - 2);
-        addButton.transform.SetParent(effectObj.transform);
+        GameObject effectObj = Instantiate(effectPanelPrefab, transform.parent) as GameObject;
+        GameObject addButton = Instantiate(gameObject, effectObj.transform) as GameObject;
+        effectObj.transform.SetSiblingIndex(transform.parent.childCount - 2);
         effectObj.GetComponent<Image>().color =  Random.ColorHSV();
 
     }
