@@ -7,7 +7,6 @@ public class AddEffectUI : MonoBehaviour
 {
     public Dropdown dropdown;
     public GameObject effectPanelPrefab;
-    public GameObject addButtonPrefab;
 
     public void Start () {
         SetOptions();
@@ -15,10 +14,10 @@ public class AddEffectUI : MonoBehaviour
 
     public void AddEffect () {
         GameObject effectObj = Instantiate(effectPanelPrefab) as GameObject;
-        GameObject addButton = Instantiate(addButtonPrefab) as GameObject;
-        addButton.transform.SetParent(effectObj.transform);
+        GameObject addButton = Instantiate(gameObject) as GameObject;
         effectObj.transform.SetParent(transform.parent);
-        effectObj.transform.SetSiblingIndex(transform.parent.childCount - 2);
+        //effectObj.transform.SetSiblingIndex(transform.parent.childCount - 2);
+        addButton.transform.SetParent(effectObj.transform);
         effectObj.GetComponent<Image>().color =  Random.ColorHSV();
 
     }
