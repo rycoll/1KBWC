@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class RE_IncrementPlayerPoints : RegularEffect {
@@ -33,5 +34,18 @@ public class RE_IncrementPlayerPoints : RegularEffect {
                 return;
             } catch (InvalidCastException) {}
         }
+    }
+
+    public static EffectData GetEffectData () {
+        EffectData data = new EffectData();
+
+        data.name = "Increment Player Points";
+        data.desc = "Add a value to a player's point total. To subtract, use a negative value.";
+        data.fields = new List<FieldType>(){
+            FieldType.PLAYER,
+            FieldType.NUMBER
+        };
+
+        return data;
     }
 }
