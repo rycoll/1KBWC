@@ -824,6 +824,10 @@ MonoBehaviour:
     type: 3}
   infoPanelPrefab: {fileID: 6968775360709115426, guid: f367780eca68c1a46981fa3d3b57a4e9,
     type: 3}
+  fieldPanelPrefab: {fileID: 6045127223064470561, guid: 6c0919ae14cc84b46a64352d0b6eb340,
+    type: 3}
+  inputPlayerPrefab: {fileID: 4102447772768547177, guid: 35e231552c279fd4ea6f83bc2fe0dfe7,
+    type: 3}
 --- !u!114 &2177549966335634233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -840,7 +844,7 @@ MonoBehaviour:
   m_MinWidth: -1
   m_MinHeight: -1
   m_PreferredWidth: -1
-  m_PreferredHeight: 70
+  m_PreferredHeight: 40
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
