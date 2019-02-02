@@ -21,12 +21,18 @@ public class GamePlayer {
     public string Name { get; set; }
     public Hand Hand { get; set; }
     public int Points { get; set; }
-    public int DrawPerTurn { get; set; }
+    public int DrawPerTurn { get; private set; }
     public Color Colour { get; set; }
     public Condition WinCondition { get; set; }
 
     public bool AddToHand (Card card)
     {
         return Hand.AddCard(card);
+    }
+
+    public void SetDrawPerTurn (int n) {
+        if (n >= 1) {
+            this.DrawPerTurn = n;
+        }
     }
 }

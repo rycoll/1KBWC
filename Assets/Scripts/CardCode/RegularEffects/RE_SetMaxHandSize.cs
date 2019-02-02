@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class RE_SetMaxHandSize : RegularEffect {
@@ -31,5 +32,14 @@ public class RE_SetMaxHandSize : RegularEffect {
                 return;
             } catch (InvalidCastException) {}
         }
+    }
+
+    public static EffectData GetEffectData () {
+        return new EffectData() {
+            name = "Set Player's Max Hand Size",
+            desc = "Set a player's maximum hand size.",
+            fields = new List<FieldType>(){FieldType.PLAYER, FieldType.NUMBER},
+            takesSubEffects = false
+        };
     }
 }

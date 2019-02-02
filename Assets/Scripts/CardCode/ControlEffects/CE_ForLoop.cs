@@ -24,4 +24,13 @@ public class CE_ForLoop : ControlEffect {
         }
         return returnList;
     }
+
+    public static EffectData GetEffectData () {
+        return new EffectData() {
+            name = "For Each (Loop)",
+            desc = "Run effects once for each item in a list (e.g. 'For each player..., that player...').",
+            fields = new List<FieldType>(){FieldType.LIST},
+            takesSubEffects = true
+        };
+    }
 }

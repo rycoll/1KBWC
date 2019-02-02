@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class RE_PlayerDraw : RegularEffect {
@@ -46,5 +47,14 @@ public class RE_PlayerDraw : RegularEffect {
                 NumCards = new RunTimeValue(num);
             } catch (InvalidCastException) {}
         }
+    }
+
+    public static EffectData GetEffectData () {
+        return new EffectData() {
+            name = "Draw Cards",
+            desc = "A player draws X cards from the deck.",
+            fields = new List<FieldType>(){FieldType.PLAYER, FieldType.NUMBER},
+            takesSubEffects = false
+        };
     }
 }

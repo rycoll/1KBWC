@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class RE_SetVariable : RegularEffect {
@@ -22,5 +23,14 @@ public class RE_SetVariable : RegularEffect {
         }
 
         Done(gameController);
+    }
+
+    public static EffectData GetEffectData () {
+        return new EffectData() {
+            name = "Set Variable",
+            desc = "Set a global variable (which can be checked by Control Effects!).",
+            fields = new List<FieldType>(){FieldType.STRING, FieldType.STRING},
+            takesSubEffects = false
+        };
     }
 }

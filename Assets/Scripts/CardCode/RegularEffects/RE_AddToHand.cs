@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class RE_AddToHand : RegularEffect {
@@ -34,5 +35,14 @@ public class RE_AddToHand : RegularEffect {
                 Card = new RunTimeValue(cardObj);
             }
         }
+    }
+
+    public static EffectData GetEffectData () {
+        return new EffectData() {
+            name = "Add Card to Hand",
+            desc = "Add a card to a player's hand.",
+            fields = new List<FieldType>(){FieldType.PLAYER, FieldType.CARD},
+            takesSubEffects = false
+        };
     }
 }

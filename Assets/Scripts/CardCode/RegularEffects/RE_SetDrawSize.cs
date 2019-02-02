@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class RE_SetDrawSize : RegularEffect {
@@ -14,7 +15,7 @@ public class RE_SetDrawSize : RegularEffect {
     public override void Run(GameController gameController) {
         GamePlayer player = Player.Evaluate() as GamePlayer;
         if (CheckTypeError(Player, player)) return;
-        player.DrawPerTurn = (int) Size.Evaluate();
+        player.SetDrawPerTurn((int) Size.Evaluate());
 
         Done(gameController);
     }
@@ -31,5 +32,14 @@ public class RE_SetDrawSize : RegularEffect {
                 return;
             } catch (InvalidCastException) {}
         }
+    }
+
+    public static EffectData GetEffectData () {
+        return new EffectData() {
+            name = "Set Player's Draw Size",
+            desc = "Change how many cards a player draws at the start of their turn (cannot be less than 1).",
+            fields = new List<FieldType>(){FieldType.PLAYER, FieldType.NUMBER},
+            takesSubEffects = false
+        };
     }
 }

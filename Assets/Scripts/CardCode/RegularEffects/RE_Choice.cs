@@ -45,4 +45,13 @@ public class RE_Choice : RegularEffect {
             }
         }
     }
+
+    public static EffectData GetEffectData () {
+        return new EffectData() {
+            name = "Choose...",
+            desc = "Let the player of this card choose an item from a list.",
+            fields = new List<FieldType>(){FieldType.LIST},
+            takesSubEffects = true
+        };
+    }
 }

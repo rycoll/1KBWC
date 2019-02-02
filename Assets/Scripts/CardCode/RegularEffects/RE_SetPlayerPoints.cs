@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class RE_SetPlayerPoints : RegularEffect {
@@ -33,5 +34,14 @@ public class RE_SetPlayerPoints : RegularEffect {
                 return;
             } catch (InvalidCastException) {}
         }
+    }
+
+    public static EffectData GetEffectData () {
+        return new EffectData() {
+            name = "Set Player Points",
+            desc = "Set a player's point total to a new value.",
+            fields = new List<FieldType>(){FieldType.PLAYER, FieldType.NUMBER},
+            takesSubEffects = false
+        };
     }
 }

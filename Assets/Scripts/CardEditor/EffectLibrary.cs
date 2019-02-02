@@ -15,9 +15,9 @@ public struct EffectData {
     public string desc;
     public List<FieldType> fields;
     public bool takesSubEffects;
-    public Type associatedEffect;
+
 }
 
 public enum FieldType {
-    NUMBER, PLAYER, CARD, STRING
+    NUMBER, PLAYER, CARD, STRING, CONDITION, LIST
 }
