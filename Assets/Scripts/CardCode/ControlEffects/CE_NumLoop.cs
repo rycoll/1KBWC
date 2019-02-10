@@ -24,7 +24,9 @@ public class CE_NumLoop : ControlEffect {
         return new EffectData() {
             name = "Loop",
             desc = "Run effects X times",
-            fields = new List<FieldType>(){FieldType.NUMBER},
+            fields = new List<FieldData>(){
+                FieldLibrary.NumberFieldData
+            },
             takesSubEffects = true
         };
     }

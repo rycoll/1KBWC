@@ -40,7 +40,10 @@ public class RE_IncrementPlayerPoints : RegularEffect {
         return new EffectData() {
             name = "Increment Player Points",
             desc = "Add a value to a player's point total. To subtract, use a negative value.",
-            fields = new List<FieldType>(){FieldType.PLAYER, FieldType.NUMBER},
+            fields = new List<FieldData>(){
+                FieldLibrary.PlayerFieldData, 
+                FieldLibrary.NumberFieldData
+            },
             takesSubEffects = false
         };
     }

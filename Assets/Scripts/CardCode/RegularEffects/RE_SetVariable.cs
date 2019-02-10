@@ -29,7 +29,10 @@ public class RE_SetVariable : RegularEffect {
         return new EffectData() {
             name = "Set Variable",
             desc = "Set a global variable (which can be checked by Control Effects!).",
-            fields = new List<FieldType>(){FieldType.STRING, FieldType.STRING},
+            fields = new List<FieldData>(){
+                FieldLibrary.StringFieldData, 
+                FieldLibrary.StringFieldData
+            },
             takesSubEffects = false
         };
     }

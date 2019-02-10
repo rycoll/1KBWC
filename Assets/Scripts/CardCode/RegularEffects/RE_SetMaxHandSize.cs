@@ -38,7 +38,10 @@ public class RE_SetMaxHandSize : RegularEffect {
         return new EffectData() {
             name = "Set Player's Max Hand Size",
             desc = "Set a player's maximum hand size.",
-            fields = new List<FieldType>(){FieldType.PLAYER, FieldType.NUMBER},
+            fields = new List<FieldData>(){
+                FieldLibrary.PlayerFieldData, 
+                FieldLibrary.NumberFieldData
+            },
             takesSubEffects = false
         };
     }

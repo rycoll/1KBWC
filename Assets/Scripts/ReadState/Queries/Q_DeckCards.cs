@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 [System.Serializable]
 public class Q_DeckCards : Query {
     public override QueryResult Run(RunTimeValue target, GameController gameController){
@@ -5,4 +7,12 @@ public class Q_DeckCards : Query {
         result.SetIsList(true);
         return result;
     }
+
+    public static QueryData QueryData = new QueryData() {
+        name = "Cards in deck",
+        fields = new List<FieldData>(),
+        query = new Q_DeckCards(),
+        takesListOptions = true
+    };
+
 }

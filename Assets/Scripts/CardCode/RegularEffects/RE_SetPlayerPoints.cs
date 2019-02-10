@@ -40,7 +40,10 @@ public class RE_SetPlayerPoints : RegularEffect {
         return new EffectData() {
             name = "Set Player Points",
             desc = "Set a player's point total to a new value.",
-            fields = new List<FieldType>(){FieldType.PLAYER, FieldType.NUMBER},
+            fields = new List<FieldData>(){
+                FieldLibrary.PlayerFieldData, 
+                FieldLibrary.NumberFieldData
+            },
             takesSubEffects = false
         };
     }

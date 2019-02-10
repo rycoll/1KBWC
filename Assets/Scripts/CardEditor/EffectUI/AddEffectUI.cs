@@ -37,12 +37,11 @@ public class AddEffectUI : MonoBehaviour
             dropdown.options[dropdown.value].text
         );
 
-        foreach (FieldType fieldType in data.fields) {
+        foreach (FieldData fieldData in data.fields) {
             GameObject fieldObj = Instantiate(fieldPanelPrefab, effectObj.transform) as GameObject;
+            FieldUI fieldUI = fieldObj.GetComponent<FieldUI>();
 
-            if (fieldType == FieldType.PLAYER) {
-                GameObject playerField = Instantiate(inputPlayerPrefab, fieldObj.transform)  as GameObject;
-            }
+            fieldUI.SetData(fieldData);
         }
 
         if (data.takesSubEffects) {

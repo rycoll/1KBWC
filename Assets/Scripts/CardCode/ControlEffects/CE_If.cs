@@ -23,7 +23,9 @@ public class CE_If : ControlEffect {
         return new EffectData() {
             name = "If... Then...",
             desc = "Run effects ONLY IF a condition is met.",
-            fields = new List<FieldType>(){FieldType.CONDITION},
+            fields = new List<FieldData>(){
+                // need a condition field data!!!
+            },
             takesSubEffects = true
         };
     }

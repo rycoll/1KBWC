@@ -53,7 +53,10 @@ public class RE_PlayerDraw : RegularEffect {
         return new EffectData() {
             name = "Draw Cards",
             desc = "A player draws X cards from the deck.",
-            fields = new List<FieldType>(){FieldType.PLAYER, FieldType.NUMBER},
+            fields = new List<FieldData>(){
+                FieldLibrary.PlayerFieldData, 
+                FieldLibrary.NumberFieldData
+            },
             takesSubEffects = false
         };
     }

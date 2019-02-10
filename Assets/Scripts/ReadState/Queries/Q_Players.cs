@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 [System.Serializable]
 public class Q_Players : Query {
     public override QueryResult Run(RunTimeValue target, GameController gameController) {
@@ -5,4 +7,11 @@ public class Q_Players : Query {
         result.SetIsList(true);
         return result;
     }
+
+    public static QueryData QueryData = new QueryData() {
+        name = "All players",
+        fields = new List<FieldData>(),
+        query = new Q_Players(),
+        takesListOptions = true
+    };
 }

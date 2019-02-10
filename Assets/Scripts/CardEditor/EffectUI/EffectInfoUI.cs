@@ -12,4 +12,8 @@ public class EffectInfoUI : MonoBehaviour
         effectNameText.text = data.name;
         effectDescText.text = data.desc;
     }
+
+    public void RemoveEffect () {
+        Destroy(transform.parent.gameObject);
+    }
 }

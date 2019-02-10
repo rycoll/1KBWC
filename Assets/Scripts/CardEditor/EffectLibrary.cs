@@ -27,11 +27,7 @@ public static class EffectLibrary {
 public struct EffectData {
     public string name;
     public string desc;
-    public List<FieldType> fields;
+    public List<FieldData> fields;
     public bool takesSubEffects;
 
-}
-
-public enum FieldType {
-    NUMBER, PLAYER, CARD, STRING, CONDITION, LIST
 }

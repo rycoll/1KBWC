@@ -29,7 +29,9 @@ public class CE_ForLoop : ControlEffect {
         return new EffectData() {
             name = "For Each (Loop)",
             desc = "Run effects once for each item in a list (e.g. 'For each player..., that player...').",
-            fields = new List<FieldType>(){FieldType.LIST},
+            fields = new List<FieldData>(){
+                // need a list field data!!!
+            },
             takesSubEffects = true
         };
     }
