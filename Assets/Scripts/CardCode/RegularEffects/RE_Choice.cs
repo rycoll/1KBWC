@@ -51,7 +51,7 @@ public class RE_Choice : RegularEffect {
             name = "Choose...",
             desc = "Let the player of this card choose an item from a list.",
             fields = new List<FieldData>(){
-                // need list FieldData!!!
+                FieldLibrary.ListFieldData
             },
             takesSubEffects = true
         };

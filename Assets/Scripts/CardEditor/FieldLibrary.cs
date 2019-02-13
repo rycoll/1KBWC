@@ -15,9 +15,7 @@ public static class FieldLibrary {
     public static FieldData CardFieldData = new FieldData() {
         text = "Which card?",
         enterValue = EnterValueType.NONE,
-        queryDropdown = new List<QueryData> {
-
-        }
+        queryDropdown = new List<QueryData>()
     };
 
     public static FieldData NumberFieldData = new FieldData() {
@@ -36,8 +34,8 @@ public static class FieldLibrary {
     public static FieldData PlayerFieldData = new FieldData() {
         text = "Which player?",
         enterValue = EnterValueType.NONE,
-        queryDropdown = new List<QueryData> {
-
+        queryDropdown = new List<QueryData>{
+            Q_Variable.QueryData
         }
     };
 
@@ -75,9 +73,3 @@ public enum EnterValueType {
     NONE, TEXT, NUMBER, BOOL
 }
 
-public struct QueryData {
-    public string name;
-    public List<FieldData> fields;
-    public Query query;
-    public bool takesListOptions;
-}

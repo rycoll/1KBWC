@@ -439,6 +439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   headerText: {fileID: 45584984208538897}
   toggleButton: {fileID: 1061039759266154280}
+  toggleButtonText: {fileID: 2105156850445340441}
   stringFieldPrefab: {fileID: 6222181344746104667, guid: ee3eb19adea538f4e9ff7301feef09de,
     type: 3}
   numberFieldPrefab: {fileID: 1511978569124976754, guid: bc56aaec6b470e2439187cc3a9a8217c,
@@ -458,7 +459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.69411767}
+  m_Color: {r: 0.5660378, g: 0.54734784, b: 0.54734784, a: 0.69411767}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
