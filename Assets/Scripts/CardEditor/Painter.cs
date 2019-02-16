@@ -52,7 +52,7 @@ public class Painter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         }
     }
 
-    private struct Coord {
+    public struct Coord {
         public int x;
         public int y;
         public Coord (int i, int j) {
@@ -132,14 +132,24 @@ public class Painter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         } else {
             float m = (float)(yCoord - prevY) / (float)(xCoord - prevX);
             float c = yCoord - m * xCoord;
-            List<Vector2> coords = new List<Vector2>();
+            List<Coord> coords = new List<Coord>();
             if (xCoord < prevX) {
                 for (int x = xCoord; x < prevX; x++) {
-                    coords.Add(new Vector2(x, (int)(m * x + c)));
+                    coords.Add(new Coord(x, (int)(m * x + c)));
                 }
-            } else {
+            } else if (xCoord > prevX) {
                 for (int x = prevX; x < xCoord; x++) {
-                    coords.Add(new Vector2(x, (int)(m * x + c)));
+                    coords.Add(new Coord(x, (int)(m * x + c)));
+                }
+            } else if (xCoord == prevX) {
+                if (yCoord < prevY) {
+                    for (int y = yCoord; y < prevY; y++) {
+                        coords.Add(new Coord(xCoord, y));
+                    }
+                } else {
+                    for (int y = prevY; y < yCoord; y++) {
+                        coords.Add(new Coord(xCoord, y));
+                    }
                 }
             }
             PaintGroup(coords);
@@ -170,14 +180,14 @@ public class Painter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         texBuffer.Apply();
     }
 
-    public void PaintGroup(List<Vector2> coords) {
+    public void PaintGroup(List<Coord> coords) {
         Color[] colours = texBuffer.GetPixels();
-        foreach (Vector2 coord in coords) {
+        foreach (Coord coord in coords) {
             if (coord.x < 0 || coord.x >= width || coord.y < 0 || coord.y >= height) {
                 continue;
             }
-            for (int i = (int)coord.x - brushSize; i <= (int)coord.x + brushSize; i++) {
-                for (int j = (int)coord.y - brushSize; j <= (int)coord.y + brushSize; j++) {
+            for (int i = coord.x - brushSize; i <= coord.x + brushSize; i++) {
+                for (int j = coord.y - brushSize; j <= coord.y + brushSize; j++) {
                     if (!(i < 0 || i >= width || j < 0 || j >= height)) {
                         colours[j * height + i] = paintColour;
                     }
