@@ -8,10 +8,16 @@ public class Q_DiscardCards : Query {
         return result;
     }
 
-    public static QueryData QueryData = new QueryData() {
-        name = "Cards in discard pile",
-        fields = new List<FieldData>(),
-        query = new Q_DiscardCards(),
-        takesListOptions = true
-    };
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "Cards in discard pile",
+                fields = new List<FieldData>(),
+                query = new Q_DiscardCards(),
+                takesListOptions = true
+            };
+        }
+        return QueryData;
+    }
 }

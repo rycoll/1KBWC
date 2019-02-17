@@ -41,8 +41,8 @@ public class RE_SetPlayerPoints : RegularEffect {
             name = "Set Player Points",
             desc = "Set a player's point total to a new value.",
             fields = new List<FieldData>(){
-                FieldLibrary.PlayerFieldData, 
-                FieldLibrary.NumberFieldData
+                FieldLibrary.GetPlayerFieldData(), 
+                FieldLibrary.GetNumberFieldData()
             },
             takesSubEffects = false
         };

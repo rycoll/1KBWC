@@ -7,12 +7,18 @@ public class Q_PlayerName : Query {
         return new QueryResult(player.Name);
     }
 
-    public static QueryData QueryData = new QueryData() {
-        name = "A player's name",
-        fields = new List<FieldData>(){
-            FieldLibrary.PlayerFieldData
-        },
-        query = new Q_PlayerName(),
-        takesListOptions = false
-    };
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "A player's name",
+                fields = new List<FieldData>(){
+                    FieldLibrary.GetPlayerFieldData()
+                },
+                query = new Q_PlayerName(),
+                takesListOptions = false
+            };
+        }
+        return QueryData;
+    }
 }

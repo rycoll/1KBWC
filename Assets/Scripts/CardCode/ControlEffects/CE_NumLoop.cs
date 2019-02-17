@@ -25,7 +25,7 @@ public class CE_NumLoop : ControlEffect {
             name = "Loop",
             desc = "Run effects X times",
             fields = new List<FieldData>(){
-                FieldLibrary.NumberFieldData
+                FieldLibrary.GetNumberFieldData()
             },
             takesSubEffects = true
         };

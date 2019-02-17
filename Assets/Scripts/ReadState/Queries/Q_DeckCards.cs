@@ -6,13 +6,19 @@ public class Q_DeckCards : Query {
         QueryResult result = new QueryResult(gameController.Deck.GetCards());
         result.SetIsList(true);
         return result;
-    }
+    }   
 
-    public static QueryData QueryData = new QueryData() {
-        name = "Cards in deck",
-        fields = new List<FieldData>(),
-        query = new Q_DeckCards(),
-        takesListOptions = true
-    };
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "Cards in deck",
+                fields = new List<FieldData>(),
+                query = new Q_DeckCards(),
+                takesListOptions = true
+            };
+        }
+        return QueryData;
+    }
 
 }

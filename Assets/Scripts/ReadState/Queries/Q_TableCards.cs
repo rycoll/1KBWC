@@ -8,10 +8,16 @@ public class Q_TableCards : Query {
         return result;
     }
 
-    public static QueryData QueryData = new QueryData() {
-        name = "Cards in play",
-        fields = new List<FieldData>(),
-        query = new Q_TableCards(),
-        takesListOptions = true
-    };
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "Cards in play",
+                fields = new List<FieldData>(),
+                query = new Q_TableCards(),
+                takesListOptions = true
+            };
+        }
+        return QueryData;
+    }
 }

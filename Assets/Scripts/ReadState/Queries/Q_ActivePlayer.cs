@@ -6,10 +6,16 @@ public class Q_ActivePlayer : Query {
         return new QueryResult(gameController.GetActivePlayer());
     }
 
-    public static QueryData QueryData = new QueryData() {
-        name = "You (Player)",
-        fields = new List<FieldData>(),
-        query = new Q_ActivePlayer(),
-        takesListOptions = false
-    };
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "You (Player)",
+                fields = new List<FieldData>(),
+                query = new Q_ActivePlayer(),
+                takesListOptions = false
+            };
+        }
+        return QueryData;
+    }
 }

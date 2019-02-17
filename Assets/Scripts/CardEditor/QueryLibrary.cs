@@ -4,23 +4,23 @@ using System.Linq;
 
 public static class QueryLibrary {
     public static QueryData[] AllQueryData = new QueryData[] {
-        Q_ActivePlayer.QueryData,
-        Q_Counter.QueryData,
-        Q_DeckCards.QueryData,
-        Q_DeckSize.QueryData,
-        Q_DiscardCards.QueryData,
-        Q_DiscardSize.QueryData,
-        Q_Flag.QueryData,
-        Q_Opponents.QueryData,
-        Q_PlayerDrawSize.QueryData,
-        Q_PlayerHand.QueryData,
-        Q_PlayerMaxHand.QueryData,
-        Q_PlayerName.QueryData,
-        Q_PlayerPoints.QueryData,
-        Q_Players.QueryData,
-        Q_TableCards.QueryData,
-        Q_TableSize.QueryData,
-        Q_Variable.QueryData,
+        Q_ActivePlayer.GetQueryData(),
+        Q_Counter.GetQueryData(),
+        Q_DeckCards.GetQueryData(),
+        Q_DeckSize.GetQueryData(),
+        Q_DiscardCards.GetQueryData(),
+        Q_DiscardSize.GetQueryData(),
+        Q_Flag.GetQueryData(),
+        Q_Opponents.GetQueryData(),
+        Q_PlayerDrawSize.GetQueryData(),
+        Q_PlayerHand.GetQueryData(),
+        Q_PlayerMaxHand.GetQueryData(),
+        Q_PlayerName.GetQueryData(),
+        Q_PlayerPoints.GetQueryData(),
+        Q_Players.GetQueryData(),
+        Q_TableCards.GetQueryData(),
+        Q_TableSize.GetQueryData(),
+        Q_Variable.GetQueryData(),
     };
 
     public static QueryData NullQueryData = new QueryData {
@@ -40,7 +40,7 @@ public static class QueryLibrary {
     }
 }
 
-public struct QueryData {
+public class QueryData {
     public string name;
     public List<FieldData> fields;
     public Query query;

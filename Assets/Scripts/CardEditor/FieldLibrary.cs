@@ -4,68 +4,103 @@ using System.Linq;
 
 public static class FieldLibrary {
 
-    public static FieldData BoolFieldData = new FieldData() {
-        text = "Yes or No?",
-        enterValue = EnterValueType.BOOL,
-        queryDropdown = new List<QueryData>{
-            Q_Flag.QueryData
+    private static FieldData BoolFieldData;
+    public static FieldData GetBoolFieldData () {
+        if (BoolFieldData == null) {
+            BoolFieldData = new FieldData() {
+                text = "Yes or No?",
+                enterValue = EnterValueType.BOOL,
+                queryDropdown = new List<QueryData>{
+                    Q_Flag.GetQueryData()
+                }
+            };   
         }
-    };
+        return BoolFieldData;
+    } 
 
-    public static FieldData CardFieldData = new FieldData() {
-        text = "Which card?",
-        enterValue = EnterValueType.NONE,
-        queryDropdown = new List<QueryData>()
-    };
-
-    public static FieldData NumberFieldData = new FieldData() {
-        text = "What number?",
-        enterValue = EnterValueType.NUMBER,
-        queryDropdown = new List<QueryData> {
-            Q_Counter.QueryData,
-            Q_DeckSize.QueryData,
-            Q_DiscardSize.QueryData,
-            Q_PlayerDrawSize.QueryData,
-            Q_PlayerPoints.QueryData,
-            Q_TableSize.QueryData
+    private static FieldData CardFieldData;
+    public static FieldData GetCardFieldData () {
+        if (CardFieldData == null) {
+            CardFieldData = new FieldData() {
+                text = "Which card?",
+                enterValue = EnterValueType.NONE,
+                queryDropdown = new List<QueryData>()
+            };
         }
-    };
+        return CardFieldData;
+    }
 
-    public static FieldData PlayerFieldData = new FieldData() {
-        text = "Which player?",
-        enterValue = EnterValueType.NONE,
-        queryDropdown = new List<QueryData>{
-            Q_Variable.QueryData
+    private static FieldData NumberFieldData;
+    public static FieldData GetNumberFieldData () {
+        if (NumberFieldData == null) {
+            NumberFieldData = new FieldData() {
+                text = "What number?",
+                enterValue = EnterValueType.NUMBER,
+                queryDropdown = new List<QueryData> {
+                    Q_Counter.GetQueryData(),
+                    Q_DeckSize.GetQueryData(),
+                    Q_DiscardSize.GetQueryData(),
+                    Q_PlayerDrawSize.GetQueryData(),
+                    Q_PlayerPoints.GetQueryData(),
+                    Q_TableSize.GetQueryData()
+                }
+            };
         }
-    };
+        return NumberFieldData;
+    }
 
-    public static FieldData StringFieldData = new FieldData() {
-        text = "Text",
-        enterValue = EnterValueType.TEXT,
-        queryDropdown = new List<QueryData> {
-            Q_PlayerName.QueryData,
-            Q_Variable.QueryData
+    private static FieldData PlayerFieldData;
+    public static FieldData GetPlayerFieldData () {
+        if (PlayerFieldData == null) {
+            PlayerFieldData = new FieldData() {
+                text = "Which player?",
+                enterValue = EnterValueType.NONE,
+                queryDropdown = new List<QueryData>{
+                }
+            };
         }
-    };
+        return PlayerFieldData;
+    }
 
-    public static FieldData ListFieldData = new FieldData() {
-        text = "List",
-        enterValue = EnterValueType.NONE,
-        queryDropdown = new List<QueryData> {
-            Q_DeckCards.QueryData,
-            Q_DiscardCards.QueryData,
-            Q_Opponents.QueryData,
-            Q_Players.QueryData,
-            Q_TableCards.QueryData
+    private static FieldData StringFieldData;
+    public static FieldData GetStringFieldData () {
+        if (StringFieldData == null) {
+            StringFieldData = new FieldData () {
+                text = "Text",
+                enterValue = EnterValueType.TEXT,
+                queryDropdown = new List<QueryData> {
+                    Q_PlayerName.GetQueryData(),
+                    Q_Variable.GetQueryData()
+                }
+            };
         }
-    };
+        return StringFieldData;
+    }
+
+
+    private static FieldData ListFieldData;
+    public static FieldData GetListFieldData () {
+        if (ListFieldData == null) {
+            ListFieldData = new FieldData() {
+                text = "List",
+                enterValue = EnterValueType.NONE,
+                queryDropdown = new List<QueryData> {
+                    Q_DeckCards.GetQueryData(),
+                    Q_DiscardCards.GetQueryData(),
+                    Q_Opponents.GetQueryData(),
+                    Q_Players.GetQueryData(),
+                    Q_TableCards.GetQueryData()
+                }
+            };
+        }
+        return ListFieldData;
+    }
 }
 
 
-public struct FieldData {
+public class FieldData {
     public string text;
     public EnterValueType enterValue;
-
     public List<QueryData> queryDropdown;
 }
 

@@ -33,9 +33,6 @@ public class FieldUI : MonoBehaviour
     }
 
     public void OpenDisplay () {
-        if (data.queryDropdown == null) {
-            return;
-        }
         headerText.text = data.text;
         
         GameObject dropdownObj = AddPrefabToDisplay(this.dropdownPrefab);

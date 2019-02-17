@@ -7,12 +7,18 @@ public class Q_Counter : Query {
         return new QueryResult(gameController.Variables.GetCounter(key));
     }
 
-    public static QueryData QueryData = new QueryData() {
-        name = "Look up counter",
-        fields = new List<FieldData>() {
-            FieldLibrary.StringFieldData
-        },
-        query = new Q_Counter(),
-        takesListOptions = false
-    };
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "Look up counter",
+                fields = new List<FieldData>() {
+                    FieldLibrary.GetStringFieldData()
+                },
+                query = new Q_Counter(),
+                takesListOptions = false
+            };
+        }
+        return QueryData;
+    }
 }

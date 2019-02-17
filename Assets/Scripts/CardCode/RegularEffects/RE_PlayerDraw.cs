@@ -54,8 +54,8 @@ public class RE_PlayerDraw : RegularEffect {
             name = "Draw Cards",
             desc = "A player draws X cards from the deck.",
             fields = new List<FieldData>(){
-                FieldLibrary.PlayerFieldData, 
-                FieldLibrary.NumberFieldData
+                FieldLibrary.GetPlayerFieldData(), 
+                FieldLibrary.GetNumberFieldData()
             },
             takesSubEffects = false
         };

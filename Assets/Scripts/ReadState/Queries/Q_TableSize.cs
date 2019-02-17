@@ -6,10 +6,16 @@ public class Q_TableSize : Query {
         return new QueryResult(gameController.Table.GetSize());
     }
 
-    public static QueryData QueryData = new QueryData() {
-        name = "Number of cards in play",
-        fields = new List<FieldData>(),
-        query = new Q_TableSize(),
-        takesListOptions = false
-    };
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "Number of cards in play",
+                fields = new List<FieldData>(),
+                query = new Q_TableSize(),
+                takesListOptions = false
+            };
+        }
+        return QueryData;
+    }
 }

@@ -6,13 +6,19 @@ public class Q_Flag : Query {
         string key = (string) target.Evaluate();
         return new QueryResult(gameController.Variables.IsFlag(key));
     }
-
-    public static QueryData QueryData = new QueryData() {
-        name = "Look up a flag",
-        fields = new List<FieldData>() {
-            FieldLibrary.StringFieldData
-        },
-        query = new Q_Flag(),
-        takesListOptions = false
-    };
+    
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "Look up a flag",
+                fields = new List<FieldData>() {
+                    FieldLibrary.GetStringFieldData()
+                },
+                query = new Q_Flag(),
+                takesListOptions = false
+            };
+        }
+        return QueryData;
+    }
 }

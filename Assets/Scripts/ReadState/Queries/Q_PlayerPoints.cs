@@ -7,12 +7,18 @@ public class Q_PlayerPoints : Query {
         return new QueryResult(player.Points);
     }
 
-    public static QueryData QueryData = new QueryData() {
-        name = "A player's score",
-        fields = new List<FieldData>(){
-            FieldLibrary.PlayerFieldData
-        },
-        query = new Q_PlayerPoints(),
-        takesListOptions = false
-    };
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "A player's score",
+                fields = new List<FieldData>(){
+                    FieldLibrary.GetPlayerFieldData()
+                },
+                query = new Q_PlayerPoints(),
+                takesListOptions = false
+            };
+        }
+        return QueryData;
+    }
 }

@@ -42,8 +42,8 @@ public class RE_AddToHand : RegularEffect {
             name = "Add Card to Hand",
             desc = "Add a card to a player's hand.",
             fields = new List<FieldData>(){
-                FieldLibrary.PlayerFieldData, 
-                FieldLibrary.CardFieldData
+                FieldLibrary.GetPlayerFieldData(), 
+                FieldLibrary.GetCardFieldData()
             },
             takesSubEffects = false
         };

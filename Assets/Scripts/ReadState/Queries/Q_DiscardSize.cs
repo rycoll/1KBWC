@@ -6,11 +6,16 @@ public class Q_DiscardSize : Query {
         return new QueryResult(gameController.Discard.GetSize());
     }
 
-    public static QueryData QueryData = new QueryData() {
-        name = "Number of cards in discard pile",
-        fields = new List<FieldData>(),
-        query = new Q_DiscardSize(),
-        takesListOptions = false
-    };
-
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "Number of cards in discard pile",
+                fields = new List<FieldData>(),
+                query = new Q_DiscardSize(),
+                takesListOptions = false
+            };
+        }
+        return QueryData;
+    }
 }

@@ -8,10 +8,16 @@ public class Q_Players : Query {
         return result;
     }
 
-    public static QueryData QueryData = new QueryData() {
-        name = "All players",
-        fields = new List<FieldData>(),
-        query = new Q_Players(),
-        takesListOptions = true
-    };
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "All players",
+                fields = new List<FieldData>(),
+                query = new Q_Players(),
+                takesListOptions = true
+            };
+        }
+        return QueryData;
+    }
 }

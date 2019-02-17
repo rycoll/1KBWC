@@ -30,8 +30,8 @@ public class RE_SetVariable : RegularEffect {
             name = "Set Variable",
             desc = "Set a global variable (which can be checked by Control Effects!).",
             fields = new List<FieldData>(){
-                FieldLibrary.StringFieldData, 
-                FieldLibrary.StringFieldData
+                FieldLibrary.GetStringFieldData(), 
+                FieldLibrary.GetStringFieldData()
             },
             takesSubEffects = false
         };

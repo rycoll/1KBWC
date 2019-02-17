@@ -9,12 +9,18 @@ public class Q_PlayerHand : Query {
         return result;
     }
 
-    public static QueryData QueryData = new QueryData() {
-        name = "Cards in a player's hand",
-        fields = new List<FieldData>(){
-            FieldLibrary.PlayerFieldData
-        },
-        query = new Q_PlayerHand(),
-        takesListOptions = true
-    };
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "Cards in a player's hand",
+                fields = new List<FieldData>(){
+                    FieldLibrary.GetPlayerFieldData()
+                },
+                query = new Q_PlayerHand(),
+                takesListOptions = true
+            };
+        }
+        return QueryData;
+    }
 }

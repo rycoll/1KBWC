@@ -8,10 +8,16 @@ public class Q_Opponents : Query {
         return result;
     }
 
-    public static QueryData QueryData = new QueryData() {
-        name = "Opponents (all non-you players)",
-        fields = new List<FieldData>(),
-        query = new Q_Opponents(),
-        takesListOptions = true
-    };
+    private static QueryData QueryData;
+    public static QueryData GetQueryData () {
+        if (QueryData == null) {
+            QueryData = new QueryData() {
+                name = "Opponents (all non-you players)",
+                fields = new List<FieldData>(),
+                query = new Q_Opponents(),
+                takesListOptions = true
+            };
+        }
+        return QueryData;
+    }
 }

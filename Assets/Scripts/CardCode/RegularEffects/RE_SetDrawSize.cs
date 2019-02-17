@@ -39,8 +39,8 @@ public class RE_SetDrawSize : RegularEffect {
             name = "Set Player's Draw Size",
             desc = "Change how many cards a player draws at the start of their turn (cannot be less than 1).",
             fields = new List<FieldData>(){
-                FieldLibrary.PlayerFieldData, 
-                FieldLibrary.NumberFieldData
+                FieldLibrary.GetPlayerFieldData(), 
+                FieldLibrary.GetNumberFieldData()
             },
             takesSubEffects = false
         };
