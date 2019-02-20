@@ -103,12 +103,12 @@ public class FieldUI : MonoBehaviour
     public QueryData GetQueryForCurrentSelected () {
         if (!currSelectField) {
             // this sucks
-            return QueryLibrary.NullQueryData;
+            return QueryLibrary.GetNullQueryData();
         }
         Dropdown dropdown = currSelectField.GetComponent<Dropdown>();
         if (dropdown.options.Count == 0) {
             // this also sucks
-            return QueryLibrary.NullQueryData;
+            return QueryLibrary.GetNullQueryData();
 
         }
         string selection = dropdown.options[dropdown.value].text;

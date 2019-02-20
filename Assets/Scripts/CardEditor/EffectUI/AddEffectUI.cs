@@ -55,7 +55,7 @@ public class AddEffectUI : MonoBehaviour
     }
 
     private void SetOptions () {
-        List<string> options = EffectLibrary.AllEffectData.Select(effect => effect.name).ToList();
+        List<string> options = EffectLibrary.GetAllEffectData().Select(effect => effect.name).ToList();
         dropdown.ClearOptions();
         dropdown.AddOptions(options);
     }
