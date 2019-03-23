@@ -12,7 +12,6 @@ public class Card_Gift : Card {
 
         GamePlayer[] opponentsArr = game.GetOpponents();
         List<GamePlayer> playerList = new List<GamePlayer>(opponentsArr);
-        List<object> objectList = playerList.Cast<object>().ToList();
 
         CardEffect drawEffect = new RE_PlayerDraw(new RunTimeValue(null), new RunTimeValue(1));
         CardEffect choiceEffect = new RE_Choice(

@@ -13,9 +13,9 @@ public class GameListeners {
         listeners.Add(l);
     }
 
-    public void RunListeners () {
+    public void RunListeners (GameController gameController) {
         foreach (Listener listener in listeners) {
-            listener.Check();
+            listener.Check(gameController);
         }
     }
 }

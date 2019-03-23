@@ -35,7 +35,6 @@ public static class QueryLibrary {
             NullQueryData= new QueryData {
                 name = "NULL",
                 fields = new List<FieldData>(),
-                query = new Q_ActivePlayer(),
                 takesListOptions = false
             };
         }
@@ -50,11 +49,4 @@ public static class QueryLibrary {
             return GetNullQueryData();
         }
     }
-}
-
-public class QueryData {
-    public string name;
-    public List<FieldData> fields;
-    public Query query;
-    public bool takesListOptions;
 }

@@ -4,37 +4,20 @@ using System.Collections.Generic;
 [System.Serializable]
 public class RE_AddToHand : RegularEffect {
 
-    private RunTimeValue Player { get; set; }
-    private RunTimeValue Card { get; set; }
+    private RunTimeValue<GamePlayer> Player { get; set; }
+    private RunTimeValue<Card> Card { get; set; }
 
-    public RE_AddToHand (RunTimeValue player, RunTimeValue card) {
+    public RE_AddToHand (RunTimeValue<GamePlayer> player, RunTimeValue<Card> card) {
         Player = player;
         Card = card;
     }
     public override void Run(GameController gameController) {
-        GamePlayer player = Player.Evaluate() as GamePlayer;
-        Card card = Card.Evaluate() as Card;
-
-        if (CheckTypeError(Player, player)) return;
-        if (CheckTypeError(Card, card)) return;
+        GamePlayer player = Player.Evaluate(gameController);
+        Card card = Card.Evaluate(gameController);
         
         gameController.GiveCardToPlayer(player, card);
 
         Done(gameController);
-    }
-
-    public override void HandleInput(object obj) {
-        if (!IgnoreInput) {
-            GamePlayer playerObj = obj as GamePlayer;
-            if (playerObj != null) {
-                Player = new RunTimeValue(playerObj);
-                return;
-            }
-            Card cardObj = obj as Card;
-            if (cardObj != null) {
-                Card = new RunTimeValue(cardObj);
-            }
-        }
     }
 
     public static EffectData GetEffectData () {
@@ -45,7 +28,8 @@ public class RE_AddToHand : RegularEffect {
                 FieldLibrary.GetPlayerFieldData(), 
                 FieldLibrary.GetCardFieldData()
             },
-            takesSubEffects = false
+            takesSubEffects = false,
+            //effect = new RE_AddToHand()
         };
     }
 }

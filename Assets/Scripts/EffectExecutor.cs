@@ -35,7 +35,7 @@ public class EffectExecutor : MonoBehaviour
         if (typeof(ControlEffect).IsInstanceOfType(effect)) {
             // control effect
             ControlEffect control = (ControlEffect) effect;
-            List<CardEffect> compiledEffects = control.Compile();
+            List<CardEffect> compiledEffects = control.Compile(GameController);
             CardEffect curr = effect;
             CardEffect final = effect.GetNextEffect();
             for (int i = 0; i < compiledEffects.Count; i++) {
@@ -54,13 +54,4 @@ public class EffectExecutor : MonoBehaviour
         }
     } 
 
-    public static QueryResult RunQuery (QueryRequest request) {
-        // Run needs request.Filter and request.SecondaryQuery to run secondary functions
-        // alternatively, those could be run here.
-        QueryResult result =  request.Query.Run(request.Target_Ref, GameController);
-        if (result.IsList()) {
-            result = Query.RunSecondaryQueries(request, result);
-        }
-        return result;
-    }
 }

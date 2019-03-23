@@ -4,12 +4,12 @@ public class Card_Draw2 : Card {
         overrideRuleText = "Draw 2 cards.";
         cardArt = null;
 
-        QueryRequest currPlayerReq = new QueryRequest(
-            new Q_ActivePlayer(), null
+        QueryRequest<GamePlayer> currPlayerReq = new QueryRequest<GamePlayer>(
+            new Q_ActivePlayer()
         );
-        RunTimeValue player = new RunTimeValue(currPlayerReq);
+        RunTimeValue<GamePlayer> player = new RunTimeValue<GamePlayer>(currPlayerReq);
 
-        CardEffect effect = new RE_PlayerDraw(player, new RunTimeValue(2));
+        CardEffect effect = new RE_PlayerDraw(player, new RunTimeValue<int>(2));
         AddEffect(effect);
     }
 

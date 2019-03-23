@@ -14,8 +14,8 @@ public class Listener {
         DestroyOnTrigger = b;
     }
 
-    public void Check () {
-        if (Trigger.Evaluate()) {
+    public void Check (GameController gameController) {
+        if (Trigger.Evaluate(gameController)) {
             EffectExecutor.BeginExecution(Effects);
             // do something with the returned EffectResult
         }

@@ -5,35 +5,20 @@ using System.Collections.Generic;
 [System.Serializable]
 public class RE_SetPlayerPoints : RegularEffect {
 
-    private RunTimeValue Player { get; set; }
-    private RunTimeValue Points { get; set; }
+    private RunTimeValue<GamePlayer> Player { get; set; }
+    private RunTimeValue<int> Points { get; set; }
 
-    public RE_SetPlayerPoints (RunTimeValue player, RunTimeValue points) {
+    public RE_SetPlayerPoints (RunTimeValue<GamePlayer> player, RunTimeValue<int> points) {
         Player = player;
         Points = points;
     }
 
     public override void Run(GameController gameController) {
-        GamePlayer player = Player.Evaluate() as GamePlayer;
-        if (CheckTypeError(Player, player)) return;
-        int points = (int) Points.Evaluate();
+        GamePlayer player = Player.Evaluate(gameController);
+        int points = Points.Evaluate(gameController);
         gameController.SetPlayerPoints(player, points);
 
         Done(gameController);
-    }
-
-    public override void HandleInput(object obj) {
-        if (!IgnoreInput) {
-            GamePlayer playerObj = obj as GamePlayer;
-            if (playerObj != null) {
-                Player = new RunTimeValue(playerObj);
-                return;
-            }
-            try {
-                Points = new RunTimeValue((int) obj);
-                return;
-            } catch (InvalidCastException) {}
-        }
     }
 
     public static EffectData GetEffectData () {
@@ -44,7 +29,8 @@ public class RE_SetPlayerPoints : RegularEffect {
                 FieldLibrary.GetPlayerFieldData(), 
                 FieldLibrary.GetNumberFieldData()
             },
-            takesSubEffects = false
+            takesSubEffects = false,
+            //effect = new RE_SetPlayerPoints()
         };
     }
 }

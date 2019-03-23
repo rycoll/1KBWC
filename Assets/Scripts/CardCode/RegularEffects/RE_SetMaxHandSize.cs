@@ -4,34 +4,19 @@ using System.Collections.Generic;
 [System.Serializable]
 public class RE_SetMaxHandSize : RegularEffect {
 
-    private RunTimeValue Player { get; set; }
-    private RunTimeValue Size { get; set; }
+    private RunTimeValue<GamePlayer> Player { get; set; }
+    private RunTimeValue<int> Size { get; set; }
 
-    public RE_SetMaxHandSize (RunTimeValue player, RunTimeValue size) {
+    public RE_SetMaxHandSize (RunTimeValue<GamePlayer> player, RunTimeValue<int> size) {
         Player = player;
         Size = size;
     }
 
     public override void Run(GameController gameController) {
-        GamePlayer player = Player.Evaluate() as GamePlayer;
-        if (CheckTypeError(Player, player)) return;
-        player.Hand.MaxHandSize = (int) Size.Evaluate();
+        GamePlayer player = Player.Evaluate(gameController);
+        player.Hand.MaxHandSize = Size.Evaluate(gameController);
 
         Done(gameController);
-    }
-
-    public override void HandleInput(object obj) {
-        if (!IgnoreInput) {
-            GamePlayer playerObj = obj as GamePlayer;
-            if (playerObj != null) {
-                Player = new RunTimeValue(playerObj);
-                return;
-            }
-            try {
-                Size = new RunTimeValue((int) obj);
-                return;
-            } catch (InvalidCastException) {}
-        }
     }
 
     public static EffectData GetEffectData () {
@@ -42,7 +27,8 @@ public class RE_SetMaxHandSize : RegularEffect {
                 FieldLibrary.GetPlayerFieldData(), 
                 FieldLibrary.GetNumberFieldData()
             },
-            takesSubEffects = false
+            takesSubEffects = false,
+            //effect = new RE_SetMaxHandSize()
         };
     }
 }

@@ -4,14 +4,15 @@ using UnityEngine;
 
 [System.Serializable]
 public class CE_NumLoop : ControlEffect {
-    private int numLoops;
-    public CE_NumLoop(List<CardEffect> effects, RunTimeValue n) : base(effects) {
-        this.numLoops = (int) n.Evaluate();
+    private RunTimeValue<int> numLoops;
+    public CE_NumLoop(List<CardEffect> effects, RunTimeValue<int> n) : base(effects) {
+        this.effects = effects;
+        this.numLoops = n;
     }
 
-    public override List<CardEffect> Compile () {
+    public override List<CardEffect> Compile (GameController gameController) {
         List<CardEffect> returnList = new List<CardEffect>();
-        for (int i = 0; i < numLoops; i++) {
+        for (int i = 0; i < numLoops.Evaluate(gameController); i++) {
             foreach (CardEffect effect in effects) {
                 CardEffect newEffect = effect.GetClone();
                 returnList.Add(newEffect);
@@ -27,7 +28,8 @@ public class CE_NumLoop : ControlEffect {
             fields = new List<FieldData>(){
                 FieldLibrary.GetNumberFieldData()
             },
-            takesSubEffects = true
+            takesSubEffects = true,
+            //effect = new CE_NumLoop()
         };
     }
 }

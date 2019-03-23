@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Q_DeckSize : Query {
-    public override QueryResult Run(RunTimeValue target, GameController gameController) {
-        return new QueryResult(gameController.Deck.GetSize());
+public class Q_DeckSize : Query<int> {
+    public override RunTimeValue<int> Run(GameController gameController) {
+        return new RunTimeValue<int>(gameController.Deck.GetSize());
     }   
 
     private static QueryData QueryData;
@@ -12,7 +12,6 @@ public class Q_DeckSize : Query {
             QueryData = new QueryData() {
                 name = "Number of cards in deck",
                 fields = new List<FieldData>(),
-                query = new Q_DeckSize(),
                 takesListOptions = false
             };
         }

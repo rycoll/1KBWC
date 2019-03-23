@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Q_ActivePlayer : Query {
-    public override QueryResult Run(RunTimeValue target, GameController gameController) {
-        return new QueryResult(gameController.GetActivePlayer());
+public class Q_ActivePlayer : Query<GamePlayer> {
+    public override RunTimeValue<GamePlayer> Run(GameController gameController) {
+        return new RunTimeValue<GamePlayer>(gameController.GetActivePlayer());
     }
 
     private static QueryData QueryData;
@@ -12,7 +12,6 @@ public class Q_ActivePlayer : Query {
             QueryData = new QueryData() {
                 name = "You (Player)",
                 fields = new List<FieldData>(),
-                query = new Q_ActivePlayer(),
                 takesListOptions = false
             };
         }

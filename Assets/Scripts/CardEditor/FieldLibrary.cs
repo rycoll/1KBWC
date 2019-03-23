@@ -18,10 +18,13 @@ public static class FieldLibrary {
 
     private static FieldData CardFieldData = new FieldData() {
         text = "Which card?",
-        enterValue = EnterValueType.NONE,
-        queryDropdown = new List<QueryData>()
+        enterValue = EnterValueType.NONE
     };
     public static FieldData GetCardFieldData () {
+        if (CardFieldData.queryDropdown == null) {
+            CardFieldData.queryDropdown = new List<QueryData>();
+            CardFieldData.queryDropdown.Add(Q_DeckRandomCard.GetQueryData());
+        }
         return CardFieldData;
     }
 

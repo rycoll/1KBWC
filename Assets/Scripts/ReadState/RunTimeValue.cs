@@ -3,31 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class RunTimeValue {
+public class RunTimeValue<T> {
 
-    private QueryRequest query = null;
-    private object value = null;
+    private QueryRequest<T> queryRequest;
+    private T value;
 
-    public RunTimeValue (QueryRequest q) {
-        this.query = q;
+    public RunTimeValue (QueryRequest<T> q) {
+        this.queryRequest = q;
     }
 
-    public RunTimeValue (Query q, object obj) {
-        this.query = new QueryRequest(q, obj);
-    }
-
-    public RunTimeValue (object obj) {
+    public RunTimeValue (T obj) {
         this.value = obj;
     }
 
-    public object Evaluate () {
-        if (query != null) {
-            QueryResult result = EffectExecutor.RunQuery(query);
-            return result.GetReturnValue();
+    public T Evaluate (GameController gameController) {
+        if (queryRequest != null) {
+            Query<T> query = queryRequest.Query;
+            return query.Run(gameController).Evaluate(gameController);
         }
         return value;
     }
-
+    
+    /*
+    // probably delete this soon
     // return null if it's a no-go
     public static List<object> TryExtractObjectList (RunTimeValue rtv) {
         List<object> list;
@@ -47,4 +45,5 @@ public class RunTimeValue {
         }
         return list;
     }
+    */
 }

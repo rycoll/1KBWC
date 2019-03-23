@@ -13,12 +13,6 @@ public abstract class CardEffect
         return clone;
     }
 
-    public virtual void HandleInput (object obj) {}
-
-    public void SetIgnoreInput (bool b) {
-        IgnoreInput = b;
-    }
-
     protected CardEffect nextEffect = null;
     public void SetNextEffect (CardEffect effect) {
         nextEffect = effect;

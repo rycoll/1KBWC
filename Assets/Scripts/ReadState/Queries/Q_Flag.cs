@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Q_Flag : Query {
-    public override QueryResult Run(RunTimeValue target, GameController gameController){
-        string key = (string) target.Evaluate();
-        return new QueryResult(gameController.Variables.IsFlag(key));
+public class Q_Flag : Query<bool> {
+    public RunTimeValue<string> target;
+
+    public override RunTimeValue<bool> Run(GameController gameController){
+        string key = target.Evaluate(gameController);
+        return new RunTimeValue<bool>(gameController.Variables.IsFlag(key));
     }
     
     private static QueryData QueryData;
@@ -15,7 +17,6 @@ public class Q_Flag : Query {
                 fields = new List<FieldData>() {
                     FieldLibrary.GetStringFieldData()
                 },
-                query = new Q_Flag(),
                 takesListOptions = false
             };
         }

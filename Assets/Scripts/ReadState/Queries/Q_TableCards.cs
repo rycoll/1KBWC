@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Q_TableCards : Query {
-    public override QueryResult Run(RunTimeValue target, GameController gameController){ 
-        QueryResult result = new QueryResult(gameController.Table.GetCards());
-        result.SetIsList(true);
-        return result;
+public class Q_TableCards : Query<Card[]> {
+    public override RunTimeValue<Card[]> Run(GameController gameController){ 
+        return new RunTimeValue<Card[]>(gameController.Table.GetCards());
     }
 
     private static QueryData QueryData;
@@ -14,7 +12,6 @@ public class Q_TableCards : Query {
             QueryData = new QueryData() {
                 name = "Cards in play",
                 fields = new List<FieldData>(),
-                query = new Q_TableCards(),
                 takesListOptions = true
             };
         }

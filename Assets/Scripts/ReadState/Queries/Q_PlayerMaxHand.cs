@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Q_PlayerMaxHand : Query {
-    public override QueryResult Run(RunTimeValue target, GameController gameController) {
-        GamePlayer player = (GamePlayer) target.Evaluate();
-        return new QueryResult(player.Hand.MaxHandSize);
+public class Q_PlayerMaxHand : Query<int> {
+    public RunTimeValue<GamePlayer> target;
+    public override RunTimeValue<int> Run(GameController gameController) {
+        GamePlayer player = target.Evaluate(gameController);
+        return new RunTimeValue<int>(player.Hand.MaxHandSize);
     }
 
     private static QueryData QueryData;
@@ -15,7 +16,6 @@ public class Q_PlayerMaxHand : Query {
                 fields = new List<FieldData>(){
                     FieldLibrary.GetPlayerFieldData()
                 },
-                query = new Q_PlayerMaxHand(),
                 takesListOptions = false
             };
         }

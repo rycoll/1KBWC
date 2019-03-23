@@ -9,12 +9,12 @@ public class Card_Gain1Point : Card {
         overrideRuleText = "You get 1 point!";
         cardArt = null;
 
-        QueryRequest currPlayerReq = new QueryRequest(
-            new Q_ActivePlayer(), null
+        QueryRequest<GamePlayer> currPlayerReq = new QueryRequest<GamePlayer>(
+            new Q_ActivePlayer()
         );
-        RunTimeValue player = new RunTimeValue(currPlayerReq);
+        RunTimeValue<GamePlayer> player = new RunTimeValue<GamePlayer>(currPlayerReq);
 
-        CardEffect GainPointEffect = new RE_IncrementPlayerPoints(player, new RunTimeValue(1));
+        CardEffect GainPointEffect = new RE_IncrementPlayerPoints(player, new RunTimeValue<int>(1));
         AddEffect(GainPointEffect);
     }
 }

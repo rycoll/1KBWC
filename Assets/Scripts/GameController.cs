@@ -138,7 +138,7 @@ public class GameController : MonoBehaviour {
 
     public bool CheckForWinner () {
         foreach (GamePlayer player in players) {
-            if (player.WinCondition.Evaluate()) {
+            if (player.WinCondition.Evaluate(this)) {
                 Debug.Log(player.Name + " wins!");
                 return true;
             }
@@ -157,9 +157,11 @@ public class GameController : MonoBehaviour {
         UI.SetDiscardText(Discard.GetSize());
     }
 
+    /*
     public QueryResult RunQuery(QueryRequest request) {
         return EffectExecutor.RunQuery(request);
     }
+    */
 
     public void ExecuteEffects (List<CardEffect> list) {
         EffectExecutor.BeginExecution(list);
@@ -183,28 +185,23 @@ public class GameController : MonoBehaviour {
         UI.UpdatePointDisplays(GetLocalPlayer(), GetOpponents());
     }
 
-    public void PresentChoice (List<object> choiceSet, ChoiceCallback callback) {
+    public void PresentChoiceOfCards (List<Card> choiceSet, ChoiceCallback callback) {
         if (choiceSet.Count == 0) {
             callback(null, this);
         }
-
         // currently always presents to active player
         if (GetActivePlayer() == GetLocalPlayer()) {
-            try {
-                List<GamePlayer> playerList = choiceSet.Cast<GamePlayer>().ToList();
-                UI.PresentChoiceOfPlayers(playerList, callback);
-                return;
-            } catch (InvalidCastException) {}
+            UI.PresentChoiceOfCards(choiceSet, callback);
+        }
+    }
 
-            try {
-                List<Card> cardList = choiceSet.Cast<Card>().ToList();
-                UI.PresentChoiceOfCards(cardList, callback);
-                return;
-            } catch (InvalidCastException) {}
-
-            Debug.Log("ERROR: wasn't sure what kind of choice this was!");
-            Debug.Log(choiceSet);
+    public void PresentChoiceOfPlayers (List<GamePlayer> choiceSet, ChoiceCallback callback) {
+        if (choiceSet.Count == 0) {
             callback(null, this);
+        }
+        // currently always presents to active player
+        if (GetActivePlayer() == GetLocalPlayer()) {
+            UI.PresentChoiceOfPlayers(choiceSet, callback);
         }
     }
 }

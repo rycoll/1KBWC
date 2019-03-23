@@ -10,9 +10,9 @@ public class CE_If : ControlEffect {
     }
 
     // at the moment, all conditions need to pass in order for the effects to be executed
-    public override List<CardEffect> Compile () {
+    public override List<CardEffect> Compile (GameController gameController) {
         foreach (Condition condition in conditions) {
-            if (!condition.Evaluate()) {
+            if (!condition.Evaluate(gameController)) {
                 return new List<CardEffect>();
             }
         }
@@ -26,7 +26,8 @@ public class CE_If : ControlEffect {
             fields = new List<FieldData>(){
                 // need a condition field data!!!
             },
-            takesSubEffects = true
+            takesSubEffects = true,
+            //effect = new CE_If()
         };
     }
 }

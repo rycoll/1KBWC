@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Q_PlayerName : Query {
-    public override QueryResult Run(RunTimeValue target, GameController gameController) {
-        GamePlayer player = (GamePlayer) target.Evaluate();
-        return new QueryResult(player.Name);
+public class Q_PlayerName : Query<string> {
+    public RunTimeValue<GamePlayer> target;
+    public override RunTimeValue<string> Run(GameController gameController) {
+        GamePlayer player = target.Evaluate(gameController);
+        return new RunTimeValue<string>(player.Name);
     }
 
     private static QueryData QueryData;
@@ -15,7 +16,6 @@ public class Q_PlayerName : Query {
                 fields = new List<FieldData>(){
                     FieldLibrary.GetPlayerFieldData()
                 },
-                query = new Q_PlayerName(),
                 takesListOptions = false
             };
         }

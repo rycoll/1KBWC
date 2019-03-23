@@ -4,24 +4,18 @@ using System.Collections.Generic;
 [System.Serializable]
 public class RE_SetVariable : RegularEffect {
 
-    private RunTimeValue Key { get; set; }
-    private RunTimeValue Value { get; set; }
+    private RunTimeValue<string> Key { get; set; }
+    private RunTimeValue<string> Value { get; set; }
 
-    public RE_SetVariable (RunTimeValue key, RunTimeValue value) {
+    public RE_SetVariable (RunTimeValue<string> key, RunTimeValue<string> value) {
         Key = key;
         Value = value;
     }
 
     public override void Run (GameController gameController) {
-        string keyStr = Key.Evaluate() as string;
-        string valueStr = Value.Evaluate() as string;
-        if (keyStr == null || valueStr == null) {
-            Debug.Log("Bad string evaluation :'''(");
-            Done(gameController);
-        } else {
-            gameController.SetVariable(keyStr, valueStr);
-        }
-
+        string keyStr = Key.Evaluate(gameController);
+        string valueStr = Value.Evaluate(gameController);
+        gameController.SetVariable(keyStr, valueStr);
         Done(gameController);
     }
 
@@ -33,7 +27,8 @@ public class RE_SetVariable : RegularEffect {
                 FieldLibrary.GetStringFieldData(), 
                 FieldLibrary.GetStringFieldData()
             },
-            takesSubEffects = false
+            takesSubEffects = false,
+            //effect = new RE_SetVariable()
         };
     }
 }

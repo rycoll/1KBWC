@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Q_DiscardSize : Query {
-    public override QueryResult Run(RunTimeValue target, GameController gameController) {
-        return new QueryResult(gameController.Discard.GetSize());
+public class Q_DiscardSize : Query<int> {
+    public override RunTimeValue<int> Run(GameController gameController) {
+        return new RunTimeValue<int>(gameController.Discard.GetSize());
     }
 
     private static QueryData QueryData;
@@ -12,7 +12,6 @@ public class Q_DiscardSize : Query {
             QueryData = new QueryData() {
                 name = "Number of cards in discard pile",
                 fields = new List<FieldData>(),
-                query = new Q_DiscardSize(),
                 takesListOptions = false
             };
         }

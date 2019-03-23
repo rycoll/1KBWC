@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Q_Counter : Query {
-    public override QueryResult Run(RunTimeValue target, GameController gameController) {
-        string key = (string) target.Evaluate();
-        return new QueryResult(gameController.Variables.GetCounter(key));
+public class Q_Counter : Query<int> {
+    public RunTimeValue<string> target;
+    public override RunTimeValue<int> Run(GameController gameController) {
+        string key = target.Evaluate(gameController);
+        return new RunTimeValue<int>(gameController.Variables.GetCounter(key));
     }
 
     private static QueryData QueryData;
@@ -15,7 +16,6 @@ public class Q_Counter : Query {
                 fields = new List<FieldData>() {
                     FieldLibrary.GetStringFieldData()
                 },
-                query = new Q_Counter(),
                 takesListOptions = false
             };
         }

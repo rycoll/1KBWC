@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 
 [System.Serializable]
-public class Q_Variable : Query {
-    public override QueryResult Run(RunTimeValue target, GameController gameController) {
-        string key = (string) target.Evaluate();
-        return new QueryResult(gameController.Variables.GetVariable(key));
+public class Q_Variable : Query<string> {
+    public RunTimeValue<string> target;
+    public override RunTimeValue<string> Run(GameController gameController) {
+        string key = target.Evaluate(gameController);
+        return new RunTimeValue<string>(gameController.Variables.GetVariable(key));
     }
 
     private static QueryData QueryData;
@@ -15,7 +16,6 @@ public class Q_Variable : Query {
                 fields = new List<FieldData>(){
                     FieldLibrary.GetStringFieldData()
                 },
-                query = new Q_Variable(),
                 takesListOptions = false
             };
         }

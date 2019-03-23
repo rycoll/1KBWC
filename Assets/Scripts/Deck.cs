@@ -27,6 +27,19 @@ public class Deck {
         return cards.Count;
     }
 
+    public Card GetCard (DECK_LOCATION location) {
+        switch (location) {
+            case DECK_LOCATION.BOTTOM:
+                return cards[cards.Count - 1];
+            case DECK_LOCATION.RANDOM:
+                return cards[Random.Range(0, cards.Count - 1)];
+            case DECK_LOCATION.TOP:
+                return cards[0];
+            default:
+                return new PlaceholderCard();
+        }
+    }
+
     public Card[] GetCards () {
         // this probably needs to return a copy!
         return cards.ToArray();

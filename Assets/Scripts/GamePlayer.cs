@@ -13,8 +13,11 @@ public class GamePlayer {
         Colour = Random.ColorHSV();
         // set default win condition
         Q_PlayerPoints pointQuery = new Q_PlayerPoints();
-        RunTimeValue playerPointQuery = new RunTimeValue(pointQuery, this);
-        RunTimeValue winThreshold = new RunTimeValue(100);
+        pointQuery.target = new RunTimeValue<GamePlayer>(this);
+        RunTimeValue<int> playerPointQuery = new RunTimeValue<int>(
+            new QueryRequest<int>(pointQuery)    
+        );
+        RunTimeValue<int> winThreshold = new RunTimeValue<int>(100);
         WinCondition = new Condition(playerPointQuery, winThreshold, ConditionOperator.AT_LEAST);
     }
 
