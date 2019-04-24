@@ -7,6 +7,8 @@ public abstract class CardEffect
 {
     protected bool IgnoreInput;
 
+    protected EffectFieldContainer Fields;
+
     public CardEffect GetClone () {
         // there's a pretty decent chance this doesn't work at all
         CardEffect clone = (CardEffect) this.MemberwiseClone();

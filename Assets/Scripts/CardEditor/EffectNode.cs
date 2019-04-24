@@ -30,7 +30,7 @@ public class EffectNode : MonoBehaviour
     }
 
     public void ProcessFieldNode (FieldNode node) {
-
+        
     }
 
     public void ProcessEffectNode (EffectNode node) {

@@ -4,12 +4,9 @@ using System.Collections.Generic;
 [System.Serializable]
 public class RE_AddToHand : RegularEffect {
 
-    private RunTimeValue<GamePlayer> Player { get; set; }
-    private RunTimeValue<Card> Card { get; set; }
-
     public RE_AddToHand (RunTimeValue<GamePlayer> player, RunTimeValue<Card> card) {
-        Player = player;
-        Card = card;
+        Fields.TargetPlayer = player;
+        Fields.TargetCard = card;
     }
     public override void Run(GameController gameController) {
         GamePlayer player = Player.Evaluate(gameController);
