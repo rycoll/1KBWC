@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayedCard
 {
-    public GamePlayer Owner { get; set; }
+    public int Owner { get; set; }
     public Card Card { get; set; }
 
-    public PlayedCard (GamePlayer player, Card card) {
+    public PlayedCard (int player, Card card) {
         Owner = player;
         Card = card;
     }

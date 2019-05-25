@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class GamePlayer {
 
-    public GamePlayer(string name)
+    public GamePlayer(string name, int index)
     {
         Name = name;
-        Hand = new Hand();
+        Hand = new Hand(index);
         Points = 0;
         DrawPerTurn = 1;
         Colour = Random.ColorHSV();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Q_DeckRandomCard : Query<Card> {
     public override RunTimeValue<Card> Run(GameController gameController) {
-        return new RunTimeValue<Card>(gameController.Deck.GetCard(DECK_LOCATION.RANDOM));
+        return new RunTimeValue<Card>(gameController.Deck.GetCard(DeckLocation.RANDOM));
     }
 
     private static QueryData QueryData;

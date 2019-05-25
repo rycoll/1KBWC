@@ -4,18 +4,21 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class Hand {
+public class Hand : CardZone {
 
     public int MaxHandSize { get; set; }
-    private List<Card> cards;
+    private int OwnerIndex;
 
-    public Hand() {
+    public Hand(int playerIndex) : base() {
+        OwnerIndex = playerIndex;
         MaxHandSize = 10;
-        cards = new List<Card>();
     }
 
-    // return true if successful, false otherwise
-    public bool AddCard (Card cardToAdd)
+    public int GetOwner() {
+        return OwnerIndex;
+    }
+
+    public override bool AddCard (Card cardToAdd)
     {
         if (cards.Count >= MaxHandSize)
         {
@@ -23,20 +26,5 @@ public class Hand {
         }
         cards.Add(cardToAdd);
         return true;
-    }
-
-    public bool RemoveCard (Card cardToRemove) {
-        return cards.Remove(cardToRemove);
-    }
-
-    public Card[] GetCards()
-    {  
-        // gives references to Card objects, which is technically insecure
-        // pls don't exploit!
-        return cards.ToArray();
-    }
-
-    public int GetNumCards() {
-        return cards.Count;
     }
 }

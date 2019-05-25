@@ -8,7 +8,7 @@ public class Condition {
         this.comparison = comp;
     }
 
-    public Condition(RunTimeValue<int> numA, RunTimeValue<int> numB, ConditionOperator op) {
+    public Condition(int numA, int numB, ConditionOperator op) {
         this.comparison = new CompareNum(numA, numB, op);
     }
 
@@ -19,6 +19,10 @@ public class Condition {
     public bool Evaluate (GameController gameController) {
         return comparison.Evaluate(gameController);
     }
+}
+
+public enum ConditionType {
+    NUM, BOOL, STRING
 }
 
 public enum ConditionOperator {

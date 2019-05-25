@@ -13,6 +13,21 @@ public abstract class Card {
     public List<string> Tags { get; set; }
     public List<CardEffect> Effects { get; set; }
 
+    private CardZone zone;
+    public CardZone Zone {
+        get {
+            return Zone;
+        }
+    }
+    private static int idCount = 0;
+    private static int NextId {
+        get {
+            return idCount++;
+        }
+    }
+
+    public int id { get; set; }
+
     public string GetRuleText ()
     {
         // if override text has been set, return it

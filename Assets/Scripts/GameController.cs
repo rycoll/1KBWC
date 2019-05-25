@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour {
 
     private BinaryCardLoader BinaryLoader;
     private UIController UI;
+    private Interpreter Interpreter;
     public Deck Deck { get; set;}
     public Deck Discard { get; set; }
     public Table Table { get; set; }
@@ -16,34 +17,33 @@ public class GameController : MonoBehaviour {
     public GameListeners Listeners { get; set; }
     private GamePlayer[] players;
     private int activePlayerIndex;
+    public int ActivePlayerIndex {
+        get { return activePlayerIndex; }
+    }
 
     private void Start() {
         BinaryLoader = this.GetComponent<BinaryCardLoader>();
         UI = this.GetComponent<UIController>();
+        Interpreter = new Interpreter();
         Deck = new Deck();
         Discard = new Deck();
-        Table = new Table();
+        Table = new Table(this);
         Variables = new GameVariables();
         Listeners = new GameListeners();
         players = new GamePlayer[] {
-            new GamePlayer("Player1"), 
-            new GamePlayer("Player2"),
-            new GamePlayer("Player3")
+            new GamePlayer("Player1", 0), 
+            new GamePlayer("Player2", 1),
+            new GamePlayer("Player3", 2)
         };
         activePlayerIndex = 0;
-
-        GiveCardToPlayer(players[0], new Card_Draw2(this));
-        GiveCardToPlayer(players[0], new Card_Gain1Point(this));
-        GiveCardToPlayer(players[0], new Card_MassGainPoint(this));
-        GiveCardToPlayer(players[0], new Card_MoistenArena(this));
-        GiveCardToPlayer(players[0], new Card_FloorSuck(this));
-        GiveCardToPlayer(players[0], new Card_Gift(this));
-        GiveCardToPlayer(players[1], new Card_Gain1Point(this));
-        GiveCardToPlayer(players[2], new Card_Gain1Point(this));
 
         UI.RefreshOpponentDisplay(this.GetOpponents());
         UI.DisplayOpponentCards(players[1]);
 	}
+
+    public int GetIndexOfPlayer (GamePlayer player) {
+        return Array.IndexOf(players, player);
+    }
 
     public GamePlayer GetActivePlayer ()
     {
@@ -52,6 +52,11 @@ public class GameController : MonoBehaviour {
 
     public GamePlayer GetLocalPlayer () {
         return (GamePlayer) players.Where(player => IsLocalPlayer(player)).First();
+    }
+
+    public GamePlayer GetPlayer(int index) {
+        // need better error handling here
+        return players[index];
     }
 
     public GamePlayer[] GetPlayers () {
@@ -118,7 +123,7 @@ public class GameController : MonoBehaviour {
         player.Hand.RemoveCard(card);
         // clone card effects instead??
         ExecuteEffects(card.Effects);
-        AddToDiscard(card, DECK_LOCATION.TOP);
+        AddToDiscard(card, DeckLocation.TOP);
         // rack up animations etc asynchronously, play them, THEN continue on
     }
 
@@ -136,6 +141,28 @@ public class GameController : MonoBehaviour {
         PassTurn();
     }
 
+    public Card FindCardById (int id) {
+        Card[] cards = Table.GetCards().Where(card => card.id == id).ToArray();
+        if (cards.Length > 0) {
+            return cards[0];
+        }
+        foreach (GamePlayer player in players) {
+            Card[] hand = player.Hand.GetCards().Where(card => card.id == id).ToArray();
+            if (hand.Length > 0) {
+                return cards[0];
+            }
+        }
+        Card[] deck = Deck.GetCards().Where(card => card.id == id).ToArray();
+        if (deck.Length > 0) {
+            return deck[0];
+        }
+        Card[] discard = Discard.GetCards().Where(card => card.id == id).ToArray();
+        if (discard.Length > 0) {
+            return discard[0];
+        }
+        return null;
+    }
+
     public bool CheckForWinner () {
         foreach (GamePlayer player in players) {
             if (player.WinCondition.Evaluate(this)) {
@@ -146,12 +173,12 @@ public class GameController : MonoBehaviour {
         return false;
     }
 
-    public void AddToDeck(Card card, DECK_LOCATION loc) {
+    public void AddToDeck(Card card, DeckLocation loc) {
         Deck.AddCard(card, loc);
         UI.SetDeckText(Deck.GetSize());
     }
 
-    public void AddToDiscard(Card card, DECK_LOCATION loc) {
+    public void AddToDiscard(Card card, DeckLocation loc) {
         Discard.AddCard(card, loc);
         UI.AddToDiscardDisplay(card);
         UI.SetDiscardText(Discard.GetSize());
@@ -165,6 +192,10 @@ public class GameController : MonoBehaviour {
 
     public void ExecuteEffects (List<CardEffect> list) {
         EffectExecutor.BeginExecution(list);
+    }
+
+    public void AddToStack(byte[] bytes) {
+        Interpreter.push(bytes);
     }
 
     public void SetFlag (string flag, bool add) {
@@ -185,23 +216,24 @@ public class GameController : MonoBehaviour {
         UI.UpdatePointDisplays(GetLocalPlayer(), GetOpponents());
     }
 
-    public void PresentChoiceOfCards (List<Card> choiceSet, ChoiceCallback callback) {
+    public void PresentChoiceOfCards (List<Card> choiceSet) {
         if (choiceSet.Count == 0) {
-            callback(null, this);
+            Interpreter.CardChoiceCallback(null);
         }
         // currently always presents to active player
         if (GetActivePlayer() == GetLocalPlayer()) {
-            UI.PresentChoiceOfCards(choiceSet, callback);
+            UI.PresentChoiceOfCards(choiceSet, Interpreter);
         }
     }
 
-    public void PresentChoiceOfPlayers (List<GamePlayer> choiceSet, ChoiceCallback callback) {
+    public void PresentChoiceOfPlayers (List<GamePlayer> choiceSet) {
         if (choiceSet.Count == 0) {
-            callback(null, this);
+            Interpreter.PlayerChoiceCallback(null);
         }
+        
         // currently always presents to active player
         if (GetActivePlayer() == GetLocalPlayer()) {
-            UI.PresentChoiceOfPlayers(choiceSet, callback);
+            UI.PresentChoiceOfPlayers(choiceSet, Interpreter);
         }
     }
 }

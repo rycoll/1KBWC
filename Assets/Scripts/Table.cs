@@ -3,33 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Table
-{
-    private List<PlayedCard> cards;
+public class Table : CardZone {
+    private List<PlayedCard> playedCards;
+    private GameController game;
 
-    public Table() {
-        cards = new List<PlayedCard>();
+    public Table(GameController game) {
+        playedCards = new List<PlayedCard>();
+        this.game = game;
     }
 
-    public void AddCard (GamePlayer player, Card card) {
-        cards.Add(new PlayedCard(player, card));
+    public override bool AddCard(Card card) {
+        return AddCard(game.ActivePlayerIndex, card);
     }
 
-    public int GetSize () {
-        return cards.Count;
+    public bool AddCard (int player, Card card) {
+        playedCards.Add(new PlayedCard(player, card));
+        return true;
+    } 
+
+    public override int GetSize () {
+        return playedCards.Count;
     }
 
-    public Card[] GetCards () {
-        return cards.Select(playedCard => playedCard.Card).ToArray();
+    public override bool RemoveCard (int id) {
+        IEnumerable<PlayedCard> list = playedCards.Where(playedCard => playedCard.Card.id == id);
+        PlayedCard card = list.ToArray()[0];
+        if (card != null) {
+            return playedCards.Remove(card);
+        }
+        Debug.LogError("Couldn't remove card: " + id);
+        return false;
     }
 
-    public Card[] GetCardsByPlayer (GamePlayer player) {
-        IEnumerable<PlayedCard> playedCards = cards.Where(playedCard => playedCard.Owner == player);
+    public override Card GetCard (int id) {
+        IEnumerable<PlayedCard> list = playedCards.Where(playedCard => playedCard.Card.id == id);
+        return list.ToArray()[0].Card;
+    }
+
+    public override Card[] GetCards () {
         return playedCards.Select(playedCard => playedCard.Card).ToArray();
     }
 
-    public Card[] GetCardsByPlayers (GamePlayer[] players) {
-        IEnumerable<PlayedCard> playedCards = cards.Where(playedCard => players.Contains(playedCard.Owner));
-        return playedCards.Select(playedCard => playedCard.Card).ToArray();
+    public Card[] GetCardsByPlayer (int player) {
+        IEnumerable<PlayedCard> playerCards = playedCards.Where(playedCard => playedCard.Owner == player);
+        return playerCards.Select(playedCard => playedCard.Card).ToArray();
+    }
+
+    public Card[] GetCardsByPlayers (int[] players) {
+        IEnumerable<PlayedCard> playerCards = playedCards.Where(playedCard => players.Contains(playedCard.Owner));
+        return playerCards.Select(playedCard => playedCard.Card).ToArray();
     }
 }

@@ -105,7 +105,7 @@ public class UIController : MonoBehaviour {
         flagsText.text = newText;
     }
 
-    public void PresentChoiceOfPlayers(List<GamePlayer> players, ChoiceCallback callback) {
+    public void PresentChoiceOfPlayers(List<GamePlayer> players, Interpreter interpreter) {
         choiceDisplay.transform.parent.gameObject.SetActive(true);
         foreach (GamePlayer player in players) {
             GameObject display = Instantiate(choiceItemPrefab) as GameObject;
@@ -117,11 +117,11 @@ public class UIController : MonoBehaviour {
                 player.Points + "pts\n" + player.Hand.GetNumCards() + "cards in hand"
             );
             Button button = display.GetComponent<Button>();
-            button.onClick.AddListener(() => callback((object) player, GetComponent<GameController>()));
+            button.onClick.AddListener(() => interpreter.PlayerChoiceCallback(player));
         }
     }
 
-    public void PresentChoiceOfCards(List<Card> cards, ChoiceCallback callback) {
+    public void PresentChoiceOfCards(List<Card> cards, Interpreter interpreter) {
         choiceDisplay.transform.parent.gameObject.SetActive(true);
         foreach (Card card in cards) {
             GameObject display = Instantiate(choiceItemPrefab) as GameObject;
@@ -133,7 +133,7 @@ public class UIController : MonoBehaviour {
                 card.GetRuleText()
             );
             Button button = display.GetComponent<Button>();
-            button.onClick.AddListener(() => callback((object) card, GetComponent<GameController>()));
+            button.onClick.AddListener(() => interpreter.CardChoiceCallback(card));
         }
     }
 
