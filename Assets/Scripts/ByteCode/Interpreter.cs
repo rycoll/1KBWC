@@ -6,7 +6,7 @@ using UnityEngine;
 public class Interpreter
 {
 
-    private GameController game;
+    private static GameController game;
 
     private const int MAX_STACK_SIZE = 2058;
     private int currentStackSize = 0;
@@ -58,6 +58,14 @@ public class Interpreter
             return true;
         } else throw new UnexpectedByteException("Expected " + check + ", Found " + top);
     }
+    public bool CheckType (ListType check) {
+        byte top = peek();
+        if (top == (byte) check) {
+            pop();
+            return true;
+        } else throw new UnexpectedByteException("Expected " + check + ", Found " + top);
+    }
+
 
     public static byte[] CreateIntLiteral(int n) {
         // getbytes uses same endian format as the system
@@ -103,6 +111,9 @@ public class Interpreter
         }
     }
 
+    public static byte[] CreatePlayerLiteral(GamePlayer player) {
+        return CreatePlayerLiteral(game.GetIndexOfPlayer(player));
+    }
     public static byte[] CreatePlayerLiteral(int n) {
         byte[] intRepresentation = CreateIntLiteral(n);
         byte[] literal = new byte[intRepresentation.Length + 1];
@@ -155,24 +166,83 @@ public class Interpreter
     public static byte[] CreateConditionLiteral(CompareNum condition) {
         byte[] operandA = CreateIntLiteral(condition.OperandA);
         byte[] operandB = CreateIntLiteral(condition.OperandB);
-        byte[] condition = new byte[2 + operandA.Length + operandB.Length];
-        condition[0] = (byte) ConditionType.NUM;
-        condition[1] = (byte) condition.Operator;
-        operandA.CopyTo(condition, 2);
-        operandB.CopyTo(condition, 2 + operandA.Length);
-        return condition;
+        byte[] conditionArr = new byte[2 + operandA.Length + operandB.Length];
+        conditionArr[0] = (byte) ConditionType.NUM;
+        conditionArr[1] = (byte) condition.Operator;
+        operandA.CopyTo(conditionArr, 2);
+        operandB.CopyTo(conditionArr, 2 + operandA.Length);
+        return conditionArr;
     }
     public Condition ReadConditionLiteral() {
         try {
             CheckType(Instruction.CONDITION);
-            switch ((ConditionType) pop()) {
+            byte conditionType = pop();
+            switch ((ConditionType) conditionType) {
                 case ConditionType.NUM:
                     int a = ReadIntLiteral();
                     int b = ReadIntLiteral();
                     ConditionOperator op = (ConditionOperator) pop();
                     return new Condition(a, b, op);
-                    break;
+                default:
+                    throw new UnexpectedByteException("Didn't understand the condition type! " + conditionType);
             }
+        } catch (UnexpectedByteException e) {
+            throw e;
+        }
+    }
+
+    public List<byte[]> ReadList () {
+        try {
+            CheckType(Instruction.LIST);
+            // discard list type
+            pop();
+            int num = ReadIntLiteral();
+            List<byte[]> items = new List<byte[]>();
+            for (int i = 0; i < num; i++) {
+                CheckType(Instruction.LIST_ITEM);
+                int size = ReadIntLiteral();
+                byte[] array = new byte[size];
+                for (int j = 0; j < size; j++) {
+                    array[j] = pop();
+                }
+                items.Add(array);
+            }
+            return items;
+        } catch (UnexpectedByteException e) {
+            throw e;
+        }
+    }
+
+    public List<GamePlayer> ReadPlayerList () {
+        try {
+            CheckType(Instruction.LIST);
+            CheckType(ListType.PLAYER);
+            int num = ReadIntLiteral();
+            List<GamePlayer> players = new List<GamePlayer>();
+            for (int i = 0; i < num; i++) {
+                CheckType(Instruction.LIST_ITEM);
+                // discard size
+                ReadIntLiteral();
+                players.Add(ReadPlayerLiteral());
+            }
+            return players;
+        } catch (UnexpectedByteException e) {
+            throw e;
+        }
+    }
+    public List<Card> ReadCardList () {
+        try {
+            CheckType(Instruction.LIST);
+            CheckType(ListType.CARD);
+            int num = ReadIntLiteral();
+            List<Card> cards = new List<Card>();
+            for (int i = 0; i < num; i++) {
+                CheckType(Instruction.LIST_ITEM);
+                // discard size
+                ReadIntLiteral();
+                cards.Add(ReadCardLiteral());
+            }
+            return cards;
         } catch (UnexpectedByteException e) {
             throw e;
         }
@@ -184,7 +254,7 @@ public class Interpreter
     public static byte[] CreateListLiteral(byte[] objects, ListType type, int length) {
         byte[] listSize = CreateIntLiteral(length);
         byte[] listLiteral = new byte[2 + listSize.Length + objects.Length];
-        listLiteral[0] = Instruction.LIST;
+        listLiteral[0] = (byte) Instruction.LIST;
         listLiteral[1] = (byte) type;
         objects.CopyTo(listLiteral, 2);
         return listLiteral;
@@ -193,10 +263,10 @@ public class Interpreter
         List<byte> bytes = new List<byte>();
         foreach (GamePlayer player in players) {
             bytes.AddRange(
-                new List<byte>(CreatePlayerLiteral(player.id))
+                new List<byte>(CreatePlayerLiteral(player))
             );
         }
-        return CreateListLiteral(bytes, ListType.PLAYER, players.Count);
+        return CreateListLiteral(bytes.ToArray(), ListType.PLAYER, players.Count);
     }
     public static byte[] CreateListLiteral(List<Card> cards) {
         List<byte> bytes = new List<byte>();
@@ -205,14 +275,7 @@ public class Interpreter
                 new List<byte>(CreateCardLiteral(card.id))
             );
         }
-        return CreateListLiteral(bytes, ListType.CARD, cards.Count);
-    }
-
-    public List<byte[]> UnpackListLiteral() {
-
-    }
-    public List<Player> ReadPlayerList() {
-
+        return CreateListLiteral(bytes.ToArray(), ListType.CARD, cards.Count);
     }
 
     public void next () {
@@ -233,10 +296,10 @@ public class Interpreter
                     break;
                 }
 
-                case INSTRUCTION.IF: {
+                case Instruction.IF: {
                     Condition condition = ReadConditionLiteral();
-                    if (!condition.Evaluate()) {
-                        while (currentStackSize > 0 && peek() != Instruction.ENDIF) {
+                    if (!condition.Evaluate(game)) {
+                        while (currentStackSize > 0 && peek() != (byte) Instruction.ENDIF) {
                             pop();
                         }
                     }
@@ -262,7 +325,7 @@ public class Interpreter
                     }
                     byte[] byteArr = bytes.ToArray();
                     for (int n = 0; n < num; n++) {
-                        stack.push(byteArr);
+                        push(byteArr);
                     }
                     break;
                 }
@@ -270,8 +333,7 @@ public class Interpreter
                 // QUERIES
 
                 case Instruction.GET_ACTIVE_PLAYER: {
-                    int playerIndex = game.GetIndexOfPlayer(game.GetActivePlayer());
-                    push(CreatePlayerLiteral(playerIndex));
+                    push(CreatePlayerLiteral(game.GetActivePlayer()));
                     break;
                 }
 
@@ -363,7 +425,7 @@ public class Interpreter
 
     public void PlayerChoiceCallback (GamePlayer chosenPlayer) {
         if (chosenPlayer != null) {
-            byte[] player = Interpreter.CreatePlayerLiteral(game.GetIndexOfPlayer(chosenPlayer));
+            byte[] player = Interpreter.CreatePlayerLiteral(chosenPlayer);
             game.AddToStack(player);
         }
         next();
