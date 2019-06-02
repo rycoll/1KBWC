@@ -65,7 +65,10 @@ public class Interpreter
             return true;
         } else throw new UnexpectedByteException("Expected " + check + ", Found " + top);
     }
-
+    public bool NextInstructionIsAccessor () {
+        byte top = peek();
+        return top < 0x60 && top >= 0x30;
+    }
 
     public static byte[] CreateIntLiteral(int n) {
         // getbytes uses same endian format as the system
@@ -76,6 +79,9 @@ public class Interpreter
         return literal;
     }
     public int ReadIntLiteral() {
+        if (NextInstructionIsAccessor()) {
+            next();
+        }
         try {
             CheckType(Instruction.INT);
             byte[] intRepresentation = pop(4);
@@ -100,6 +106,9 @@ public class Interpreter
         return literal;
     }
     public string ReadStringLiteral() {
+        if (NextInstructionIsAccessor()) {
+            next();
+        }
         try {
             CheckType(Instruction.STRING);
             byte arrSize = pop();
@@ -122,6 +131,9 @@ public class Interpreter
         return literal;
     }
     public GamePlayer ReadPlayerLiteral() {
+        if (NextInstructionIsAccessor()) {
+            next();
+        }
         try {
             CheckType(Instruction.PLAYER);
             int index = ReadIntLiteral();
@@ -139,6 +151,9 @@ public class Interpreter
         return literal;
     }
     public Card ReadCardLiteral() {
+        if (NextInstructionIsAccessor()) {
+            next();
+        }
         try {
             CheckType(Instruction.CARD);
             int id = ReadIntLiteral();
@@ -155,6 +170,9 @@ public class Interpreter
         return boolArr;
     }
     public bool ReadBoolLiteral() {
+        if (NextInstructionIsAccessor()) {
+            next();
+        }
         try {
             CheckType(Instruction.BOOL);
             return pop() != 0;
@@ -174,6 +192,9 @@ public class Interpreter
         return conditionArr;
     }
     public Condition ReadConditionLiteral() {
+        if (NextInstructionIsAccessor()) {
+            next();
+        }
         try {
             CheckType(Instruction.CONDITION);
             byte conditionType = pop();
@@ -192,6 +213,9 @@ public class Interpreter
     }
 
     public List<byte[]> ReadList () {
+        if (NextInstructionIsAccessor()) {
+            next();
+        }
         try {
             CheckType(Instruction.LIST);
             // discard list type
@@ -214,6 +238,9 @@ public class Interpreter
     }
 
     public List<GamePlayer> ReadPlayerList () {
+        if (NextInstructionIsAccessor()) {
+            next();
+        }
         try {
             CheckType(Instruction.LIST);
             CheckType(ListType.PLAYER);
@@ -231,6 +258,9 @@ public class Interpreter
         }
     }
     public List<Card> ReadCardList () {
+        if (NextInstructionIsAccessor()) {
+            next();
+        }
         try {
             CheckType(Instruction.LIST);
             CheckType(ListType.CARD);
@@ -327,6 +357,45 @@ public class Interpreter
                     for (int n = 0; n < num; n++) {
                         push(byteArr);
                     }
+                    break;
+                }
+
+                case Instruction.FOR_LOOP: {
+                    int ID = ReadIntLiteral();
+                    List<byte[]> items = ReadList();
+                    
+                    List<byte> bytestring = new List<byte>();
+                    while (peek() != (byte) Instruction.ENDLOOP) {
+                        bytestring.Add(pop());
+                    }
+                    bytestring.Add((byte) Instruction.ENDLOOP);
+
+                    List<byte> compiled = new List<byte>();
+                    for (int i = 0; i < items.Count; i++) {
+                        byte[] currentItem = items[i];
+                        push(bytestring.ToArray());
+                        byte currentByte = pop();
+                        while (currentByte != Instruction.ENDLOOP) {
+                            if (currentByte == Instruction.CHUNK) {
+                                int chunkSize = ReadIntLiteral();
+                                for (int n = 0; n < chunkSize; n++) {
+                                    compiled.Add(pop());
+                                }
+                            } else if (currentByte == Instruction.PLACEHOLDER) {
+                                int placeholderID = ReadIntLiteral();
+                                if (placeholderID == ID) {
+                                    compiled.AddRange(new List<byte>(items[i]));
+                                } else {
+                                    compiled.Add((byte) Instruction.PLACEHOLDER);
+                                    compiled.Add(CreateIntLiteral(placeholderID));
+                                }
+                            } else {
+                                throw new UnexpectedByteException("Expected CHUNK or PLACEHOLDER, found " +  currentByte);
+                            }
+                            currentByte = pop();
+                        }
+                    }
+                    push(compiled.ToArray());
                     break;
                 }
                 

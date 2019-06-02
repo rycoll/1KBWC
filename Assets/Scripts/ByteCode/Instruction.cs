@@ -14,15 +14,17 @@ public enum Instruction {
     CHUNK               = 0x18,
     PLACEHOLDER         = 0x19,
 
+    // control
+    IF                  = 0x20,
+    ENDIF               = 0x21,
+    LOOP                = 0x22,
+    FOR_LOOP            = 0x23,
+    ENDLOOP             = 0x24,
+
     // internal primitives
-    ADD                 = 0x20,
-    MULTIPLY            = 0x21,
-    LIST_LENGTH         = 0x22,
-    IF                  = 0x23,
-    ENDIF               = 0x24,
-    LOOP                = 0x25,
-    FOR_LOOP            = 0x26,
-    ENDLOOP             = 0x27,
+    ADD                 = 0x30,
+    MULTIPLY            = 0x31,
+    LIST_LENGTH         = 0x32,
 
     // external primitives (getters)
     GET_ACTIVE_PLAYER   = 0x40,
