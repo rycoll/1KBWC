@@ -117,7 +117,10 @@ public class UIController : MonoBehaviour {
                 player.Points + "pts\n" + player.Hand.GetNumCards() + "cards in hand"
             );
             Button button = display.GetComponent<Button>();
-            button.onClick.AddListener(() => interpreter.PlayerChoiceCallback(player));
+            button.onClick.AddListener(() => {
+                RemoveChoiceDisplay(); 
+                interpreter.PlayerChoiceCallback(player);
+            });
         }
     }
 
@@ -133,7 +136,10 @@ public class UIController : MonoBehaviour {
                 card.GetRuleText()
             );
             Button button = display.GetComponent<Button>();
-            button.onClick.AddListener(() => interpreter.CardChoiceCallback(card));
+            button.onClick.AddListener(() => {
+                RemoveChoiceDisplay(); 
+                interpreter.CardChoiceCallback(card);
+            });
         }
     }
 

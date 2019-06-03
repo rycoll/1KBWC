@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour {
     private void Start() {
         BinaryLoader = this.GetComponent<BinaryCardLoader>();
         UI = this.GetComponent<UIController>();
-        Interpreter = new Interpreter();
+        Interpreter = new Interpreter(this);
         Deck = new Deck();
         Discard = new Deck();
         Table = new Table(this);
@@ -120,25 +120,11 @@ public class GameController : MonoBehaviour {
     }
 
     public void PlayCard(GamePlayer player, Card card) {
-        player.Hand.RemoveCard(card);
+        player.Hand.RemoveCard(card.id);
         // clone card effects instead??
         ExecuteEffects(card.Effects);
-        AddToDiscard(card, DeckLocation.TOP);
+        Discard.AddCard(card, DeckLocation.TOP);
         // rack up animations etc asynchronously, play them, THEN continue on
-    }
-
-    public void Next() {
-        // make sure animations aren't still happening or whatever
-        UI.RemoveChoiceDisplay();
-        if (CheckForWinner()) {
-            return;
-        }
-
-        // if there are more effects,
-        // run the next effect
-
-        // if there are no more effects
-        PassTurn();
     }
 
     public Card FindCardById (int id) {
@@ -184,14 +170,12 @@ public class GameController : MonoBehaviour {
         UI.SetDiscardText(Discard.GetSize());
     }
 
-    /*
-    public QueryResult RunQuery(QueryRequest request) {
-        return EffectExecutor.RunQuery(request);
-    }
-    */
-
-    public void ExecuteEffects (List<CardEffect> list) {
-        EffectExecutor.BeginExecution(list);
+    public void ExecuteEffects (List<byte> effects) {
+        AddToStack(effects.ToArray());
+        while (Interpreter.GetCurrentStackSize()) {
+            Interpreter.next();
+            // pause between effects here
+        }
     }
 
     public void AddToStack(byte[] bytes) {

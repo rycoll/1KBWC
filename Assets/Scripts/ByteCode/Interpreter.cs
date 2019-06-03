@@ -12,6 +12,14 @@ public class Interpreter
     private int currentStackSize = 0;
     byte[] stack = new byte[MAX_STACK_SIZE];
 
+    public Interpreter (GameController gc) {
+        game = gc;
+    }
+
+    public void GetCurrentStackSize () {
+        return currentStackSize;
+    }
+
     public void push(byte b) {
         if (currentStackSize >= MAX_STACK_SIZE) {
             throw new StackFullException("Stack is too full! Can't push " + b.ToString());
@@ -375,19 +383,19 @@ public class Interpreter
                         byte[] currentItem = items[i];
                         push(bytestring.ToArray());
                         byte currentByte = pop();
-                        while (currentByte != Instruction.ENDLOOP) {
-                            if (currentByte == Instruction.CHUNK) {
+                        while (currentByte != (byte) Instruction.ENDLOOP) {
+                            if (currentByte == (byte) Instruction.CHUNK) {
                                 int chunkSize = ReadIntLiteral();
                                 for (int n = 0; n < chunkSize; n++) {
                                     compiled.Add(pop());
                                 }
-                            } else if (currentByte == Instruction.PLACEHOLDER) {
+                            } else if (currentByte == (byte) Instruction.PLACEHOLDER) {
                                 int placeholderID = ReadIntLiteral();
-                                if (placeholderID == ID) {
+                                  if (placeholderID == ID) {
                                     compiled.AddRange(new List<byte>(items[i]));
                                 } else {
                                     compiled.Add((byte) Instruction.PLACEHOLDER);
-                                    compiled.Add(CreateIntLiteral(placeholderID));
+                                    compiled.AddRange(new List<byte>(CreateIntLiteral(placeholderID)));
                                 }
                             } else {
                                 throw new UnexpectedByteException("Expected CHUNK or PLACEHOLDER, found " +  currentByte);
