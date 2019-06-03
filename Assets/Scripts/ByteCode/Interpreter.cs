@@ -327,6 +327,12 @@ public class Interpreter
 
                 // FUNCTIONS
 
+                case Instruction.RANDOM_NUMBER: {
+                    int upperBound = ReadIntLiteral();
+                    push(CreateIntLiteral(Random.Range(1, upperBound)));
+                    break;
+                }
+
                 case Instruction.ADD: {
                     int a = ReadIntLiteral();
                     int b = ReadIntLiteral();

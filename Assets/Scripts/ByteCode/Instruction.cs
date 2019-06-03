@@ -25,6 +25,7 @@ public enum Instruction {
     ADD                 = 0x30,
     MULTIPLY            = 0x31,
     LIST_LENGTH         = 0x32,
+    RANDOM_NUMBER       = 0x33,
 
     // external primitives (getters)
     GET_ACTIVE_PLAYER   = 0x40,
