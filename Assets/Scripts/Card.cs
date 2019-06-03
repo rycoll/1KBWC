@@ -11,7 +11,7 @@ public abstract class Card {
     private string generatedRuleText = null;
     public string overrideRuleText = null;
     public List<string> Tags { get; set; }
-    public List<CardEffect> Effects { get; set; }
+    public List<byte> Effects { get; set; }
 
     private CardZone zone;
     public CardZone Zone {
@@ -19,6 +19,7 @@ public abstract class Card {
             return Zone;
         }
     }
+    
     private static int idCount = 0;
     private static int NextId {
         get {
@@ -43,10 +44,13 @@ public abstract class Card {
         Tags.Remove(tag);
     }
 
-	public void AddEffect (CardEffect effect) {
+    public void AddEffect(byte[] effect) {
+        AddEffect(new List<byte>(effect));
+    }
+	public void AddEffect (List<byte> effect) {
         if (Effects == null) {
-            Effects = new List<CardEffect>();
+            Effects = new List<byte>();
         }
-        Effects.Add(effect);
+        Effects.AddRange(effect);
     }
 }
