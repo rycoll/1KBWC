@@ -62,7 +62,8 @@ public class UIController : MonoBehaviour {
         Image background = opponentCardDisplay.GetComponent<Image>();
         background.color = opponent.Colour;
 
-        Card[] opponentCards = GetComponent<GameController>().Table.GetCardsByPlayer(opponent);
+        GameController game = GetComponent<GameController>();
+        Card[] opponentCards = game.Table.GetCardsByPlayer(game.GetIndexOfPlayer(opponent));
         foreach (Card card in opponentCards) {
             GameObject cardDisplay = Instantiate(smallCardDisplayPrefab) as GameObject;
             cardDisplay.transform.SetParent(opponentCardDisplay.transform);

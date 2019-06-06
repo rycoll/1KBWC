@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Interpreter
 {
-
     private static GameController game;
 
     private const int MAX_STACK_SIZE = 2058;
@@ -16,7 +15,7 @@ public class Interpreter
         game = gc;
     }
 
-    public void GetCurrentStackSize () {
+    public int GetCurrentStackSize () {
         return currentStackSize;
     }
 
@@ -189,6 +188,15 @@ public class Interpreter
         }
     }
 
+    public static byte[] CreateConditionLiteral(byte[] operandA, byte[] operandB, ConditionOperator op) {
+        // use this to create a reusable condition that can run queries
+        byte[] conditionArr = new byte[2 + operandA.Length + operandB.Length];
+        conditionArr[0] = (byte) ConditionType.NUM;
+        conditionArr[1] = (byte) op;
+        operandA.CopyTo(conditionArr, 2);
+        operandB.CopyTo(conditionArr, 2 + operandA.Length);
+        return conditionArr;
+    }
     public static byte[] CreateConditionLiteral(CompareNum condition) {
         byte[] operandA = CreateIntLiteral(condition.OperandA);
         byte[] operandB = CreateIntLiteral(condition.OperandB);
@@ -329,7 +337,7 @@ public class Interpreter
 
                 case Instruction.RANDOM_NUMBER: {
                     int upperBound = ReadIntLiteral();
-                    push(CreateIntLiteral(Random.Range(1, upperBound)));
+                    push(CreateIntLiteral(UnityEngine.Random.Range(1, upperBound)));
                     break;
                 }
 
@@ -342,7 +350,7 @@ public class Interpreter
 
                 case Instruction.IF: {
                     Condition condition = ReadConditionLiteral();
-                    if (!condition.Evaluate(game)) {
+                    if (!condition.Evaluate()) {
                         while (currentStackSize > 0 && peek() != (byte) Instruction.ENDIF) {
                             pop();
                         }
@@ -417,6 +425,19 @@ public class Interpreter
 
                 case Instruction.GET_ACTIVE_PLAYER: {
                     push(CreatePlayerLiteral(game.GetActivePlayer()));
+                    break;
+                }
+
+                case Instruction.GET_PLAYER : {
+                    int id = ReadIntLiteral();
+                    push(CreatePlayerLiteral(id));
+                    break;
+                }
+
+                case Instruction.GET_PLAYER_POINTS: {
+                    int id = ReadIntLiteral();
+                    int points = game.GetPlayer(id).Points;
+                    push(CreateIntLiteral(points));
                     break;
                 }
 
