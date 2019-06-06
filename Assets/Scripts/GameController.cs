@@ -148,10 +148,15 @@ public class GameController : MonoBehaviour {
         }
         return null;
     }
-
+    
+    public bool EvaluatePlayerWinCondition (GamePlayer player) {
+        AddToStack(player.WinCondition);
+        Condition condition = Interpreter.ReadConditionLiteral();
+        return condition.Evaluate();
+    }
     public bool CheckForWinner () {
         foreach (GamePlayer player in players) {
-            if (player.WinCondition.Evaluate(this)) {
+            if (EvaluatePlayerWinCondition(player)) {
                 Debug.Log(player.Name + " wins!");
                 return true;
             }
@@ -172,7 +177,7 @@ public class GameController : MonoBehaviour {
 
     public void ExecuteEffects (List<byte> effects) {
         AddToStack(effects.ToArray());
-        while (Interpreter.GetCurrentStackSize()) {
+        while (Interpreter.GetCurrentStackSize() > 0) {
             Interpreter.next();
             // pause between effects here
         }

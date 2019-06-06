@@ -12,13 +12,9 @@ public class GamePlayer {
         DrawPerTurn = 1;
         Colour = Random.ColorHSV();
         // set default win condition
-        Q_PlayerPoints pointQuery = new Q_PlayerPoints();
-        pointQuery.target = new RunTimeValue<GamePlayer>(this);
-        RunTimeValue<int> playerPointQuery = new RunTimeValue<int>(
-            new QueryRequest<int>(pointQuery)    
-        );
-        RunTimeValue<int> winThreshold = new RunTimeValue<int>(100);
-        WinCondition = new Condition(playerPointQuery, winThreshold, ConditionOperator.AT_LEAST);
+        byte[] getPlayerPoints = InstructionFactory.Make_GetPlayerPoints(index);
+        byte[] numberToCompare = Interpreter.CreateIntLiteral(100);
+        WinCondition = Interpreter.CreateConditionLiteral(getPlayerPoints, numberToCompare, ConditionOperator.AT_LEAST);
     }
 
     public string Name { get; set; }
@@ -26,7 +22,7 @@ public class GamePlayer {
     public int Points { get; set; }
     public int DrawPerTurn { get; private set; }
     public Color Colour { get; set; }
-    public Condition WinCondition { get; set; }
+    public byte[] WinCondition { get; set; }
 
     public bool AddToHand (Card card)
     {
