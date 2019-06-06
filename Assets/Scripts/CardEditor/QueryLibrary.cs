@@ -6,25 +6,7 @@ public static class QueryLibrary {
     private static QueryData[] AllQueryData;
     public static QueryData[] GetAllQueryData () {
         if (AllQueryData == null) {
-            AllQueryData = new QueryData[] {
-                Q_ActivePlayer.GetQueryData(),
-                Q_Counter.GetQueryData(),
-                Q_DeckCards.GetQueryData(),
-                Q_DeckSize.GetQueryData(),
-                Q_DiscardCards.GetQueryData(),
-                Q_DiscardSize.GetQueryData(),
-                Q_Flag.GetQueryData(),
-                Q_Opponents.GetQueryData(),
-                Q_PlayerDrawSize.GetQueryData(),
-                Q_PlayerHand.GetQueryData(),
-                Q_PlayerMaxHand.GetQueryData(),
-                Q_PlayerName.GetQueryData(),
-                Q_PlayerPoints.GetQueryData(),
-                Q_Players.GetQueryData(),
-                Q_TableCards.GetQueryData(),
-                Q_TableSize.GetQueryData(),
-                Q_Variable.GetQueryData(),
-            };
+            AllQueryData = new QueryData[0];
         }
         return AllQueryData;
     }

@@ -11,7 +11,6 @@ public static class FieldLibrary {
     public static FieldData GetBoolFieldData () {
         if (BoolFieldData.queryDropdown == null) {
             BoolFieldData.queryDropdown = new List<QueryData>();
-            BoolFieldData.queryDropdown.Add(Q_Flag.GetQueryData());
         }
         return BoolFieldData;
     } 
@@ -23,7 +22,6 @@ public static class FieldLibrary {
     public static FieldData GetCardFieldData () {
         if (CardFieldData.queryDropdown == null) {
             CardFieldData.queryDropdown = new List<QueryData>();
-            CardFieldData.queryDropdown.Add(Q_DeckRandomCard.GetQueryData());
         }
         return CardFieldData;
     }
@@ -35,12 +33,6 @@ public static class FieldLibrary {
     public static FieldData GetNumberFieldData () {
         if (NumberFieldData.queryDropdown == null) {
             NumberFieldData.queryDropdown = new List<QueryData>();
-            NumberFieldData.queryDropdown.Add(Q_Counter.GetQueryData());
-            NumberFieldData.queryDropdown.Add(Q_DeckSize.GetQueryData());
-            NumberFieldData.queryDropdown.Add(Q_DiscardSize.GetQueryData());
-            NumberFieldData.queryDropdown.Add(Q_PlayerDrawSize.GetQueryData());
-            NumberFieldData.queryDropdown.Add(Q_PlayerPoints.GetQueryData());
-            NumberFieldData.queryDropdown.Add(Q_TableSize.GetQueryData());
         }
         return NumberFieldData;
     }
@@ -52,7 +44,6 @@ public static class FieldLibrary {
     public static FieldData GetPlayerFieldData () {
         if (PlayerFieldData.queryDropdown == null) {
             PlayerFieldData.queryDropdown = new List<QueryData>();
-            PlayerFieldData.queryDropdown.Add(Q_ActivePlayer.GetQueryData());
         }
         return PlayerFieldData;
     }
@@ -64,8 +55,6 @@ public static class FieldLibrary {
     public static FieldData GetStringFieldData () {
         if (StringFieldData.queryDropdown == null) {
             StringFieldData.queryDropdown = new List<QueryData>();
-            StringFieldData.queryDropdown.Add(Q_PlayerName.GetQueryData());
-            StringFieldData.queryDropdown.Add(Q_Variable.GetQueryData());
         }
         return StringFieldData;
     }
@@ -78,11 +67,6 @@ public static class FieldLibrary {
     public static FieldData GetListFieldData () {
         if (ListFieldData.queryDropdown == null) {
             ListFieldData.queryDropdown = new List<QueryData>();
-            ListFieldData.queryDropdown.Add(Q_DeckCards.GetQueryData());
-            ListFieldData.queryDropdown.Add(Q_DiscardCards.GetQueryData());
-            ListFieldData.queryDropdown.Add(Q_Opponents.GetQueryData());
-            ListFieldData.queryDropdown.Add(Q_Players.GetQueryData());
-            ListFieldData.queryDropdown.Add(Q_TableCards.GetQueryData());
         }
         return ListFieldData;
     }
