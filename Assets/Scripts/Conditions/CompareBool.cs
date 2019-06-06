@@ -1,15 +1,15 @@
 public class CompareBool : Comparison {
-    public RunTimeValue<bool> Operand { get; set; }
-    public bool checkValue { get; set; }
+    public bool Operand { get; set; }
+    public bool CheckValue { get; set; }
     public ConditionOperator Operator { get; set; }
 
-    public CompareBool(RunTimeValue<bool> operand, bool check) {
+    public CompareBool(bool operand, bool check) {
         Operand = operand;
-        checkValue = check;
+        CheckValue = check;
     }
 
-    public override bool Evaluate (GameController gameController) {
-        return Operand.Evaluate(gameController) == checkValue;
+    public override bool Evaluate () {
+        return Operand == CheckValue;
     }
 }
 

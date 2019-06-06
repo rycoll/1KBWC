@@ -9,7 +9,7 @@ public class CompareNum : Comparison {
         Operator = op;
     }
 
-    public override bool Evaluate (GameController gameController) {
+    public override bool Evaluate () {
         switch (Operator) {
             case ConditionOperator.EQUAL:
                 return OperandA.Equals(OperandB);

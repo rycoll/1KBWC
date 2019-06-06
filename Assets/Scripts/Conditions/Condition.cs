@@ -12,12 +12,12 @@ public class Condition {
         this.comparison = new CompareNum(numA, numB, op);
     }
 
-    public Condition(RunTimeValue<bool> b, bool check) {
+    public Condition(bool b, bool check) {
         this.comparison = new CompareBool(b, check);
     }
     
-    public bool Evaluate (GameController gameController) {
-        return comparison.Evaluate(gameController);
+    public bool Evaluate () {
+        return comparison.Evaluate();
     }
 }
 
