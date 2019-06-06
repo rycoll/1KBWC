@@ -21,18 +21,20 @@ public enum Instruction {
     FOR_LOOP            = 0x23,
     ENDLOOP             = 0x24,
 
-    // internal primitives
+    // getter primitives
+    //   internal
     ADD                 = 0x30,
     MULTIPLY            = 0x31,
     LIST_LENGTH         = 0x32,
     RANDOM_NUMBER       = 0x33,
 
-    // external primitives (getters)
+    //   external
     GET_ACTIVE_PLAYER   = 0x40,
     GET_PLAYER          = 0x41,
-    TARGET_PLAYER       = 0x42,
-    TARGET_CARD         = 0x43,
-    READ_COUNTER        = 0x44,
+    GET_PLAYER_POINTS   = 0x42,
+    TARGET_PLAYER       = 0x43,
+    TARGET_CARD         = 0x44,
+    READ_COUNTER        = 0x45,
 
     // external primitives (setters)
     SET_PLAYER_POINTS           = 0x60,
