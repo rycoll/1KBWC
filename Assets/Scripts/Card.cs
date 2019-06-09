@@ -21,7 +21,7 @@ public abstract class Card {
     }
     
     private static int idCount = 0;
-    private static int NextId {
+    public static int NextId {
         get {
             return idCount++;
         }
