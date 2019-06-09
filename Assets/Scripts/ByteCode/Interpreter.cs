@@ -373,7 +373,8 @@ public class Interpreter
                         if (b == (byte) Instruction.ENDLOOP) {
                             break;
                         }
-                        bytes.Add(b);
+                        // add to start, to retain stack ordering
+                        bytes.Insert(0, b);
                     }
                     byte[] byteArr = bytes.ToArray();
                     for (int n = 0; n < num; n++) {
@@ -388,9 +389,10 @@ public class Interpreter
                     
                     List<byte> bytestring = new List<byte>();
                     while (peek() != (byte) Instruction.ENDLOOP) {
-                        bytestring.Add(pop());
+                        // add to start, to retain stack ordering
+                        bytestring.Insert(0, pop());
                     }
-                    bytestring.Add((byte) Instruction.ENDLOOP);
+                    bytestring.Insert(0, (byte) Instruction.ENDLOOP);
 
                     List<byte> compiled = new List<byte>();
                     for (int i = 0; i < items.Count; i++) {
@@ -401,7 +403,8 @@ public class Interpreter
                             if (currentByte == (byte) Instruction.CHUNK) {
                                 int chunkSize = ReadIntLiteral();
                                 for (int n = 0; n < chunkSize; n++) {
-                                    compiled.Add(pop());
+                                    // add to start, to retain stack ordering
+                                    compiled.Insert(0, pop());
                                 }
                             } else if (currentByte == (byte) Instruction.PLACEHOLDER) {
                                 int placeholderID = ReadIntLiteral();

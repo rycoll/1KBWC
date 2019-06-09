@@ -8,17 +8,20 @@ public class GamePlayer {
     {
         Name = name;
         Hand = new Hand(index);
+        Index = index;
         Points = 0;
         DrawPerTurn = 1;
         Colour = Random.ColorHSV();
         // set default win condition
-        byte[] getPlayerPoints = InstructionFactory.Make_GetPlayerPoints(index);
+        byte[] indexBytes = Interpreter.CreateIntLiteral(index);
+        byte[] getPlayerPoints = InstructionFactory.Make_GetPlayerPoints(indexBytes);
         byte[] numberToCompare = Interpreter.CreateIntLiteral(100);
         WinCondition = Interpreter.CreateConditionLiteral(getPlayerPoints, numberToCompare, ConditionOperator.AT_LEAST);
     }
 
     public string Name { get; set; }
     public Hand Hand { get; set; }
+    public int Index { get; set; }
     public int Points { get; set; }
     public int DrawPerTurn { get; private set; }
     public Color Colour { get; set; }

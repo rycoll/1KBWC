@@ -6,28 +6,25 @@ using System.Linq;
 
 // this needs to be networked or whatever
 public class GameController : MonoBehaviour {
-
-    private BinaryCardLoader BinaryLoader;
-    private UIController UI;
-    private Interpreter Interpreter;
+    protected UIController UI;
+    protected Interpreter Interpreter;
     public Deck Deck { get; set;}
     public Deck Discard { get; set; }
     public Table Table { get; set; }
     public GameVariables Variables { get; set; }
     public GameListeners Listeners { get; set; }
-    private GamePlayer[] players;
-    private int activePlayerIndex;
+    protected GamePlayer[] players;
+    protected int activePlayerIndex;
     public int ActivePlayerIndex {
         get { return activePlayerIndex; }
     }
 
-    private void Start() {
-        BinaryLoader = this.GetComponent<BinaryCardLoader>();
+    protected void Start() {
         UI = this.GetComponent<UIController>();
         Interpreter = new Interpreter(this);
         Deck = new Deck();
         Discard = new Deck();
-        Table = new Table(this);
+        Table = new Table();
         Variables = new GameVariables();
         Listeners = new GameListeners();
         players = new GamePlayer[] {
@@ -63,7 +60,7 @@ public class GameController : MonoBehaviour {
         return players;
     }
 
-    private bool IsLocalPlayer(GamePlayer player) {
+    protected bool IsLocalPlayer(GamePlayer player) {
         // update this eventually, obviously
         return player == players[0];
     }
