@@ -5,15 +5,14 @@ using System.Linq;
 
 public class Table : CardZone {
     private List<PlayedCard> playedCards;
-    private GameController game;
 
-    public Table(GameController game) {
+    public Table() {
         playedCards = new List<PlayedCard>();
-        this.game = game;
     }
 
     public override bool AddCard(Card card) {
-        return AddCard(game.ActivePlayerIndex, card);
+        // would be good if this could add to Active Player's table, as default
+        return AddCard(0, card);
     }
 
     public bool AddCard (int player, Card card) {

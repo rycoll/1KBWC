@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-public class BinaryCardLoader : MonoBehaviour {
+public class BinaryCardLoader {
     const string FOLDER_NAME = "SavedCards";
     const string FILE_EXTENSION = ".bwc";
 
