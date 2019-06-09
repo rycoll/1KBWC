@@ -6,10 +6,10 @@ public class LiteralFactory {
     public static byte[] CreateIntLiteral(int n) {
         // getbytes uses same endian format as the system
         byte[] intRepresentation = BitConverter.GetBytes(n);
-        byte[] literal = new byte[intRepresentation.Length + 1];
-        literal[0] = (byte) Instruction.INT;
-        intRepresentation.CopyTo(literal, 1);
-        return literal;
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(new List<byte>(intRepresentation));
+        bytes.Add((byte) Instruction.INT);
+        return bytes.ToArray();
     }
 
     public static byte[] CreateStringLiteral(string str) {
@@ -32,13 +32,11 @@ public class LiteralFactory {
         return CreatePlayerLiteral(player.Index);
     }
     public static byte[] CreatePlayerLiteral(int n) {
-        byte[] intRepresentation = CreateIntLiteral(n);
-        byte[] literal = new byte[intRepresentation.Length + 1];
-        literal[0] = (byte) Instruction.PLAYER;
-        intRepresentation.CopyTo(literal, 1);
-        return literal;
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(new List<byte>(CreateIntLiteral(n)));
+        bytes.Add((byte) Instruction.PLAYER);
+        return bytes.ToArray();
     }
-
 
     public static byte[] CreateCardLiteral(int n) {
         byte[] intRepresentation = CreateIntLiteral(n);

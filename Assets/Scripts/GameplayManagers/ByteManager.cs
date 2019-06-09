@@ -8,8 +8,6 @@ public class ByteManager {
     private int currentStackSize = 0;
     private byte[] stack = new byte[MAX_STACK_SIZE];
 
-    private GameMaster GM;
-
     public int GetCurrentStackSize () {
         return currentStackSize;
     }
@@ -46,7 +44,7 @@ public class ByteManager {
 
     public byte[] pop(int n) {
         byte[] arr = new byte[n];
-        for (int i = 0; i < n; i++) {
+        for (int i = n - 1; i >= 0; i--) {
             arr[i] = pop();
         }
         return arr;
