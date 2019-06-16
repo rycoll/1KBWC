@@ -12,8 +12,8 @@ public class Condition {
         this.comparison = new CompareNum(numA, numB, op);
     }
 
-    public Condition(bool b, bool check) {
-        this.comparison = new CompareBool(b, check);
+    public Condition(bool b, bool check, ConditionOperator op) {
+        this.comparison = new CompareBool(b, check, op);
     }
     
     public bool Evaluate () {
@@ -26,8 +26,5 @@ public enum ConditionType {
 }
 
 public enum ConditionOperator {
-    EQUAL, NOT_EQUAL,
-
-    /* NOTE: these operators REQUIRE RunTimeValues that return NUMBERS */
-    MORE_THAN, AT_LEAST, LESS_THAN, AT_MOST
+    EQUAL, NOT_EQUAL, MORE_THAN, AT_LEAST, LESS_THAN, AT_MOST
 };

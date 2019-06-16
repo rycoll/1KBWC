@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public class GameMaster {
@@ -8,6 +9,8 @@ public class GameMaster {
     public GameFunctions Functions;
     public PlayerManager Players;
     public GameVariables Variables;
+
+    public ReadCallback queryCheck;
     
     public GameMaster () {
         Bytes = new ByteManager();
@@ -15,6 +18,12 @@ public class GameMaster {
         Functions = new GameFunctions();
         Players = new PlayerManager(4);
         Variables = new GameVariables();
+
+        queryCheck = QueryBeforeRead;
+    }
+
+    public void QueryBeforeRead () {
+        ExecuteNext();
     }
 
     #region Card stuff
@@ -32,13 +41,31 @@ public class GameMaster {
     #region Stack stuff
 
     public GamePlayer ReadPlayerFromStack () {
-        int index = Bytes.ReadPlayerLiteral();
+        int index = Bytes.ReadPlayerLiteral(queryCheck);
         return Players.GetPlayer(index);
     }
 
     public Card ReadCardFromStack () {
-        int id = Bytes.ReadCardLiteral();
+        int id = Bytes.ReadCardLiteral(queryCheck);
         return FindCardById(id);
+    }
+
+    public List<GamePlayer> ReadPlayerListFromStack () {
+        List<int> playerIndexList = Bytes.ReadPlayerList(queryCheck);
+        List<GamePlayer> playerList = new List<GamePlayer>();
+        foreach (int num in playerIndexList) {
+            playerList.Add(Players.GetPlayer(num));
+        }
+        return playerList;
+    }
+
+    public List<Card> ReadCardListFromStack () {
+        List<int> cardIDList = Bytes.ReadCardList(queryCheck);
+        List<Card> cardList = new List<Card>();
+        foreach (int num in cardIDList) {
+            cardList.Add(FindCardById(num));
+        }
+        return cardList;
     }
 
     #endregion
@@ -52,45 +79,51 @@ public class GameMaster {
                 #region FUNCTIONS
 
                 case Instruction.RANDOM_NUMBER: {
-                    int upperBound = Bytes.ReadIntLiteral();
+                    int upperBound = Bytes.ReadIntLiteral(queryCheck);
                     Bytes.push(LiteralFactory.CreateIntLiteral(UnityEngine.Random.Range(1, upperBound)));
                     break;
                 }
 
                 case Instruction.ADD: {
-                    int a = Bytes.ReadIntLiteral();
-                    int b = Bytes.ReadIntLiteral();
+                    int a = Bytes.ReadIntLiteral(queryCheck);
+                    int b = Bytes.ReadIntLiteral(queryCheck);
                     Bytes.push(LiteralFactory.CreateIntLiteral(a + b));
                     break;
                 }
 
+                case Instruction.MULTIPLY: {
+                    int a = Bytes.ReadIntLiteral(queryCheck);
+                    int b = Bytes.ReadIntLiteral(queryCheck);
+                    Bytes.push(LiteralFactory.CreateIntLiteral(a * b));
+                    break;
+                }
+
+                case Instruction.LIST_LENGTH: {
+                    List<byte[]> list = Bytes.ReadList(queryCheck);
+                    Bytes.push(LiteralFactory.CreateIntLiteral(list.Count));
+                    break;
+                }
+
                 case Instruction.IF: {
-                    Condition condition = Bytes.ReadConditionLiteral();
+                    Condition condition = Bytes.ReadConditionLiteral(queryCheck);
                     if (!condition.Evaluate()) {
-                        while (Bytes.hasBytes() && Bytes.peek() != (byte) Instruction.ENDIF) {
+                        while (Bytes.HasBytes() && Bytes.peek() != (byte) Instruction.ENDIF) {
                             Bytes.pop();
                         }
                     }
                     break;
                 }
 
-                case Instruction.MULTIPLY: {
-                    int a = Bytes.ReadIntLiteral();
-                    int b = Bytes.ReadIntLiteral();
-                    Bytes.push(LiteralFactory.CreateIntLiteral(a * b));
-                    break;
-                }
-
                 case Instruction.LOOP: {
-                    int num = Bytes.ReadIntLiteral();
+                    int num = Bytes.ReadIntLiteral(queryCheck);
                     List<byte> bytes = new List<byte>();
-                    while (Bytes.hasBytes()) {
+                    while (Bytes.HasBytes()) {
                         byte b = Bytes.pop();
                         if (b == (byte) Instruction.ENDLOOP) {
                             break;
                         }
                         // add to start, to retain stack ordering
-                        bytes.Insert(0, b);
+                        bytes.Add(b);
                     }
                     byte[] byteArr = bytes.ToArray();
                     for (int n = 0; n < num; n++) {
@@ -100,35 +133,36 @@ public class GameMaster {
                 }
 
                 case Instruction.FOR_LOOP: {
-                    int ID = Bytes.ReadIntLiteral();
-                    List<byte[]> items = Bytes.ReadList();
+                    int ID = Bytes.ReadIntLiteral(queryCheck);
+                    List<byte[]> items = Bytes.ReadList(queryCheck);
                     
                     List<byte> bytestring = new List<byte>();
                     while (Bytes.peek() != (byte) Instruction.ENDLOOP) {
-                        // add to start, to retain stack ordering
                         bytestring.Insert(0, Bytes.pop());
                     }
+                    Bytes.pop();
                     bytestring.Insert(0, (byte) Instruction.ENDLOOP);
 
                     List<byte> compiled = new List<byte>();
                     for (int i = 0; i < items.Count; i++) {
                         byte[] currentItem = items[i];
+                        Array.Reverse(currentItem);
                         Bytes.push(bytestring.ToArray());
                         byte currentByte = Bytes.pop();
                         while (currentByte != (byte) Instruction.ENDLOOP) {
                             if (currentByte == (byte) Instruction.CHUNK) {
-                                int chunkSize = Bytes.ReadIntLiteral();
+                                int chunkSize = Bytes.ReadIntLiteral(queryCheck);
                                 for (int n = 0; n < chunkSize; n++) {
                                     // add to start, to retain stack ordering
-                                    compiled.Insert(0, Bytes.pop());
+                                    compiled.Add(Bytes.pop());
                                 }
                             } else if (currentByte == (byte) Instruction.PLACEHOLDER) {
-                                int placeholderID = Bytes.ReadIntLiteral();
+                                int placeholderID = Bytes.ReadIntLiteral(queryCheck);
                                   if (placeholderID == ID) {
                                     compiled.AddRange(new List<byte>(items[i]));
                                 } else {
-                                    compiled.Add((byte) Instruction.PLACEHOLDER);
                                     compiled.AddRange(new List<byte>(LiteralFactory.CreateIntLiteral(placeholderID)));
+                                    compiled.Add((byte) Instruction.PLACEHOLDER);
                                 }
                             } else {
                                 throw new UnexpectedByteException("Expected CHUNK or PLACEHOLDER, found " +  currentByte);
@@ -137,6 +171,7 @@ public class GameMaster {
                         }
                     }
                     Bytes.push(compiled.ToArray());
+                    
                     break;
                 }
 
@@ -154,7 +189,7 @@ public class GameMaster {
                 }
 
                 case Instruction.GET_PLAYER : {
-                    int id = Bytes.ReadIntLiteral();
+                    int id = Bytes.ReadIntLiteral(queryCheck);
                     Bytes.push(
                         LiteralFactory.CreatePlayerLiteral(id)
                     );
@@ -162,14 +197,14 @@ public class GameMaster {
                 }
 
                 case Instruction.GET_PLAYER_POINTS: {
-                    int id = Bytes.ReadIntLiteral();
+                    int id = Bytes.ReadIntLiteral(queryCheck);
                     int points = Players.GetPlayer(id).Points;
                     Bytes.push(LiteralFactory.CreateIntLiteral(points));
                     break;
                 }
 
                 case Instruction.READ_COUNTER: {
-                    string key = Bytes.ReadStringLiteral();
+                    string key = Bytes.ReadStringLiteral(queryCheck);
                     int count = Variables.GetCounter(key);
                     Bytes.push(LiteralFactory.CreateIntLiteral(count));
                     break;
@@ -191,14 +226,14 @@ public class GameMaster {
 
                 case Instruction.INCREMENT_PLAYER_POINTS: {
                     GamePlayer player = ReadPlayerFromStack();
-                    int pointsNum = Bytes.ReadIntLiteral();
+                    int pointsNum = Bytes.ReadIntLiteral(queryCheck);
                     Functions.SetPlayerPoints(player, player.Points + pointsNum);
                     break;
                 }
 
                 case Instruction.PLAYER_DRAW_CARD: {
                     GamePlayer player = ReadPlayerFromStack();
-                    int numCards = Bytes.ReadIntLiteral();
+                    int numCards = Bytes.ReadIntLiteral(queryCheck);
                     for (int n = 0; n < numCards;) {
                         Functions.PlayerDrawCard(player, Cards.Deck);
                     }
@@ -206,44 +241,44 @@ public class GameMaster {
                 }
 
                 case Instruction.SET_COUNTER: {
-                    string key = Bytes.ReadStringLiteral();
-                    int count = Bytes.ReadIntLiteral();
+                    string key = Bytes.ReadStringLiteral(queryCheck);
+                    int count = Bytes.ReadIntLiteral(queryCheck);
                     Variables.SetCounter(key, count);
                     break;
                 }
 
                 case Instruction.SET_PLAYER_DRAW: {
                     GamePlayer player = ReadPlayerFromStack();
-                    int num = Bytes.ReadIntLiteral();
+                    int num = Bytes.ReadIntLiteral(queryCheck);
                     player.SetDrawPerTurn(num);
                     break;
                 }
 
                 case Instruction.SET_PLAYER_MAX_HAND: {
                     GamePlayer player = ReadPlayerFromStack();
-                    int num = Bytes.ReadIntLiteral();
+                    int num = Bytes.ReadIntLiteral(queryCheck);
                     player.Hand.MaxHandSize = num;
                     break;
                 }
                 
                 case Instruction.SET_PLAYER_POINTS: {
                     GamePlayer player = ReadPlayerFromStack();
-                    int pointsNum = Bytes.ReadIntLiteral();
+                    int pointsNum = Bytes.ReadIntLiteral(queryCheck);
                     Functions.SetPlayerPoints(player, pointsNum);
                     break;
                 }
 
                 case Instruction.MOVE_TO_DECK: {
                     Card card = ReadCardFromStack();
-                    DeckLocation posEnum = (DeckLocation) Bytes.ReadIntLiteral();
-                    card.Zone.MoveCard(Cards.Deck, card.id);
+                    DeckLocation posEnum = (DeckLocation) Bytes.ReadIntLiteral(queryCheck);
+                    card.Zone.MoveCard(Cards.Deck, card.GetID());
                     Cards.Deck.MoveLastAddedCard(posEnum);
                     break;
                 }
 
                 case Instruction.MOVE_TO_DISCARD: {
                     Card card = ReadCardFromStack();
-                    card.Zone.MoveCard(Cards.Discard, card.id);
+                    card.Zone.MoveCard(Cards.Discard, card.GetID());
                     break;
                 }
 
@@ -262,7 +297,7 @@ public class GameMaster {
         try {
             ExecuteByte(Bytes.next());
         } catch (StackEmptyException e) {
-            Debug.Log(e);
+            Debug.LogError(e);
         }
     }
 
@@ -272,3 +307,5 @@ public class GameMaster {
 public enum ListType {
     PLAYER, CARD
 }
+
+public delegate void ReadCallback();

@@ -1,19 +1,29 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class ByteManager {
 
-    private const int MAX_STACK_SIZE = 2058;
-    private int currentStackSize = 0;
-    private byte[] stack = new byte[MAX_STACK_SIZE];
+    public static int MAX_STACK_SIZE = 2058;
+    protected int currentStackSize = 0;
+    protected byte[] stack = new byte[MAX_STACK_SIZE];
+
 
     public int GetCurrentStackSize () {
         return currentStackSize;
     }
 
-    public bool hasBytes () {
+    public bool HasBytes () {
         return currentStackSize > 0;
+    }
+
+    public void ClearStack () {
+        stack = new byte[MAX_STACK_SIZE];
+        currentStackSize = 0;
+    }
+
+    public string ReportStackContent () {
+        PrintStack printer = new PrintStack(stack, currentStackSize);
+        return printer.PrintStackInstructions();
     }
 
     #region Basic Stack Operations
@@ -36,23 +46,24 @@ public class ByteManager {
 
     public byte pop() {
         // needs better error handling
-        if (currentStackSize <= 0) {
-            throw new StackEmptyException("Stack is empty! " + currentStackSize);
+        if (!HasBytes()) {
+            throw new StackEmptyException("Pop failed, stack is empty! " + currentStackSize);
         }
+        stack[currentStackSize] = 0;
         return stack[--currentStackSize];
     }
 
     public byte[] pop(int n) {
         byte[] arr = new byte[n];
-        for (int i = n - 1; i >= 0; i--) {
+        for (int i = 0; i < n; i++) {
             arr[i] = pop();
         }
         return arr;
     }
 
     public byte peek() {
-        if (currentStackSize <= 0) {
-            throw new StackEmptyException("Stack is empty! " + currentStackSize);
+        if (!HasBytes()) {
+            throw new StackEmptyException("Peek failed, stack is empty! " + currentStackSize);
         }
         return stack[currentStackSize - 1];
     }
@@ -77,16 +88,16 @@ public class ByteManager {
     }
     public bool NextInstructionIsAccessor () {
         byte top = peek();
-        return top < 0x60 && top >= 0x30;
+        return top < 0060 && top >= 0030;
     }
 
     #endregion
 
     #region Read Literals
 
-    public int ReadIntLiteral() {
+    public int ReadIntLiteral(ReadCallback cb) {
         if (NextInstructionIsAccessor()) {
-            next();
+            cb();  
         }
         try {
             CheckType(Instruction.INT);
@@ -97,13 +108,13 @@ public class ByteManager {
         }
     }
 
-    public string ReadStringLiteral() {
+    public string ReadStringLiteral(ReadCallback cb) {
         if (NextInstructionIsAccessor()) {
-            next();
+            cb();
         }
         try {
             CheckType(Instruction.STRING);
-            byte arrSize = pop();
+            int arrSize = ReadIntLiteral(cb);
             byte[] strArray = pop(arrSize);
             char[] chars = System.Text.Encoding.UTF8.GetChars(strArray);
             return new string(chars);
@@ -112,33 +123,33 @@ public class ByteManager {
         }
     }
 
-    public int ReadPlayerLiteral() {
+    public int ReadPlayerLiteral(ReadCallback cb) {
         if (NextInstructionIsAccessor()) {
-            next();
+            cb();
         }
         try {
             CheckType(Instruction.PLAYER);
-            return ReadIntLiteral();
+            return ReadIntLiteral(cb);
         } catch (UnexpectedByteException e) {
             throw e;
         }
     }
 
-    public int ReadCardLiteral() {
+    public int ReadCardLiteral(ReadCallback cb) {
         if (NextInstructionIsAccessor()) {
-            next();
+            cb();
         }
         try {
             CheckType(Instruction.CARD);
-            return ReadIntLiteral();
+            return ReadIntLiteral(cb);
         } catch (UnexpectedByteException e) {
             throw e;
         }
     }
 
-    public bool ReadBoolLiteral() {
+    public bool ReadBoolLiteral(ReadCallback cb) {
         if (NextInstructionIsAccessor()) {
-            next();
+            cb();
         }
         try {
             CheckType(Instruction.BOOL);
@@ -148,19 +159,26 @@ public class ByteManager {
         }
     }
 
-    public Condition ReadConditionLiteral() {
+    public Condition ReadConditionLiteral(ReadCallback cb) {
         if (NextInstructionIsAccessor()) {
-            next();
+            cb();
         }
         try {
             CheckType(Instruction.CONDITION);
             byte conditionType = pop();
             switch ((ConditionType) conditionType) {
-                case ConditionType.NUM:
-                    int a = ReadIntLiteral();
-                    int b = ReadIntLiteral();
+                case ConditionType.BOOL: {
+                    bool a = ReadBoolLiteral(cb);
+                    bool b = ReadBoolLiteral(cb);
                     ConditionOperator op = (ConditionOperator) pop();
                     return new Condition(a, b, op);
+                }
+                case ConditionType.NUM: {
+                    int a = ReadIntLiteral(cb);
+                    int b = ReadIntLiteral(cb);
+                    ConditionOperator op = (ConditionOperator) pop();
+                    return new Condition(a, b, op);
+                }
                 default:
                     throw new UnexpectedByteException("Didn't understand the condition type! " + conditionType);
             }
@@ -169,19 +187,19 @@ public class ByteManager {
         }
     }
 
-    public List<byte[]> ReadList () {
+    public List<byte[]> ReadList (ReadCallback cb) {
         if (NextInstructionIsAccessor()) {
-            next();
+            cb();
         }
         try {
             CheckType(Instruction.LIST);
             // discard list type
             pop();
-            int num = ReadIntLiteral();
+            int num = ReadIntLiteral(cb);
             List<byte[]> items = new List<byte[]>();
             for (int i = 0; i < num; i++) {
                 CheckType(Instruction.LIST_ITEM);
-                int size = ReadIntLiteral();
+                int size = ReadIntLiteral(cb);
                 byte[] array = new byte[size];
                 for (int j = 0; j < size; j++) {
                     array[j] = pop();
@@ -194,40 +212,40 @@ public class ByteManager {
         }
     }
 
-    public List<int> ReadPlayerList () {
+    public List<int> ReadPlayerList (ReadCallback cb) {
         if (NextInstructionIsAccessor()) {
-            next();
+            cb();
         }
         try {
             CheckType(Instruction.LIST);
             CheckType(ListType.PLAYER);
-            int num = ReadIntLiteral();
+            int num = ReadIntLiteral(cb);
             List<int> players = new List<int>();
             for (int i = 0; i < num; i++) {
                 CheckType(Instruction.LIST_ITEM);
                 // discard size
-                ReadIntLiteral();
-                players.Add(ReadPlayerLiteral());
+                ReadIntLiteral(cb);
+                players.Add(ReadPlayerLiteral(cb));
             }
             return players;
         } catch (UnexpectedByteException e) {
             throw e;
         }
     }
-    public List<int> ReadCardList () {
+    public List<int> ReadCardList (ReadCallback cb) {
         if (NextInstructionIsAccessor()) {
-            next();
+            cb();
         }
         try {
             CheckType(Instruction.LIST);
             CheckType(ListType.CARD);
-            int num = ReadIntLiteral();
+            int num = ReadIntLiteral(cb);
             List<int> cards = new List<int>();
             for (int i = 0; i < num; i++) {
                 CheckType(Instruction.LIST_ITEM);
                 // discard size
-                ReadIntLiteral();
-                cards.Add(ReadCardLiteral());
+                ReadIntLiteral(cb);
+                cards.Add(ReadCardLiteral(cb));
             }
             return cards;
         } catch (UnexpectedByteException e) {
@@ -239,7 +257,7 @@ public class ByteManager {
 
     public Instruction next () {
         if (currentStackSize <= 0) {
-            throw new StackEmptyException($"Stack is empty: ({currentStackSize}, can't do next!");
+            throw new StackEmptyException($"Stack is empty: ({currentStackSize}), can't do next!");
         }
         return (Instruction) pop();
     }

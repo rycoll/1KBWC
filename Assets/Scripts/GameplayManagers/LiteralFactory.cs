@@ -6,6 +6,7 @@ public class LiteralFactory {
     public static byte[] CreateIntLiteral(int n) {
         // getbytes uses same endian format as the system
         byte[] intRepresentation = BitConverter.GetBytes(n);
+        Array.Reverse(intRepresentation);
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(intRepresentation));
         bytes.Add((byte) Instruction.INT);
@@ -14,19 +15,14 @@ public class LiteralFactory {
 
     public static byte[] CreateStringLiteral(string str) {
         byte[] arr = System.Text.Encoding.UTF8.GetBytes(str);
-        byte[] strBytes = new byte[255];
-        if (arr.Length <= 255) {
-            strBytes = arr;
-        } else {   
-            Array.Copy(arr, strBytes, 255);
-        }
-        byte[] literal = new byte[strBytes.Length + 2];
-        literal[0] = (byte) Instruction.STRING;
-        literal[1] = (byte) strBytes.Length;
-        strBytes.CopyTo(literal, 2);
-        return literal;
+        Array.Reverse(arr);
+        byte[] strSize = CreateIntLiteral(arr.Length);
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(new List<byte>(arr));
+        bytes.AddRange(new List<byte>(strSize));
+        bytes.Add((byte) Instruction.STRING);
+        return bytes.ToArray();
     }
-
 
     public static byte[] CreatePlayerLiteral(GamePlayer player) {
         return CreatePlayerLiteral(player.Index);
@@ -39,66 +35,100 @@ public class LiteralFactory {
     }
 
     public static byte[] CreateCardLiteral(int n) {
-        byte[] intRepresentation = CreateIntLiteral(n);
-        byte[] literal = new byte[intRepresentation.Length + 1];
-        literal[0] = (byte) Instruction.PLAYER;
-        intRepresentation.CopyTo(literal, 1);
-        return literal;
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(new List<byte>(CreateIntLiteral(n)));
+        bytes.Add((byte) Instruction.CARD);
+        return bytes.ToArray();
     }
 
     public static byte[] CreateBoolLiteral(bool b) {
         byte[] boolArr = new byte[2];
-        boolArr[0] = (byte) Instruction.BOOL;
-        boolArr[1] = b ? (byte) 1 : (byte) 0;
+        boolArr[0] = b ? (byte) 1 : (byte) 0;
+        boolArr[1] = (byte) Instruction.BOOL;
         return boolArr;
     }
 
-    public static byte[] CreateConditionLiteral(byte[] operandA, byte[] operandB, ConditionOperator op) {
+    public static byte[] CreateConditionLiteral(byte[] operandA, byte[] operandB, ConditionType t, ConditionOperator op) {
         // use this to create a reusable condition that can run queries
-        byte[] conditionArr = new byte[2 + operandA.Length + operandB.Length];
-        conditionArr[0] = (byte) ConditionType.NUM;
-        conditionArr[1] = (byte) op;
-        operandA.CopyTo(conditionArr, 2);
-        operandB.CopyTo(conditionArr, 2 + operandA.Length);
-        return conditionArr;
+        List<byte> bytes = new List<byte>();
+        bytes.Add((byte) op);
+        bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(new List<byte>(operandA));
+        bytes.Add((byte) t);
+        bytes.Add((byte) Instruction.CONDITION);
+        return bytes.ToArray();
+    }
+
+    public static byte[] CreateConditionLiteral(CompareBool condition) {
+        byte[] operandA = CreateBoolLiteral(condition.Operand);
+        byte[] operandB = CreateBoolLiteral(condition.CheckValue);
+
+        List<byte> bytes = new List<byte>();
+        bytes.Add((byte) condition.Operator);
+        bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(new List<byte>(operandA));
+        bytes.Add((byte) ConditionType.BOOL);
+        bytes.Add((byte) Instruction.CONDITION);
+        return bytes.ToArray();
     }
 
     public static byte[] CreateConditionLiteral(CompareNum condition) {
         byte[] operandA = CreateIntLiteral(condition.OperandA);
         byte[] operandB = CreateIntLiteral(condition.OperandB);
-        byte[] conditionArr = new byte[2 + operandA.Length + operandB.Length];
-        conditionArr[0] = (byte) ConditionType.NUM;
-        conditionArr[1] = (byte) condition.Operator;
-        operandA.CopyTo(conditionArr, 2);
-        operandB.CopyTo(conditionArr, 2 + operandA.Length);
-        return conditionArr;
+
+        List<byte> bytes = new List<byte>();
+        bytes.Add((byte) condition.Operator);
+        bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(new List<byte>(operandA));
+        bytes.Add((byte) ConditionType.NUM);
+        bytes.Add((byte) Instruction.CONDITION);
+        return bytes.ToArray();
     }
 
     public static byte[] CreateListLiteral(byte[] objects, ListType type, int length) {
         byte[] listSize = CreateIntLiteral(length);
-        byte[] listLiteral = new byte[2 + listSize.Length + objects.Length];
-        listLiteral[0] = (byte) Instruction.LIST;
-        listLiteral[1] = (byte) type;
-        objects.CopyTo(listLiteral, 2);
-        return listLiteral;
+
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(new List<byte>(objects));
+        bytes.AddRange(new List<byte>(listSize));
+        bytes.Add((byte) type);
+        bytes.Add((byte) Instruction.LIST);
+        return bytes.ToArray();
     }
     public static byte[] CreateListLiteral(List<GamePlayer> players) {
         List<byte> bytes = new List<byte>();
         foreach (GamePlayer player in players) {
-            bytes.AddRange(
-                new List<byte>(CreatePlayerLiteral(player))
-            );
+            List<byte> playerBytes = new List<byte>(CreatePlayerLiteral(player));
+            bytes.AddRange(playerBytes);
+            bytes.AddRange(new List<byte>(CreateIntLiteral(playerBytes.Count)));
+            bytes.Add((byte) Instruction.LIST_ITEM);
         }
         return CreateListLiteral(bytes.ToArray(), ListType.PLAYER, players.Count);
     }
     public static byte[] CreateListLiteral(List<Card> cards) {
         List<byte> bytes = new List<byte>();
         foreach (Card card in cards) {
-            bytes.AddRange(
-                new List<byte>(CreateCardLiteral(card.id))
-            );
+            List<byte> cardBytes = new List<byte>(CreateCardLiteral(card.GetID()));
+            bytes.AddRange(cardBytes);
+            bytes.AddRange(new List<byte>(CreateIntLiteral(cardBytes.Count)));
+            bytes.Add((byte) Instruction.LIST_ITEM);
         }
         return CreateListLiteral(bytes.ToArray(), ListType.CARD, cards.Count);
+    }
+
+    public static byte[] CreatePlaceholderLiteral(int id) {
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(CreateIntLiteral(id));
+        bytes.Add((byte) Instruction.PLACEHOLDER);
+        return bytes.ToArray();
+    }
+
+    public static byte[] CreateChunkLiteral(byte[] srcBytes) {
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(srcBytes);
+        bytes.AddRange(CreateIntLiteral(srcBytes.Length));
+        bytes.Add((byte) Instruction.CHUNK);
+        return bytes.ToArray();
     }
 
 }

@@ -13,7 +13,7 @@ public class PlayerManager {
     public PlayerManager (int numPlayers) {
         players = new GamePlayer[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
-            players[i] = new GamePlayer($"Player {i + 1}", i + 1);
+            players[i] = new GamePlayer($"Player {i + 1}", i);
         }
     }
 
@@ -40,7 +40,7 @@ public class PlayerManager {
 
     public Card FindCardById (int id) {
         foreach (GamePlayer player in players) {
-            Card[] hand = player.Hand.GetCards().Where(card => card.id == id).ToArray();
+            Card[] hand = player.Hand.GetCards().Where(card => card.GetID() == id).ToArray();
             if (hand.Length > 0) {
                 return hand[0];
             }

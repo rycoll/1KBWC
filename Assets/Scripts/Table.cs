@@ -25,7 +25,7 @@ public class Table : CardZone {
     }
 
     public override bool RemoveCard (int id) {
-        IEnumerable<PlayedCard> list = playedCards.Where(playedCard => playedCard.Card.id == id);
+        IEnumerable<PlayedCard> list = playedCards.Where(playedCard => playedCard.Card.GetID() == id);
         PlayedCard card = list.ToArray()[0];
         if (card != null) {
             return playedCards.Remove(card);
@@ -35,7 +35,7 @@ public class Table : CardZone {
     }
 
     public override Card GetCard (int id) {
-        IEnumerable<PlayedCard> list = playedCards.Where(playedCard => playedCard.Card.id == id);
+        IEnumerable<PlayedCard> list = playedCards.Where(playedCard => playedCard.Card.GetID() == id);
         return list.ToArray()[0].Card;
     }
 

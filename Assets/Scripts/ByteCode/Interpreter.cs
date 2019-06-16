@@ -318,7 +318,7 @@ public class Interpreter
         List<byte> bytes = new List<byte>();
         foreach (Card card in cards) {
             bytes.AddRange(
-                new List<byte>(CreateCardLiteral(card.id))
+                new List<byte>(CreateCardLiteral(card.GetID()))
             );
         }
         return CreateListLiteral(bytes.ToArray(), ListType.CARD, cards.Count);
@@ -510,14 +510,14 @@ public class Interpreter
                 case Instruction.MOVE_TO_DECK: {
                     Card card = ReadCardLiteral();
                     DeckLocation posEnum = (DeckLocation) ReadIntLiteral();
-                    card.Zone.MoveCard(game.Deck, card.id);
+                    card.Zone.MoveCard(game.Deck, card.GetID());
                     game.Deck.MoveLastAddedCard(posEnum);
                     break;
                 }
 
                 case Instruction.MOVE_TO_DISCARD: {
                     Card card = ReadCardLiteral();
-                    card.Zone.MoveCard(game.Discard, card.id);
+                    card.Zone.MoveCard(game.Discard, card.GetID());
                     break;
                 }
             }
@@ -540,7 +540,7 @@ public class Interpreter
 
     public void CardChoiceCallback (Card chosenCard) {
         if (chosenCard != null) {
-            byte[] card = Interpreter.CreateCardLiteral(chosenCard.id);
+            byte[] card = Interpreter.CreateCardLiteral(chosenCard.GetID());
             game.AddToStack(card);
         }
         next();

@@ -1,51 +1,51 @@
 public enum Instruction {
     // literals
-    EFFECT_DELIMITER    = 0x00,
-    INT                 = 0x01,
-    STRING              = 0x02,
-    BOOL                = 0x03,
-    LIST                = 0x04,
-    LIST_ITEM           = 0x05,
-    PLAYER              = 0x06,
-    CARD                = 0x07,
-    CONDITION           = 0x08,
-    LISTENER            = 0x09,
-    COLOUR              = 0x10,
-    CHUNK               = 0x18,
-    PLACEHOLDER         = 0x19,
+    EFFECT_DELIMITER    = 000,
+    INT                 = 001,
+    STRING              = 002,
+    BOOL                = 003,
+    LIST                = 004,
+    LIST_ITEM           = 005,
+    PLAYER              = 006,
+    CARD                = 007,
+    CONDITION           = 008,
+    LISTENER            = 009,
+    COLOUR              = 010,
+    CHUNK               = 011,
+    PLACEHOLDER         = 012,
 
     // control
-    IF                  = 0x20,
-    ENDIF               = 0x21,
-    LOOP                = 0x22,
-    FOR_LOOP            = 0x23,
-    ENDLOOP             = 0x24,
+    IF                  = 020,
+    ENDIF               = 021,
+    LOOP                = 022,
+    FOR_LOOP            = 023,
+    ENDLOOP             = 024,
 
     // getter primitives
     //   internal
-    ADD                 = 0x30,
-    MULTIPLY            = 0x31,
-    LIST_LENGTH         = 0x32,
-    RANDOM_NUMBER       = 0x33,
+    ADD                 = 030,
+    MULTIPLY            = 031,
+    LIST_LENGTH         = 032,
+    RANDOM_NUMBER       = 033,
 
     //   external
-    GET_ACTIVE_PLAYER   = 0x40,
-    GET_PLAYER          = 0x41,
-    GET_PLAYER_POINTS   = 0x42,
-    TARGET_PLAYER       = 0x43,
-    TARGET_CARD         = 0x44,
-    READ_COUNTER        = 0x45,
+    GET_ACTIVE_PLAYER   = 040,
+    GET_PLAYER          = 041,
+    GET_PLAYER_POINTS   = 042,
+    TARGET_PLAYER       = 043,
+    TARGET_CARD         = 044,
+    READ_COUNTER        = 045,
 
     // external primitives (setters)
-    SET_PLAYER_POINTS           = 0x60,
-    INCREMENT_PLAYER_POINTS     = 0x61,
-    SET_PLAYER_DRAW             = 0x62,
-    SET_PLAYER_MAX_HAND         = 0x63,
-    PLAYER_DRAW_CARD            = 0x64,
-    SET_COUNTER                 = 0x65,
-    MOVE_TO_DISCARD             = 0x66,
-    MOVE_TO_DECK                = 0x67,
+    SET_PLAYER_POINTS           = 060,
+    INCREMENT_PLAYER_POINTS     = 061,
+    SET_PLAYER_DRAW             = 062,
+    SET_PLAYER_MAX_HAND         = 063,
+    PLAYER_DRAW_CARD            = 064,
+    SET_COUNTER                 = 065,
+    MOVE_TO_DISCARD             = 066,
+    MOVE_TO_DECK                = 067,
 
 
-    ERROR = 0xFF
+    ERROR = 255
 }

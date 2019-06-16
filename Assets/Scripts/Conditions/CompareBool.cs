@@ -3,13 +3,22 @@ public class CompareBool : Comparison {
     public bool CheckValue { get; set; }
     public ConditionOperator Operator { get; set; }
 
-    public CompareBool(bool operand, bool check) {
+    public CompareBool(bool operand, bool check, ConditionOperator op) {
         Operand = operand;
         CheckValue = check;
+
+        if (op == ConditionOperator.EQUAL || op == ConditionOperator.NOT_EQUAL) {
+            Operator = op;
+        } else {
+            Operator = ConditionOperator.EQUAL;
+        }
     }
 
     public override bool Evaluate () {
-        return Operand == CheckValue;
+        if (Operator == ConditionOperator.EQUAL) {
+            return Operand == CheckValue;
+        }
+        return Operand != CheckValue;
     }
 }
 
