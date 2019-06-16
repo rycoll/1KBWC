@@ -20,7 +20,7 @@ public class CardZone {
 
     public virtual Card GetCard (int id) {
         foreach (Card card in cards) {
-            if (card.id == id) {
+            if (card.GetID() == id) {
                 return card;
             }
         }

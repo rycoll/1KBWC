@@ -19,6 +19,10 @@ public abstract class Card {
             return Zone;
         }
     }
+
+    public Card () {
+        SetID();
+    }
     
     private static int idCount = 0;
     public static int NextId {
@@ -27,7 +31,13 @@ public abstract class Card {
         }
     }
 
-    public int id { get; set; }
+    private int id;
+    public void SetID () {
+        id = NextId;
+    }
+    public int GetID () {
+        return id;
+    }
 
     public string GetRuleText ()
     {
