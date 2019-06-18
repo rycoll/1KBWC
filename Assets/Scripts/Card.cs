@@ -14,11 +14,7 @@ public abstract class Card {
     public List<byte> Effects { get; set; }
 
     private CardZone zone;
-    public CardZone Zone {
-        get {
-            return Zone;
-        }
-    }
+    public CardZone Zone { get; set; }
 
     public Card () {
         SetID();

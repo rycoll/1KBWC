@@ -30,7 +30,6 @@ public class PrintStack : ByteManager {
 
     public string PrintNext () { 
         Instruction instruction = (Instruction) peek();
-        Debug.Log(instruction);
         try {
             switch (instruction) {
                 case Instruction.INT: {

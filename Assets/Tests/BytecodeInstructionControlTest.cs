@@ -7,9 +7,8 @@ using UnityEngine.TestTools;
 namespace Tests
 {
     [TestFixture]
-    public class BytecodeInstructionTest
+    public class BytecodeInstructionControlTest
     {
-
         ByteManager bytes;
         GameMaster game;
 
@@ -17,57 +16,6 @@ namespace Tests
         public void SetUp () {
             game = new GameMaster();
             bytes = game.Bytes;
-        }
-
-        [Test]
-        public void Add()   
-        {
-            bytes.push(InstructionFactory.Make_Add(
-                LiteralFactory.CreateIntLiteral(4),
-                LiteralFactory.CreateIntLiteral(13)
-            ));
-            game.ExecuteNext();
-            Assert.AreEqual(bytes.ReadIntLiteral(game.queryCheck), 17);
-        }
-
-        [Test]
-        public void Multiply() {
-            bytes.push(InstructionFactory.Make_Multiply(
-                LiteralFactory.CreateIntLiteral(4),
-                LiteralFactory.CreateIntLiteral(13)
-            ));
-            game.ExecuteNext();
-            Assert.AreEqual(bytes.ReadIntLiteral(game.queryCheck), 52);
-        }
-
-        [Test]
-        public void GetListLength() {
-            List<GamePlayer> list = new List<GamePlayer>{
-                new GamePlayer("P1", 0),
-                new GamePlayer("P2", 1),
-                new GamePlayer("P3", 2),
-                new GamePlayer("P4", 3),
-            };
-            bytes.push(InstructionFactory.Make_ListLength(
-                LiteralFactory.CreateListLiteral(list)
-            ));
-
-            game.ExecuteNext();
-            Assert.AreEqual(bytes.ReadIntLiteral(game.queryCheck), 4);
-        }
-
-        [Test]
-        public void IntQuery() {
-            byte[] addInstruction = InstructionFactory.Make_Add(
-                LiteralFactory.CreateIntLiteral(4),
-                LiteralFactory.CreateIntLiteral(13)
-            );
-            bytes.push(InstructionFactory.Make_Add(
-                addInstruction,
-                LiteralFactory.CreateIntLiteral(100)
-            ));
-            game.ExecuteNext();
-            Assert.AreEqual(bytes.ReadIntLiteral(game.queryCheck), 117);
         }
 
         [Test]
