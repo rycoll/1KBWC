@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class Hand : CardZone {
 
-    public int MaxHandSize { get; set; }
+    public int MaxHandSize { get; private set; }
     private int OwnerIndex;
 
     public Hand(int playerIndex) : base() {
@@ -27,4 +27,8 @@ public class Hand : CardZone {
         cards.Add(cardToAdd);
         return true;
     }
+
+    public void SetMax (int n) {
+        MaxHandSize = n;
+    } 
 }

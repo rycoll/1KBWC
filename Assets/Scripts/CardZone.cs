@@ -29,6 +29,7 @@ public class CardZone {
 
     public virtual bool AddCard (Card card) {
         cards.Add(card);
+        card.Zone = this;
         return true;
     }
 

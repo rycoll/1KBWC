@@ -234,7 +234,7 @@ public class GameMaster {
                 case Instruction.PLAYER_DRAW_CARD: {
                     GamePlayer player = ReadPlayerFromStack();
                     int numCards = Bytes.ReadIntLiteral(queryCheck);
-                    for (int n = 0; n < numCards;) {
+                    for (int n = 0; n < numCards; n++) {
                         Functions.PlayerDrawCard(player, Cards.Deck);
                     }
                     break;
@@ -257,7 +257,7 @@ public class GameMaster {
                 case Instruction.SET_PLAYER_MAX_HAND: {
                     GamePlayer player = ReadPlayerFromStack();
                     int num = Bytes.ReadIntLiteral(queryCheck);
-                    player.Hand.MaxHandSize = num;
+                    player.Hand.SetMax(num);
                     break;
                 }
                 

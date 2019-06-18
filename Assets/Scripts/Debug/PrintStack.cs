@@ -48,6 +48,10 @@ public class PrintStack : ByteManager {
                     int player = ReadPlayerLiteral(readAccessorFirst);
                     return $"{instruction.ToString()}({player})";
                 }
+                case Instruction.CARD: {
+                    int card = ReadCardLiteral(readAccessorFirst);
+                    return $"{instruction.ToString()}({card})";
+                }
                 case Instruction.LIST: {
                     pop();
                     ListType type = (ListType) pop();

@@ -496,7 +496,7 @@ public class Interpreter
                 case Instruction.SET_PLAYER_MAX_HAND: {
                     GamePlayer player = ReadPlayerLiteral();
                     int num = ReadIntLiteral();
-                    player.Hand.MaxHandSize = num;
+                    //player.Hand.MaxHandSize = num;
                     break;
                 }
                 

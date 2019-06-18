@@ -109,11 +109,9 @@ public class InstructionFactory {
     #region SETTERS
 
     public static byte[] Make_PlayerDrawCards (byte[] player, byte[] num) {
-        List<byte> bytes = new List<byte>();
-        bytes.Add((byte) Instruction.ENDLOOP);
-        bytes.AddRange(new List<byte>(num));
+        List<byte> bytes = new List<byte>(new List<byte>(num));
         bytes.AddRange(new List<byte>(player));
-        bytes.Add((byte) Instruction.LOOP);
+        bytes.Add((byte) Instruction.PLAYER_DRAW_CARD);
         return bytes.ToArray();
     }
 
@@ -125,29 +123,29 @@ public class InstructionFactory {
     }
 
     public static byte[] Make_SetPlayerDraw (byte[] num, byte[] player) {
-        List<byte> bytes = new List<byte>(new List<byte>(player));
-        bytes.AddRange(new List<byte>(num));
+        List<byte> bytes = new List<byte>(new List<byte>(num));
+        bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.SET_PLAYER_DRAW);
         return bytes.ToArray();
     }
 
     public static byte[] Make_SetPlayerMaxHand (byte[] num, byte[] player) {
-        List<byte> bytes = new List<byte>(new List<byte>(player));
-        bytes.AddRange(new List<byte>(num));
+        List<byte> bytes = new List<byte>(new List<byte>(num));
+        bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.SET_PLAYER_MAX_HAND);
         return bytes.ToArray();
     }
 
     public static byte[] Make_SetPlayerPoints (byte[] num, byte[] player) {
-        List<byte> bytes = new List<byte>(new List<byte>(player));
-        bytes.AddRange(new List<byte>(num));
+        List<byte> bytes = new List<byte>(new List<byte>(num));
+        bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.SET_PLAYER_POINTS);
         return bytes.ToArray();
     }
 
     public static byte[] Make_IncrementPlayerPoints(byte[] num, byte[] player) {
-        List<byte> bytes = new List<byte>(new List<byte>(player));
-        bytes.AddRange(new List<byte>(num));
+        List<byte> bytes = new List<byte>(new List<byte>(num));
+        bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.INCREMENT_PLAYER_POINTS);
         return bytes.ToArray();
     }
