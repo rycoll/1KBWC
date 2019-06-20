@@ -270,7 +270,7 @@ public class GameMaster {
 
                 case Instruction.MOVE_TO_DECK: {
                     Card card = ReadCardFromStack();
-                    DeckLocation posEnum = (DeckLocation) Bytes.pop();
+                    DeckLocation posEnum = (DeckLocation) Bytes.ReadEnumLiteral();
                     card.Zone.MoveCard(Cards.Deck, card.GetID());
                     Cards.Deck.MoveLastAddedCard(posEnum);
                     break;

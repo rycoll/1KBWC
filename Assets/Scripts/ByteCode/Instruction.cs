@@ -13,6 +13,7 @@ public enum Instruction {
     COLOUR              = 010,
     CHUNK               = 011,
     PLACEHOLDER         = 012,
+    ENUM_BYTE           = 013,
 
     // control
     IF                  = 020,

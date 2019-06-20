@@ -95,6 +95,15 @@ public class ByteManager {
 
     #region Read Literals
 
+    public byte ReadEnumLiteral() {
+        try {
+            CheckType(Instruction.ENUM_BYTE);
+            return pop();
+        } catch (UnexpectedByteException e) {
+            throw e;
+        }
+    }
+
     public int ReadIntLiteral(ReadCallback cb) {
         if (NextInstructionIsAccessor()) {
             cb();  
@@ -165,18 +174,18 @@ public class ByteManager {
         }
         try {
             CheckType(Instruction.CONDITION);
-            byte conditionType = pop();
+            byte conditionType = ReadEnumLiteral();
             switch ((ConditionType) conditionType) {
                 case ConditionType.BOOL: {
                     bool a = ReadBoolLiteral(cb);
                     bool b = ReadBoolLiteral(cb);
-                    ConditionOperator op = (ConditionOperator) pop();
+                    ConditionOperator op = (ConditionOperator) ReadEnumLiteral();
                     return new Condition(a, b, op);
                 }
                 case ConditionType.NUM: {
                     int a = ReadIntLiteral(cb);
                     int b = ReadIntLiteral(cb);
-                    ConditionOperator op = (ConditionOperator) pop();
+                    ConditionOperator op = (ConditionOperator) ReadEnumLiteral();
                     return new Condition(a, b, op);
                 }
                 default:
