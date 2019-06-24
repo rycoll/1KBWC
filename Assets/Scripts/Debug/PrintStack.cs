@@ -56,6 +56,12 @@ public class PrintStack : ByteManager {
                     pop();
                     ListType type = (ListType) pop();
                     int size = ReadIntLiteral(readAccessorFirst);
+
+                    push(LiteralFactory.CreateIntLiteral(size));
+                    push((byte) type);
+                    push((byte) Instruction.LIST);
+                    ReadList(readAccessorFirst);
+
                     return $"{instruction.ToString()}(size:{size},type:{type})";
                 }
                 case Instruction.FOR_LOOP: {
@@ -72,6 +78,10 @@ public class PrintStack : ByteManager {
                     pop();
                     int size = ReadIntLiteral(readAccessorFirst);
                     return $"{instruction.ToString()}(size:{size})";
+                }
+                case Instruction.ENUM_BYTE: {
+                    byte b = ReadEnumLiteral();
+                    return $"enum:{b}";
                 }
                 default: {
                     pop();
