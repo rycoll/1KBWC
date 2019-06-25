@@ -10,7 +10,7 @@ public class EffectInfoUI : MonoBehaviour
 
     public void UpdateDisplay (EffectData data) {
         effectNameText.text = data.name;
-        effectDescText.text = data.desc;
+        effectDescText.text = data.message;
     }
 
     public void RemoveEffect () {

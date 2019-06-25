@@ -1,82 +1,72 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public static class FieldLibrary {
 
-    private static FieldData BoolFieldData = new FieldData() {
+    public static FieldData BoolFieldData = new FieldData() {
         text = "Yes or No?",
         enterValue = EnterValueType.BOOL,
-    }; 
-    public static FieldData GetBoolFieldData () {
-        if (BoolFieldData.queryDropdown == null) {
-            BoolFieldData.queryDropdown = new List<QueryData>();
-        }
-        return BoolFieldData;
-    } 
-
-    private static FieldData CardFieldData = new FieldData() {
-        text = "Which card?",
-        enterValue = EnterValueType.NONE
+        returnType = ReturnType.BOOL
     };
-    public static FieldData GetCardFieldData () {
-        if (CardFieldData.queryDropdown == null) {
-            CardFieldData.queryDropdown = new List<QueryData>();
-        }
-        return CardFieldData;
-    }
 
-    private static FieldData NumberFieldData = new FieldData() {
+    public static FieldData CardFieldData = new FieldData() {
+        text = "Which card?",
+        enterValue = EnterValueType.NONE,
+        returnType = ReturnType.CARD
+    };
+
+    public static FieldData NumberFieldData = new FieldData() {
         text = "What number?",
         enterValue = EnterValueType.NUMBER,
+        returnType = ReturnType.NUMBER
     };
-    public static FieldData GetNumberFieldData () {
-        if (NumberFieldData.queryDropdown == null) {
-            NumberFieldData.queryDropdown = new List<QueryData>();
-        }
-        return NumberFieldData;
-    }
 
-    private static FieldData PlayerFieldData = new FieldData() {
+    public static FieldData PlayerFieldData = new FieldData() {
         text = "Which player?",
         enterValue = EnterValueType.NONE,
+        returnType = ReturnType.PLAYER
     };
-    public static FieldData GetPlayerFieldData () {
-        if (PlayerFieldData.queryDropdown == null) {
-            PlayerFieldData.queryDropdown = new List<QueryData>();
-        }
-        return PlayerFieldData;
-    }
 
-    private static FieldData StringFieldData = new FieldData () {
-            text = "Text",
-            enterValue = EnterValueType.TEXT,
-        };
-    public static FieldData GetStringFieldData () {
-        if (StringFieldData.queryDropdown == null) {
-            StringFieldData.queryDropdown = new List<QueryData>();
-        }
-        return StringFieldData;
-    }
+    public static FieldData StringFieldData = new FieldData () {
+        text = "Text",
+        enterValue = EnterValueType.TEXT,
+        returnType = ReturnType.TEXT
+    };
 
-
-    private static FieldData ListFieldData = new FieldData() {
+    public static FieldData ListFieldData = new FieldData() {
         text = "List",
         enterValue = EnterValueType.NONE,
+        returnType = ReturnType.LIST
     };
-    public static FieldData GetListFieldData () {
-        if (ListFieldData.queryDropdown == null) {
-            ListFieldData.queryDropdown = new List<QueryData>();
-        }
-        return ListFieldData;
-    }
-}
 
+    public static FieldData ConditionFieldData = new FieldData() {
+
+    };
+
+    
+}
 
 public class FieldData {
     public string text;
     public EnterValueType enterValue;
-    public List<QueryData> queryDropdown;
+    public ReturnType returnType;
+
+    public List<EffectData> GetDropdownValues() {
+        switch(returnType) {
+            case ReturnType.BOOL:
+                return EffectData.GetAllBoolReturningEffects();
+            case ReturnType.CARD:
+                return EffectData.GetAllCardReturningEffects();
+            case ReturnType.PLAYER:
+                return EffectData.GetAllPlayerReturningEffects();
+            case ReturnType.NUMBER:
+                return EffectData.GetAllNumberReturningEffects();
+            case ReturnType.TEXT:
+                return EffectData.GetAllTextReturningEffects();
+            case ReturnType.NONE:
+            default:
+                return new List<EffectData>();
+        }
+    }
 }
 
 public enum EnterValueType {

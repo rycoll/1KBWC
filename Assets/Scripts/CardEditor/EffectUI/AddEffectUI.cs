@@ -33,9 +33,17 @@ public class AddEffectUI : MonoBehaviour
         
         effectObj.GetComponent<Image>().color = GetRandColorThatContrastsWithBlack();
 
-        EffectData data = EffectLibrary.GetEffectDataByName(
+        // todo : get correct data for the instruction, by name (dropdown ui value string)
+
+        EffectData data = EffectData.GetEffectDataByName(
             dropdown.options[dropdown.value].text
         );
+
+        // todo : instatiate and position an appropriate UI for the effect data
+
+        // todo : make sure fields are properly added
+
+        // old code
 
         foreach (FieldData fieldData in data.fields) {
             GameObject fieldObj = Instantiate(fieldPanelPrefab, effectObj.transform) as GameObject;
@@ -55,7 +63,9 @@ public class AddEffectUI : MonoBehaviour
     }
 
     private void SetOptions () {
-        List<string> options = EffectLibrary.GetAllEffectData().Select(effect => effect.name).ToList();
+        List<string> options = EffectData.InstructionDataMap.Values
+            .Where(value => EffectData.BaseInstructions.Contains(value.instruction))
+            .Select(value => value.name).ToList();
         dropdown.ClearOptions();
         dropdown.AddOptions(options);
     }

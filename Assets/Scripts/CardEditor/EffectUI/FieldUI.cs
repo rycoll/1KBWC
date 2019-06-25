@@ -39,12 +39,12 @@ public class FieldUI : MonoBehaviour
         Dropdown dropdown = dropdownObj.GetComponent<Dropdown>();
         dropdown.ClearOptions();
         List<string> options = new List<string>();
-        foreach (QueryData queryData in data.queryDropdown) {
-            options.Add(queryData.name);
+        foreach (EffectData effectData in data.GetDropdownValues()) {
+            options.Add(effectData.name);
         }
         dropdown.AddOptions(options);
         dropdown.onValueChanged.AddListener(delegate {
-            SetSubQuery(GetQueryForCurrentSelected());
+            SetSubQuery(GetDataForCurrentSelected());
         });
         dropdownObj.SetActive(false);
         currSelectField = dropdownObj;
@@ -97,22 +97,22 @@ public class FieldUI : MonoBehaviour
         if (currSelectField) {
             currSelectField.SetActive(true);
         }
-        SetSubQuery(GetQueryForCurrentSelected());
+        SetSubQuery(GetDataForCurrentSelected());
     }
 
-    public QueryData GetQueryForCurrentSelected () {
+    public EffectData GetDataForCurrentSelected () {
         if (!currSelectField) {
             // this sucks
-            return QueryLibrary.GetNullQueryData();
+            return null;
         }
         Dropdown dropdown = currSelectField.GetComponent<Dropdown>();
         if (dropdown.options.Count == 0) {
             // this also sucks
-            return QueryLibrary.GetNullQueryData();
+            return null;
 
         }
         string selection = dropdown.options[dropdown.value].text;
-        return QueryLibrary.GetQueryDataByName(selection);
+        return EffectData.GetEffectDataByName(selection);
     }
 
     public void ClearSubQuery () {
@@ -122,12 +122,14 @@ public class FieldUI : MonoBehaviour
         children = new List<GameObject>();
     }
 
-    public void SetSubQuery (QueryData q) {
+    public void SetSubQuery (EffectData effect) {
         ClearSubQuery();
-        foreach (FieldData fieldData in q.fields) {
-            GameObject newChild = Instantiate(fieldPrefab, this.transform) as GameObject;
-            newChild.GetComponent<FieldUI>().SetData(fieldData);
-            children.Add(newChild);
+        if (effect != null) {
+            foreach (FieldData fieldData in effect.fields) {
+                GameObject newChild = Instantiate(fieldPrefab, this.transform) as GameObject;
+                newChild.GetComponent<FieldUI>().SetData(fieldData);
+                children.Add(newChild);
+            }
         }
     }
 
