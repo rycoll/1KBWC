@@ -69,7 +69,7 @@ public class EffectData {
             Instruction.IF,
             "If ... then ...",
             "Run some effects only if a specified condition is met",
-            new FieldData[]{ FieldLibrary.ConditionFieldData },
+            new FieldData[]{ FieldLibrary.ConditionFieldData("") },
             ReturnType.NONE,
             true
         )},
@@ -77,7 +77,7 @@ public class EffectData {
             Instruction.LOOP,
             "Loop",
             "Do some effects a specified number of times",
-            new FieldData[] { FieldLibrary.NumberFieldData },
+            new FieldData[] { FieldLibrary.NumberFieldData("Number of times") },
             ReturnType.NONE,
             true
         )},
@@ -85,9 +85,40 @@ public class EffectData {
             Instruction.FOR_LOOP,
             "For Loop",
             "Do some effects for each item in a list",
-            new FieldData[] { FieldLibrary.ListFieldData },
+            new FieldData[] { FieldLibrary.ListFieldData("List to iterate over") },
             ReturnType.NONE,
             true
+        )},
+
+        {Instruction.ADD, new EffectData(
+            Instruction.ADD,
+            "Add",
+            "Add two numbers",
+            new FieldData[] { 
+                FieldLibrary.NumberFieldData("Number to add"), 
+                FieldLibrary.NumberFieldData("Number to add") 
+            },
+            ReturnType.NUMBER,
+            false
+        )},
+        {Instruction.MULTIPLY, new EffectData(
+            Instruction.MULTIPLY,
+            "Multiply",
+            "Multiply two numbers",
+            new FieldData[] { 
+                FieldLibrary.NumberFieldData("Number to multiply"), 
+                FieldLibrary.NumberFieldData("Number to multiply") 
+            },
+            ReturnType.NUMBER,
+            false
+        )},
+        {Instruction.RANDOM_NUMBER, new EffectData(
+            Instruction.RANDOM_NUMBER,
+            "Random Number",
+            "Get a random number (between 1 and an upper bound)",
+            new FieldData[] { FieldLibrary.NumberFieldData("Upper bound") },
+            ReturnType.NUMBER,
+            false
         )},
 
          {Instruction.GET_ACTIVE_PLAYER, new EffectData(
@@ -108,7 +139,7 @@ public class EffectData {
             Instruction.GET_PLAYER_POINTS,
             "Player's points",
             "The point total of a specified player",
-            new FieldData[]{ FieldLibrary.PlayerFieldData },
+            new FieldData[]{ FieldLibrary.PlayerFieldData("Which player?") },
             ReturnType.PLAYER
         )},
         {Instruction.TARGET_PLAYER, new EffectData(
@@ -129,7 +160,7 @@ public class EffectData {
             Instruction.READ_COUNTER,
             "Read counter",
             "Read the value of a counter (enter name)",
-            new FieldData[]{ FieldLibrary.StringFieldData },
+            new FieldData[]{ FieldLibrary.StringFieldData("Name of the counter") },
             ReturnType.NUMBER
         )},
 
@@ -137,31 +168,46 @@ public class EffectData {
             Instruction.SET_PLAYER_POINTS,
             "Set player's points",
             "Set the point total of a specified player",
-            new FieldData[]{ FieldLibrary.NumberFieldData, FieldLibrary.PlayerFieldData }
+            new FieldData[]{ 
+                FieldLibrary.NumberFieldData("New point total"), 
+                FieldLibrary.PlayerFieldData("Which player?") 
+            }
         )},
         {Instruction.INCREMENT_PLAYER_POINTS, new EffectData(
             Instruction.INCREMENT_PLAYER_POINTS,
             "Increment player's points",
             "Increment the point total of a specified player",
-            new FieldData[]{ FieldLibrary.NumberFieldData, FieldLibrary.PlayerFieldData }
+            new FieldData[]{ 
+                FieldLibrary.NumberFieldData("How many points?"), 
+                FieldLibrary.PlayerFieldData("Which player?") 
+            }
         )},
         {Instruction.SET_PLAYER_DRAW, new EffectData(
             Instruction.SET_PLAYER_DRAW,
             "Set player's draw size",
             "Change the number of cards a particular player draws each turn",
-            new FieldData[]{ FieldLibrary.NumberFieldData, FieldLibrary.PlayerFieldData }
+            new FieldData[]{ 
+                FieldLibrary.NumberFieldData("New number of cards to draw"), 
+                FieldLibrary.PlayerFieldData("Which player?") 
+            }
         )},
         {Instruction.SET_PLAYER_MAX_HAND, new EffectData(
             Instruction.SET_PLAYER_MAX_HAND,
             "Set player's hand size",
             "Set the maximum hand size for a specified player",
-            new FieldData[]{ FieldLibrary.NumberFieldData, FieldLibrary.PlayerFieldData }
+            new FieldData[]{ 
+                FieldLibrary.NumberFieldData("New max. hand size"), 
+                FieldLibrary.PlayerFieldData("Which player?") 
+            }
         )},
         {Instruction.PLAYER_DRAW_CARD, new EffectData(
             Instruction.PLAYER_DRAW_CARD,
             "Player draws card(s)",
             "A specified player draws a specified number of cards",
-            new FieldData[]{ FieldLibrary.NumberFieldData, FieldLibrary.PlayerFieldData }
+            new FieldData[]{ 
+                FieldLibrary.NumberFieldData("How many cards to draw"), 
+                FieldLibrary.PlayerFieldData("Which player?") 
+            }
         )},
         // {Instruction.SET_COUNTER, new Instruction[]{
         //     Instruction.STRING,

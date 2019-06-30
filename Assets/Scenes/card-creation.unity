@@ -5199,7 +5199,7 @@ GameObject:
   - component: {fileID: 1588422568}
   - component: {fileID: 1588422567}
   m_Layer: 5
-  m_Name: Scroll Content (Effects)
+  m_Name: Effect Root (Scroll Content)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5222,7 +5222,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5, y: 0.000061035156}
+  m_AnchoredPosition: {x: -5, y: -0.000061035156}
   m_SizeDelta: {x: -10, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1588422567
@@ -6085,6 +6085,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Add Effect Div
+      objectReference: {fileID: 0}
+    - target: {fileID: 160766015080803920, guid: cff4262129cc74a4883ff0a6b1a082f6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 160766015080803951, guid: cff4262129cc74a4883ff0a6b1a082f6,
         type: 3}

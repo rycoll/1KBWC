@@ -14,7 +14,7 @@ public class FieldUI : MonoBehaviour
     public GameObject stringFieldPrefab;
     public GameObject numberFieldPrefab;
     public GameObject dropdownPrefab;
-    private static GameObject fieldPrefab;
+    public GameObject fieldPrefab;
 
     private GameObject currEnterField;
     private GameObject currSelectField;
@@ -22,9 +22,6 @@ public class FieldUI : MonoBehaviour
 
     private void Awake () {
         children = new List<GameObject>();
-        if (fieldPrefab == null) {
-            fieldPrefab = Resources.Load<GameObject>("Prefabs/Field Div");
-        }
     }
 
     public void SetData (FieldData data) {
@@ -109,7 +106,6 @@ public class FieldUI : MonoBehaviour
         if (dropdown.options.Count == 0) {
             // this also sucks
             return null;
-
         }
         string selection = dropdown.options[dropdown.value].text;
         return EffectData.GetEffectDataByName(selection);

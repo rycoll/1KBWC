@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class EffectNode : MonoBehaviour
 {
-    private bool takesSubEffects = false;
+    private EffectData data;
 
-    public Instruction instruction { get; private set; }
+    public void SetData (EffectData d) {
+        data = d;
+    }
 
-    public EffectNode (Instruction instr) {
-        instruction = instr;
+    public EffectData GetEffectData () {
+        return data;
     }
 
     public void Evaluate () {

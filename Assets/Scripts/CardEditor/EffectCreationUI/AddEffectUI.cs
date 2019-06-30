@@ -8,10 +8,6 @@ public class AddEffectUI : MonoBehaviour
 {
     public Dropdown dropdown;
     public GameObject effectPanelPrefab;
-    public GameObject infoPanelPrefab;
-    public GameObject fieldPanelPrefab;
-
-    public GameObject inputPlayerPrefab;
 
     public void Start () {
         SetOptions();
@@ -27,39 +23,15 @@ public class AddEffectUI : MonoBehaviour
 
     public void AddEffect () {
         GameObject effectObj = Instantiate(effectPanelPrefab, transform.parent) as GameObject;
-        effectObj.transform.SetSiblingIndex(transform.parent.childCount - 2);
-
-        GameObject infoObj = Instantiate(infoPanelPrefab, effectObj.transform) as GameObject;
-        
+        effectObj.transform.SetSiblingIndex(transform.parent.childCount - 2);        
         effectObj.GetComponent<Image>().color = GetRandColorThatContrastsWithBlack();
-
-        // todo : get correct data for the instruction, by name (dropdown ui value string)
 
         EffectData data = EffectData.GetEffectDataByName(
             dropdown.options[dropdown.value].text
         );
-
-        // todo : instatiate and position an appropriate UI for the effect data
-
-        // todo : make sure fields are properly added
-
-        // old code
-
-        foreach (FieldData fieldData in data.fields) {
-            GameObject fieldObj = Instantiate(fieldPanelPrefab, effectObj.transform) as GameObject;
-            FieldUI fieldUI = fieldObj.GetComponent<FieldUI>();
-
-            fieldUI.SetData(fieldData);
-        }
-
-        if (data.takesSubEffects) {
-            GameObject addButton = Instantiate(gameObject, effectObj.transform) as GameObject;
-        }
-
-        EffectInfoUI infoUI = infoObj.GetComponent<EffectInfoUI>();
-        if (infoUI) {
-            infoUI.UpdateDisplay(data);
-        }
+        
+        EffectUI effectUI = effectObj.GetComponent<EffectUI>();
+        effectUI.SetEffect(data);
     }
 
     private void SetOptions () {
