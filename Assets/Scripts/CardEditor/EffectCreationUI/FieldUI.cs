@@ -11,13 +11,13 @@ public class FieldUI : MonoBehaviour
 
     private FieldData data;
 
-    public GameObject stringFieldPrefab;
-    public GameObject numberFieldPrefab;
-    public GameObject dropdownPrefab;
-    public GameObject fieldPrefab;
+    public GameObject effectPrefab;
 
-    private GameObject currEnterField;
-    private GameObject currSelectField;
+    public Toggle boolEnterField;
+    public InputField stringEnterField;
+    public InputField numberEnterField;
+    public Dropdown selectField;
+
     private List<GameObject> children;
 
     private void Awake () {
@@ -32,82 +32,75 @@ public class FieldUI : MonoBehaviour
     public void OpenDisplay () {
         headerText.text = data.text;
         
-        GameObject dropdownObj = AddPrefabToDisplay(this.dropdownPrefab);
-        Dropdown dropdown = dropdownObj.GetComponent<Dropdown>();
-        dropdown.ClearOptions();
+        selectField.ClearOptions();
         List<string> options = new List<string>();
         foreach (EffectData effectData in data.GetDropdownValues()) {
             options.Add(effectData.name);
         }
-        dropdown.AddOptions(options);
-        dropdown.onValueChanged.AddListener(delegate {
+        selectField.AddOptions(options);
+        selectField.onValueChanged.AddListener(delegate {
             SetSubQuery(GetDataForCurrentSelected());
         });
-        dropdownObj.SetActive(false);
-        currSelectField = dropdownObj;
+        selectField.gameObject.SetActive(false);
 
-        switch (data.enterValue) {
-            case EnterValueType.BOOL:
-                // this aint right
-                currEnterField = AddPrefabToDisplay(this.stringFieldPrefab);
-                EnterValueMode();
-                break;
-            case EnterValueType.NONE:
-                toggleButton.SetActive(false);
-                SelectQueryMode();
-                break;
-            case EnterValueType.NUMBER:
-                currEnterField = AddPrefabToDisplay(this.numberFieldPrefab);
-                EnterValueMode();
-                break;
-            case EnterValueType.TEXT:
-                currEnterField = AddPrefabToDisplay(this.stringFieldPrefab);
-                EnterValueMode();
-                break;
+        if (data.enterValue == EnterValueType.NONE) {
+            toggleButton.SetActive(false);
+            SelectQueryMode();
+        } else {
+            EnterValueMode();
         }        
     }
 
     public void Toggle () {
-        if (data.enterValue == EnterValueType.NONE || currEnterField.activeSelf) {
+        if (data.enterValue == EnterValueType.NONE || !selectField.gameObject.activeSelf) {
             SelectQueryMode();
         } else {
             EnterValueMode();
         }
     }
 
-    public void EnterValueMode () {
+    public GameObject ChooseAppropriateEnterField () {
+        switch (data.enterValue) {
+            case EnterValueType.BOOL:
+                return boolEnterField.gameObject;
+            case EnterValueType.NUMBER:
+                return numberEnterField.gameObject;
+            case EnterValueType.TEXT:
+                return stringEnterField.gameObject;
+            default:
+                return null;
+        }  
+    }
+
+    public void DeactivateAllFields () {
+        boolEnterField.gameObject.SetActive(false);
+        stringEnterField.gameObject.SetActive(false);
+        numberEnterField.gameObject.SetActive(false);
+        selectField.gameObject.SetActive(false);
+
+        // should maybe clear all of these too
         ClearSubQuery();
+    }
+
+    public void EnterValueMode () {
+        DeactivateAllFields();
         toggleButtonText.text = "Enter a value";
-        if (currEnterField) {
-            currEnterField.SetActive(true);
-        }
-        if (currSelectField) {
-            currSelectField.SetActive(false);
-        }
+        GameObject enterField = ChooseAppropriateEnterField();
+        enterField.SetActive(false);
     }
 
     public void SelectQueryMode () {
+        DeactivateAllFields();
         toggleButtonText.text = "Read a value";
-        if (currEnterField) {
-            currEnterField.SetActive(false);
-        }
-        if (currSelectField) {
-            currSelectField.SetActive(true);
-        }
+        selectField.gameObject.SetActive(true);
         SetSubQuery(GetDataForCurrentSelected());
     }
 
     public EffectData GetDataForCurrentSelected () {
-        if (!currSelectField) {
-            // this sucks
+        if (!selectField.gameObject.activeSelf || selectField.options.Count == 0) {
             return null;
         }
-        Dropdown dropdown = currSelectField.GetComponent<Dropdown>();
-        if (dropdown.options.Count == 0) {
-            // this also sucks
-            return null;
-        }
-        string selection = dropdown.options[dropdown.value].text;
+        string selection = selectField.options[selectField.value].text;
         return EffectData.GetEffectDataByName(selection);
     }
 
@@ -121,11 +114,8 @@ public class FieldUI : MonoBehaviour
     public void SetSubQuery (EffectData effect) {
         ClearSubQuery();
         if (effect != null) {
-            foreach (FieldData fieldData in effect.fields) {
-                GameObject newChild = Instantiate(fieldPrefab, this.transform) as GameObject;
-                newChild.GetComponent<FieldUI>().SetData(fieldData);
-                children.Add(newChild);
-            }
+            GameObject effectObj = Instantiate(effectPrefab, this.transform) as GameObject;
+            effectObj.GetComponent<EffectUI>().SetEffect(effect);
         }
     }
 

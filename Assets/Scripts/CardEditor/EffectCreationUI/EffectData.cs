@@ -16,6 +16,7 @@ public class EffectData {
         takesSubEffects = b;
         name = n;
         message = m;
+        returnType = t;
         fields = f;
     }
 
