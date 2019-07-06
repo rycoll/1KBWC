@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EffectUI : MonoBehaviour
 {
@@ -34,5 +32,9 @@ public class EffectUI : MonoBehaviour
 
     public void DisplayInfo () {
         infoDiv.UpdateDisplay(effectData);
+    }
+
+    public void RecalculateSize () {
+        
     }
 }
