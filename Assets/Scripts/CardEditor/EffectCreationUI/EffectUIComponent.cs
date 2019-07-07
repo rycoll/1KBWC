@@ -1,12 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class EffectUIComponent : MonoBehaviour
 {
 
     private EffectUIComponent uiParent;
     private Color colour;
+
+    public void Style () {
+        GetComponent<Image>().color = GetColour();
+        
+    }
 
     public void SetParent (EffectUIComponent p) {
         this.uiParent = p;
