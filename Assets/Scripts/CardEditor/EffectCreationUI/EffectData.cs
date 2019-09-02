@@ -70,7 +70,7 @@ public class EffectData {
             Instruction.IF,
             "If ... then ...",
             "Run some effects only if a specified condition is met",
-            new FieldData[]{ FieldLibrary.ConditionFieldData("") },
+            new FieldData[]{ FieldLibrary.ConditionFieldData("Under what condition?") },
             ReturnType.NONE,
             true
         )},
@@ -78,7 +78,7 @@ public class EffectData {
             Instruction.LOOP,
             "Loop",
             "Do some effects a specified number of times",
-            new FieldData[] { FieldLibrary.NumberFieldData("Number of times") },
+            new FieldData[] { FieldLibrary.NumberFieldData("How many times?") },
             ReturnType.NONE,
             true
         )},
@@ -86,7 +86,7 @@ public class EffectData {
             Instruction.FOR_LOOP,
             "For Loop",
             "Do some effects for each item in a list",
-            new FieldData[] { FieldLibrary.ListFieldData("List to iterate over") },
+            new FieldData[] { FieldLibrary.ListFieldData("What items should be iterated over?") },
             ReturnType.NONE,
             true
         )},
@@ -96,8 +96,8 @@ public class EffectData {
             "Add",
             "Add two numbers",
             new FieldData[] { 
-                FieldLibrary.NumberFieldData("Number to add"), 
-                FieldLibrary.NumberFieldData("Number to add") 
+                FieldLibrary.NumberFieldData("What's the first number to add?"), 
+                FieldLibrary.NumberFieldData("What's the second number to add?") 
             },
             ReturnType.NUMBER,
             false
@@ -107,8 +107,8 @@ public class EffectData {
             "Multiply",
             "Multiply two numbers",
             new FieldData[] { 
-                FieldLibrary.NumberFieldData("Number to multiply"), 
-                FieldLibrary.NumberFieldData("Number to multiply") 
+                FieldLibrary.NumberFieldData("What's the first  number to multiply?"), 
+                FieldLibrary.NumberFieldData("What's the second number to multiply?") 
             },
             ReturnType.NUMBER,
             false
