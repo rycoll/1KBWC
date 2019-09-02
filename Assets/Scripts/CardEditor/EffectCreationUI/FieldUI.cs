@@ -115,7 +115,7 @@ public class FieldUI : MonoBehaviour
         ClearSubQuery();
         if (effect != null) {
             GameObject effectObj = Instantiate(effectPrefab, this.transform) as GameObject;
-            effectObj.GetComponent<EffectUI>().SetEffect(effect);
+            //effectObj.GetComponent<EffectUI>().SetEffect(effect);
         }
     }
 

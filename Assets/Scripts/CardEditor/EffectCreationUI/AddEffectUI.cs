@@ -30,8 +30,8 @@ public class AddEffectUI : MonoBehaviour
             dropdown.options[dropdown.value].text
         );
         
-        EffectUI effectUI = effectObj.GetComponent<EffectUI>();
-        effectUI.SetEffect(data);
+        //EffectUI effectUI = effectObj.GetComponent<EffectUI>();
+        //effectUI.SetEffect(data);
     }
 
     private void SetOptions () {
