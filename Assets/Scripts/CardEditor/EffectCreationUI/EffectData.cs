@@ -141,7 +141,7 @@ public class EffectData {
             "Player's points",
             "The point total of a specified player",
             new FieldData[]{ FieldLibrary.PlayerFieldData("Which player?") },
-            ReturnType.PLAYER
+            ReturnType.NUMBER
         )},
         {Instruction.TARGET_PLAYER, new EffectData(
             Instruction.TARGET_PLAYER,
