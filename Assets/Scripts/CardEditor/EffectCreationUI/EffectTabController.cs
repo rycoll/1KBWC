@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EffectTabController : MonoBehaviour
 {
@@ -8,6 +6,12 @@ public class EffectTabController : MonoBehaviour
     public GameObject introPanel;
     public GameObject questionPanel;
     public GameObject summaryPanel;
+
+    public EffectBuilder builder;
+
+    public void Start () {
+        builder = new EffectBuilder();
+    }
 
     public void OpenIntroPanel () {
         CloseAllPanels();
@@ -33,6 +37,8 @@ public class EffectTabController : MonoBehaviour
     public void Begin () {
         OpenQuestionPanel();
         QuestionPanelController question = questionPanel.GetComponent<QuestionPanelController>();
+        builder = new EffectBuilder();
+        question.SetEffectBuilder(builder);
         question.InitialState();
     }
 }

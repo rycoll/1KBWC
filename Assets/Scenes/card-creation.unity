@@ -4234,6 +4234,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Submit Selection Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5390537996059010370, guid: ec4e241fdbffa394c9a347ce41aa08e3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1094148018}
+    - target: {fileID: 5390537996059010370, guid: ec4e241fdbffa394c9a347ce41aa08e3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SubmitSelection
+      objectReference: {fileID: 0}
     - target: {fileID: 5390537996059010371, guid: ec4e241fdbffa394c9a347ce41aa08e3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4606,6 +4616,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Input Selection Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5390537996059010370, guid: ec4e241fdbffa394c9a347ce41aa08e3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1094148018}
+    - target: {fileID: 5390537996059010370, guid: ec4e241fdbffa394c9a347ce41aa08e3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SubmitTextInput
       objectReference: {fileID: 0}
     - target: {fileID: 5390537996059010371, guid: ec4e241fdbffa394c9a347ce41aa08e3,
         type: 3}
@@ -6468,6 +6488,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Paragraph
       objectReference: {fileID: 0}
+    - target: {fileID: 2289592790615760926, guid: ea6730bc67523a249a28f071620a1f1b,
+        type: 3}
+      propertyPath: m_Text
+      value: 'What would you like this card to do?
+
+
+        Choose an effect from the dropdown below to continue.'
+      objectReference: {fileID: 0}
     - target: {fileID: 2289592790615760927, guid: ea6730bc67523a249a28f071620a1f1b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6572,14 +6600,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2289592790615760926, guid: ea6730bc67523a249a28f071620a1f1b,
-        type: 3}
-      propertyPath: m_Text
-      value: 'What would you like this card to do?
-
-
-        Choose an effect from the dropdown below to continue.'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea6730bc67523a249a28f071620a1f1b, type: 3}
@@ -9892,6 +9912,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Intro Text - Paragraph
       objectReference: {fileID: 0}
+    - target: {fileID: 2289592790615760926, guid: ea6730bc67523a249a28f071620a1f1b,
+        type: 3}
+      propertyPath: m_Text
+      value: 'This is where you decide what this card is actually going to do, by
+        answering some questions.
+
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 2289592790615760927, guid: ea6730bc67523a249a28f071620a1f1b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9996,15 +10025,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2289592790615760926, guid: ea6730bc67523a249a28f071620a1f1b,
-        type: 3}
-      propertyPath: m_Text
-      value: 'This is where you decide what this card is actually going to do, by
-        answering some questions.
-
-
-'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea6730bc67523a249a28f071620a1f1b, type: 3}
@@ -10437,6 +10457,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Begin Effect Creation Button
       objectReference: {fileID: 0}
+    - target: {fileID: 5390537996059010370, guid: ec4e241fdbffa394c9a347ce41aa08e3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 414960197}
+    - target: {fileID: 5390537996059010370, guid: ec4e241fdbffa394c9a347ce41aa08e3,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Begin
+      objectReference: {fileID: 0}
     - target: {fileID: 5390537996059010371, guid: ec4e241fdbffa394c9a347ce41aa08e3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10541,16 +10571,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5390537996059010370, guid: ec4e241fdbffa394c9a347ce41aa08e3,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 414960197}
-    - target: {fileID: 5390537996059010370, guid: ec4e241fdbffa394c9a347ce41aa08e3,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Begin
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec4e241fdbffa394c9a347ce41aa08e3, type: 3}
