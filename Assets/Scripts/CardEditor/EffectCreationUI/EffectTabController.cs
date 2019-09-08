@@ -41,4 +41,9 @@ public class EffectTabController : MonoBehaviour
         question.SetEffectBuilder(builder);
         question.InitialState();
     }
+
+    public void FinishEffect () {
+        
+    }
+
 }

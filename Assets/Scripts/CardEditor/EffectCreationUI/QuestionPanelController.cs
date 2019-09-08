@@ -4,8 +4,20 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+public struct QuestionnaireQueueItem {
+    public EffectData parent;
+    public FieldData data;
+
+    public QuestionnaireQueueItem(EffectData effect, FieldData field) {
+        parent = effect;
+        data = field;
+    }
+}
+
 public class QuestionPanelController : MonoBehaviour
 {
+    public EffectTabController controller;
+
     public Text questionText;
     public Dropdown dropdown;
     public InputField textInput;
@@ -15,7 +27,7 @@ public class QuestionPanelController : MonoBehaviour
 
     private EffectBuilder builder;
 
-    private List<FieldData> processingQueue = new List<FieldData>();
+    private List<QuestionnaireQueueItem> processingQueue = new List<QuestionnaireQueueItem>();
     private FieldData current;
 
     public void SetEffectBuilder(EffectBuilder b) {
@@ -35,15 +47,14 @@ public class QuestionPanelController : MonoBehaviour
         dropdown.AddOptions(options);
     }
 
-    public void SetState (FieldData data) {
-        current = data;
-        questionText.text = data.text;
-        Dropdown(data.returnType != ReturnType.NONE, data.returnType);
-        Input(data.enterValue != EnterValueType.NONE, data.enterValue);
+    public void SetState (QuestionnaireQueueItem data) {
+        current = data.data;
+        questionText.text = $"{data.parent.name}\n\n{current.text}";
+        Dropdown(current.returnType != ReturnType.NONE, current.returnType);
+        Input(current.enterValue != EnterValueType.NONE, current.enterValue);
     }
 
     public void Dropdown (bool active, ReturnType type = ReturnType.NONE) {
-        Debug.Log($"Dropdown active: {active} - {type}");
         dropdown.gameObject.SetActive(active);
         submitSelectionButton.gameObject.SetActive(active);
 
@@ -56,8 +67,6 @@ public class QuestionPanelController : MonoBehaviour
     }
 
     public void Input (bool active, EnterValueType type = EnterValueType.NONE) {
-        Debug.Log($"Input active: {active} - {type}");
-
         textInput.gameObject.SetActive(active);
         submitInputButton.gameObject.SetActive(active);
 
@@ -77,13 +86,16 @@ public class QuestionPanelController : MonoBehaviour
         EffectData data = EffectData.GetEffectDataByName(selection);
         builder.Add((byte) data.instruction);
 
-        processingQueue.InsertRange(0, data.fields);
+        List<QuestionnaireQueueItem> fields = data.fields.Select(
+            item => new QuestionnaireQueueItem(data, item)
+        ).ToList();
+        processingQueue.InsertRange(0, fields);
         Next();
     }
 
     public void SubmitTextInput () {
         string selection = InputFieldText.text;
-        // number: parse int
+
         switch(current.enterValue) {
             case EnterValueType.NUMBER: {
                 if (Int32.TryParse(selection, out int numValue)) {
@@ -103,7 +115,7 @@ public class QuestionPanelController : MonoBehaviour
 
     public void Next () {
         if (processingQueue.Count > 0) {
-            FieldData next = processingQueue[0];
+            QuestionnaireQueueItem next = processingQueue[0];
             processingQueue.Remove(next);
             SetState(next);
         } else {

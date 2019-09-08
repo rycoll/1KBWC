@@ -9,18 +9,28 @@ public class EffectBuilder {
         effectBytes = new List<byte>();
     }
 
+    public void PrintBytes () {
+        string print = "bytes: ";
+        foreach (byte b in effectBytes) {
+            print += b.ToString() + " ";
+        }
+        Debug.Log(print);
+    }
+
     public void Add (byte b) {
         effectBytes.Add(b);
-        Debug.Log(effectBytes);
+        PrintBytes();
     }
 
     public void Add (byte[] arr) {
         effectBytes.AddRange(arr);
-        Debug.Log(effectBytes);
+        PrintBytes();
     }
 
     public byte[] ExportEffect () {
-        return effectBytes.ToArray();
+        byte[] arr = effectBytes.ToArray();
+        effectBytes = new List<byte>();
+        return arr;
     }
 
 }
