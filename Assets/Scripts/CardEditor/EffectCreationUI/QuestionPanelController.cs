@@ -49,7 +49,7 @@ public class QuestionPanelController : MonoBehaviour
 
     public void SetState (QuestionnaireQueueItem data) {
         current = data.data;
-        questionText.text = $"{data.parent.name}\n\n{current.text}";
+        questionText.text = $"{data.parent.message}\n\n{current.text}";
         Dropdown(current.returnType != ReturnType.NONE, current.returnType);
         Input(current.enterValue != EnterValueType.NONE, current.enterValue);
     }
