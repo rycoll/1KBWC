@@ -61,7 +61,7 @@ public class RulesTextBuilder {
             }
             case Instruction.RANDOM_NUMBER: {
                 string upper = args[0];
-                return $"a random number between 1 and {num}";
+                return $"a random number between 1 and {upper}";
             }
             case Instruction.READ_COUNTER: {
                 return args[0];
