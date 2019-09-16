@@ -5,15 +5,13 @@ using UnityEngine;
 
 public class EffectData {
     public Instruction instruction { get; private set; }
-    public bool takesSubEffects  { get; private set; }
     public string name { get; private set; }
     public string message  { get; private set; }
     public FieldData[] fields { get; private set; }
     public ReturnType returnType { get; private set; }
 
-    public EffectData (Instruction i, string n, string m, FieldData[] f, ReturnType t = ReturnType.NONE, bool b = false) {
+    public EffectData (Instruction i, string n, string m, FieldData[] f, ReturnType t = ReturnType.NONE) {
         instruction = i;
-        takesSubEffects = b;
         name = n;
         message = m;
         returnType = t;
@@ -45,6 +43,12 @@ public class EffectData {
         }
     }
 
+    public static List<EffectData> GetAllRootEffects () {
+        return InstructionDataMap.Values
+            .Where(value => BaseInstructions.Contains(value.instruction))
+            .ToList();
+    }
+
     public static List<EffectData> GetAllBoolReturningEffects () {
         return InstructionDataMap.Values.Where(value => value.returnType == ReturnType.BOOL).ToList();
     }
@@ -71,24 +75,21 @@ public class EffectData {
             "If ... then ...",
             "Run some effects only if a specified condition is met",
             new FieldData[]{ FieldLibrary.ConditionFieldData("Under what condition?") },
-            ReturnType.NONE,
-            true
+            ReturnType.NONE
         )},
         {Instruction.LOOP, new EffectData(
             Instruction.LOOP,
             "Loop",
             "Do some effects a specified number of times",
             new FieldData[] { FieldLibrary.NumberFieldData("How many times?") },
-            ReturnType.NONE,
-            true
+            ReturnType.NONE
         )},
         {Instruction.FOR_LOOP, new EffectData(
             Instruction.FOR_LOOP,
             "For Loop",
             "Do some effects for each item in a list",
             new FieldData[] { FieldLibrary.ListFieldData("What items should be iterated over?") },
-            ReturnType.NONE,
-            true
+            ReturnType.NONE
         )},
 
         {Instruction.ADD, new EffectData(
@@ -99,8 +100,7 @@ public class EffectData {
                 FieldLibrary.NumberFieldData("What's the first number to add?"), 
                 FieldLibrary.NumberFieldData("What's the second number to add?") 
             },
-            ReturnType.NUMBER,
-            false
+            ReturnType.NUMBER
         )},
         {Instruction.MULTIPLY, new EffectData(
             Instruction.MULTIPLY,
@@ -110,16 +110,14 @@ public class EffectData {
                 FieldLibrary.NumberFieldData("What's the first  number to multiply?"), 
                 FieldLibrary.NumberFieldData("What's the second number to multiply?") 
             },
-            ReturnType.NUMBER,
-            false
+            ReturnType.NUMBER
         )},
         {Instruction.RANDOM_NUMBER, new EffectData(
             Instruction.RANDOM_NUMBER,
             "Random Number",
             "Get a random number (between 1 and an upper bound)",
             new FieldData[] { FieldLibrary.NumberFieldData("Upper bound") },
-            ReturnType.NUMBER,
-            false
+            ReturnType.NUMBER
         )},
 
          {Instruction.GET_ACTIVE_PLAYER, new EffectData(
@@ -229,5 +227,5 @@ public class EffectData {
 }
 
 public enum ReturnType {
-    NONE, NUMBER, BOOL, TEXT, CARD, PLAYER, LIST
+    NONE, NUMBER, BOOL, TEXT, CARD, PLAYER, LIST, CONDITION, ROOT_EFFECT
 }

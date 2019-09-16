@@ -53,7 +53,14 @@ public static class FieldLibrary {
     public static FieldData ConditionFieldData (string t) {
         return new FieldData() {
         };
+    }
 
+    public static FieldData RootEffectFieldData (string t) {
+        return new FieldData() {
+            text = t,
+            enterValue = EnterValueType.NONE,
+            returnType = ReturnType.ROOT_EFFECT
+        };
     }
 
 }
@@ -75,6 +82,8 @@ public class FieldData {
                 return EffectData.GetAllNumberReturningEffects();
             case ReturnType.TEXT:
                 return EffectData.GetAllTextReturningEffects();
+            case ReturnType.ROOT_EFFECT:
+                return EffectData.GetAllRootEffects();
             case ReturnType.NONE:
             default:
                 return new List<EffectData>();
