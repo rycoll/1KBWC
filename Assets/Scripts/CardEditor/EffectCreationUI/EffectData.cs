@@ -225,7 +225,7 @@ public class EffectData {
         // {Instruction.ERROR, }
     };
 
-    
+
 }
 
 public enum ReturnType {
