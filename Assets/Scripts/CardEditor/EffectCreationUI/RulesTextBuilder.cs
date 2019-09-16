@@ -19,6 +19,7 @@ public class RulesTextBuilder {
                 string numA = args[0], numB = args[1];
                 return $"{numA} + {numB}";
             }
+            case Instruction.GET_ACTIVE_PLAYER: return "you";
             case Instruction.GET_PLAYER: {
                 string id = args[0];
                 return $"Player {id}";
@@ -33,6 +34,10 @@ public class RulesTextBuilder {
                 return (CountWordsInString(num) > 1)
                     ? $"{player} {verb} points equal to {num}."
                     : $"{player} {verb} {num} points.";
+            }
+            case Instruction.LIST_LENGTH: {
+                string list = args[0];
+                return $"the number of {list}";
             }
             case Instruction.MOVE_TO_DECK: {
                 string card = args[0], location = args[1].ToLower();
@@ -90,6 +95,29 @@ public class RulesTextBuilder {
                     ? $"{player} {verb} their score set equal to {num}."
                     : $"{player} {verb} their score set to {num}";
             }
+            case Instruction.TARGET_CARD: return "a card of your choice";
+            case Instruction.TARGET_PLAYER: return "a player of your choice";
+
+
+            // literals
+
+            case Instruction.EFFECT_DELIMITER: {
+                return "\n";
+            }
+            case Instruction.INT: return args[0];
+            case Instruction.STRING: return args[0];
+            case Instruction.BOOL: return args[0];
+            case Instruction.LIST: return "a list";
+            case Instruction.LIST_ITEM: return "a list item";
+            case Instruction.PLAYER: return $"Player {args[0]}";
+            case Instruction.CARD: return "a card";
+            case Instruction.CONDITION: {
+                // todo
+                return "condition";
+            }
+            case Instruction.COLOUR: return args[0];
+             
+
         }
         } catch (Exception e) {
             Debug.Log("Couldn't build string for effect: " + effect.instruction);
