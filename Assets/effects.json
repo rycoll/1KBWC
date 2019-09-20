@@ -1,0 +1,427 @@
+{
+    "EFFECT_DELIMITER": {
+        "name": "Effect Delimiter",
+        "type": "primitive",
+        "instruction": "EFFECT_DELIMITER",
+        "message": "Separator for effects",
+        "returnType": "NONE",
+        "fields": [],
+        "canBeRoot": false
+    },     
+    "INT": {
+        "name": "Number",
+        "type": "primitive",
+        "instruction": "INT",
+        "message": "A number",
+        "returnType": "NUMBER",
+        "fields": [],
+        "canBeRoot": false
+    },                  
+    "STRING": {
+        "name": "String",
+        "type": "primitive",
+        "instruction": "STRING",
+        "message": "Some text",
+        "returnType": "TEXT",
+        "fields": [],
+        "canBeRoot": false
+    },               
+    "BOOL": {
+        "name": "True/False",
+        "type": "primitive",
+        "instruction": "BOOL",
+        "message": "True or false",
+        "returnType": "BOOL",
+        "fields": [],
+        "canBeRoot": false
+    },                 
+    "LIST": {
+        "name": "List",
+        "type": "primitive",
+        "instruction": "LIST",
+        "message": "A list of items",
+        "returnType": "LIST",
+        "fields": [],
+        "canBeRoot": false
+    },                 
+    "LIST_ITEM": {
+        "name": "List Item",
+        "type": "primitive",
+        "instruction": "LIST_ITEM",
+        "message": "",
+        "returnType": "NONE",
+        "fields": [],
+        "canBeRoot": false
+    },            
+    "PLAYER": {
+        "name": "Player",
+        "type": "primitive",
+        "instruction": "PLAYER",
+        "message": "A player",
+        "returnType": "PLAYER",
+        "fields": [],
+        "canBeRoot": false
+    },               
+    "CARD": {
+        "name": "Card",
+        "type": "primitive",
+        "instruction": "CARD",
+        "message": "A card",
+        "returnType": "CARD",
+        "fields": [],
+        "canBeRoot": false
+    },                 
+    "CONDITION": {
+        "name": "Condition",
+        "type": "primitive",
+        "instruction": "CONDITION",
+        "message": "A condition",
+        "returnType": "CONDITION",
+        "fields": [],
+        "canBeRoot": false
+    },            
+    "LISTENER": {
+        "name": "Listener",
+        "type": "primitive",
+        "instruction": "LISTENER",
+        "message": "A listener for events",
+        "returnType": "NONE",
+        "fields": [],
+        "canBeRoot": false
+    },             
+    "COLOUR": {
+        "name": "Colour",
+        "type": "primitive",
+        "instruction": "COLOUR",
+        "message": "",
+        "returnType": "NONE",
+        "fields": [],
+        "canBeRoot": false
+    },               
+    "CHUNK": {
+        "name": "Chunk",
+        "type": "auxiliary",
+        "instruction": "CHUNK",
+        "message": "A chunk of bytes",
+        "returnType": "NONE",
+        "fields": [],
+        "canBeRoot": false
+    },                
+    "PLACEHOLDER": {
+        "name": "Placeholder",
+        "type": "auxiliary",
+        "instruction": "PLACEHOLDER",
+        "message": "Placeholder for some bytes",
+        "returnType": "NONE",
+        "fields": [],
+        "canBeRoot": false
+    },          
+    "ENUM_BYTE": {
+        "name": "Enum",
+        "type": "primitive",
+        "instruction": "ENUM_BYTE",
+        "message": "Byte representing an enum",
+        "returnType": "NONE",
+        "fields": [],
+        "canBeRoot": false
+    },            
+    "IF": {
+        "name": "If... Then...",
+        "type": "control",
+        "instruction": "IF",
+        "message": "If a condition is met, some effects are run",
+        "returnType": "NONE",
+        "fields": [{
+                "type": "CONDITION",
+                "desc": "Under what condition should this effect happen?"
+            }, {
+                "type": "ROOT_EFFECT",
+                "desc": "What should happen when the condition is met?"
+            }],
+        "canBeRoot": true
+    },                   
+    "ENDIF": {
+        "name": "Endif",
+        "type": "auxiliary",
+        "instruction": "ENDIF",
+        "message": "Signals end of IF scope",
+        "returnType": "NONE",
+        "fields": [],
+        "canBeRoot": false
+    },                
+    "LOOP": {
+        "name": "Loop",
+        "type": "control",
+        "instruction": "LOOP",
+        "message": "Do some effects a number of times",
+        "returnType": "NONE",
+        "fields": ["NUMBER", "ROOT_EFFECT"],
+        "canBeRoot": true
+    },                 
+    "FOR_LOOP": {
+        "name": "For Loop",
+        "type": "control",
+        "instruction": "FOR_LOOP",
+        "message": "Do some effects for each item in a list",
+        "returnType": "NONE",
+        "fields": [{
+            "type": "LIST",
+            "desc": "What list should be iterated?"
+        }, {
+            "type": "ROOT_EFFECT",
+            "desc": "What should happen for each item in the list?"
+        }],
+        "canBeRoot": true
+    },             
+    "ENDLOOP": {
+        "name": "End Loop",
+        "type": "auxiliary",
+        "instruction": "ENDLOOP",
+        "message": "Signals the end of scope for a loop",
+        "returnType": "NONE",
+        "fields": [],
+        "canBeRoot": false
+    },              
+    "ADD": {
+        "name": "Add numbers",
+        "type": "getter",
+        "instruction": "ADD",
+        "message": "Add two numbers",
+        "returnType": "NUMBER",
+        "fields": [{
+            "type": "NUMBER",
+            "desc": "First number to add"
+        }, {
+            "type": "NUMBER",
+            "desc": "Second number to add"
+        }],
+        "canBeRoot": false
+    },                  
+    "MULTIPLY": {
+        "name": "Multiply numbers",
+        "type": "getter",
+        "instruction": "MULTIPLY",
+        "message": "Multiply two numbers",
+        "returnType": "NUMBER",
+        "fields": [{
+            "type": "NUMBER",
+            "desc": "First number to multiply"
+        }, {
+            "type": "NUMBER",
+            "desc": "Second number to multiply"
+        }],
+        "canBeRoot": false
+    },             
+    "LIST_LENGTH": {
+        "name": "List Length",
+        "type": "getter",
+        "instruction": "LIST_LENGTH",
+        "message": "Get the length of a list",
+        "returnType": "NUMBER",
+        "fields": [{
+            "type": "LIST",
+            "desc": "Which list to get the length of?"
+        }],
+        "canBeRoot": false
+    },          
+    "RANDOM_NUMBER": {
+        "name": "Random Number",
+        "type": "getter",
+        "instruction": "RANDOM_NUMBER",
+        "message": "Get a random number between 1 and a specified upper bound",
+        "returnType": "NUMBER",
+        "fields": [{
+            "type": "NUMBER",
+            "desc": "Upper bound for random die roll"
+        }],
+        "canBeRoot": false
+    },        
+    "GET_ACTIVE_PLAYER": {
+        "name": "Get Active Player",
+        "type": "getter",
+        "instruction": "GET_ACTIVE_PLAYER",
+        "message": "Get the player whose turn it is",
+        "returnType": "PLAYER",
+        "fields": [],
+        "canBeRoot": false
+    },    
+    "GET_PLAYER": {
+        "name": "Get Player",
+        "type": "getter",
+        "instruction": "GET_PLAYER",
+        "message": "Get a player",
+        "returnType": "PLAYER",
+        "fields": [{
+            "type": "NUMBER",
+            "desc": "ID of player to get"
+        }],
+        "canBeRoot": false
+    },           
+    "GET_PLAYER_POINTS": {
+        "name": "Get Player's Points",
+        "type": "getter",
+        "instruction": "GET_PLAYER_POINTS",
+        "message": "Get the point total of a specified player",
+        "returnType": "NUMBER",
+        "fields": [{
+            "type": "NUMBER",
+            "desc": "ID of player whose points should be checked"
+        }],
+        "canBeRoot": false
+    },    
+    "TARGET_PLAYER": {
+        "name": "Target Player",
+        "type": "getter",
+        "instruction": "TARGET_PLAYER",
+        "message": "A player of your (the current player) choice",
+        "returnType": "PLAYER",
+        "fields": [],
+        "canBeRoot": false
+    },        
+    "TARGET_CARD": {
+        "name": "Target Card",
+        "type": "getter",
+        "instruction": "TARGET_CARD",
+        "message": "A card of your (the current player) choice",
+        "returnType": "CARD",
+        "fields": [],
+        "canBeRoot": false
+    },          
+    "READ_COUNTER": {
+        "name": "Read a Counter",
+        "type": "getter",
+        "instruction": "READ_COUNTER",
+        "message": "Read a counter from a key. Returns 0 if the key doesn't exist.",
+        "returnType": "NUMBER",
+        "fields": [{
+            "type": "TEXT",
+            "desc": "The name of the counter that should be checked (case insensitive)."
+        }],
+        "canBeRoot": false
+    },         
+    "SET_PLAYER_POINTS": {
+        "name": "Set a Player's Points",
+        "type": "setter",
+        "instruction": "SET_PLAYER_POINTS",
+        "message": "Set the point total of a specified player",
+        "returnType": "NONE",
+        "fields": [{
+            "type": "NUMBER",
+            "desc": "New point total"
+        }, {
+            "type": "PLAYER",
+            "desc": "Player to affect"
+        }],
+        "canBeRoot": true
+    },            
+    "INCREMENT_PLAYER_POINTS": {
+        "name": "Increment a Player's Points",
+        "type": "setter",
+        "instruction": "INCREMENT_PLAYER_POINTS",
+        "message": "Add to (or subtract from) the point total of a specified player",
+        "returnType": "NONE",
+        "fields": [{
+            "type": "NUMBER",
+            "desc": "Number to add (use negative to substract)"
+        }, {
+            "type": "PLAYER",
+            "desc": "Player to affect"
+        }],
+        "canBeRoot": true
+    },     
+    "SET_PLAYER_DRAW": {
+        "name": "Set Player Draw Size",
+        "type": "setter",
+        "instruction": "SET_PLAYER_DRAW",
+        "message": "Set the number of cards a player draws at the start of their turn",
+        "returnType": "NONE",
+        "fields": [{
+            "type": "NUMBER",
+            "desc": "Number to of cards to draw"
+        }, {
+            "type": "PLAYER",
+            "desc": "Player to affect"
+        }],
+        "canBeRoot": true
+    },              
+    "SET_PLAYER_MAX_HAND": {
+        "name": "Set Player Max. Hand Size",
+        "type": "setter",
+        "instruction": "SET_PLAYER_MAX_HAND",
+        "message": "Set the maximum hand size for a specified player",
+        "returnType": "NONE",
+        "fields": [{
+            "type": "NUMBER",
+            "desc": "New maximum hand size"
+        }, {
+            "type": "PLAYER",
+            "desc": "Player to affect"
+        }],
+        "canBeRoot": true
+    },          
+    "PLAYER_DRAW_CARD": {
+        "name": "Player Draws Cards",
+        "type": "setter",
+        "instruction": "PLAYER_DRAW_CARD",
+        "message": "A players draws a number of cards from the deck",
+        "returnType": "NONE",
+        "fields": [{
+            "type": "PLAYER",
+            "desc": "Which player should draw?"
+        }, {
+            "type": "NUMBER",
+            "desc": "Number of cards to draw"
+        }],
+        "canBeRoot": true
+    },             
+    "SET_COUNTER": {
+        "name": "Set Counter",
+        "type": "setter",
+        "instruction": "Set a named counter (e.g. 'stench' = 40)",
+        "message": "",
+        "returnType": "NONE",
+        "fields": [{
+            "type": "TEXT",
+            "desc": "Name of the counter (case insensitive)"
+        },{
+            "type": "NUMBER",
+            "desc": "Number to set"
+        }],
+        "canBeRoot": true
+    },                  
+    "MOVE_TO_DISCARD": {
+        "name": "Move to Discard",
+        "type": "setter",
+        "instruction": "MOVE_TO_DISCARD",
+        "message": "Move a card into the discard pile",
+        "returnType": "NONE",
+        "fields": [{
+            "type": "CARD",
+            "desc": "Card to discard"
+        }],
+        "canBeRoot": true
+    },              
+    "MOVE_TO_DECK": {
+        "name": "Move to Deck",
+        "type": "setter",
+        "instruction": "MOVE_TO_DECK",
+        "message": "Move a card into the deck",
+        "returnType": "NONE",
+        "fields": [{
+            "type": "CARD",
+            "desc": "Card to discard"
+        }, {
+            "type": "ENUM_DECK_POSITION",
+            "desc": "Position in the deck"
+        }],
+        "canBeRoot": true
+    },                 
+    "ERROR": {
+        "name": "Error",
+        "type": "primitive",
+        "instruction": "ERROR",
+        "message": "You shouldn't ever see this in-game. Please notify a dev!",
+        "returnType": "NONE",
+        "fields": []
+    }  
+}
