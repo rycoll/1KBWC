@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 
+[System.Serializable]
 public class EffectData {
     public Instruction instruction { get; private set; }
     public string name { get; private set; }
