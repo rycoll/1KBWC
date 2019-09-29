@@ -13,7 +13,6 @@ public enum Instruction {
     COLOUR              = 010,
     CHUNK               = 011,
     PLACEHOLDER         = 012,
-    ENUM_BYTE           = 013,
 
     // control
     IF                  = 020,
@@ -47,6 +46,9 @@ public enum Instruction {
     MOVE_TO_DISCARD             = 066,
     MOVE_TO_DECK                = 067,
 
+    // enums
+    ENUM_DECK_POSITION          = 200,
+    ENUM_CONDITION_OPERATOR     = 201,
 
     ERROR = 255
 }

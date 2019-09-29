@@ -79,6 +79,18 @@ public class ByteManager {
             return true;
         } else throw new UnexpectedByteException("Expected " + check + ", Found " + top);
     }
+    public bool CheckType (Instruction[] checks) {
+        byte top = peek();
+        string expected = "";
+        for (int i = 0; i < checks.Length; i++) {
+            if (top == (byte) checks[i]) {
+                pop();
+                return true;
+            }
+            expected += $" {checks[i].ToString()},";
+        }
+        throw new UnexpectedByteException($"Expected {expected} Found {top}");
+    }
     public bool CheckType (ListType check) {
         byte top = peek();
         if (top == (byte) check) {
@@ -86,6 +98,7 @@ public class ByteManager {
             return true;
         } else throw new UnexpectedByteException("Expected " + check + ", Found " + top);
     }
+
     public bool NextInstructionIsAccessor () {
         byte top = peek();
         return top < 0060 && top >= 0030;
@@ -97,7 +110,10 @@ public class ByteManager {
 
     public byte ReadEnumLiteral() {
         try {
-            CheckType(Instruction.ENUM_BYTE);
+            CheckType(new Instruction[]{
+                Instruction.ENUM_CONDITION_OPERATOR,
+                Instruction.ENUM_DECK_POSITION
+            });
             return pop();
         } catch (UnexpectedByteException e) {
             throw e;

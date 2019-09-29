@@ -119,7 +119,7 @@ namespace Tests
         [Test]
         public void Enum()
         {
-            bytes.push(LiteralFactory.CreateEnumLiteral(200));
+            bytes.push(LiteralFactory.CreateEnumLiteral(200, Instruction.ENUM_DECK_POSITION));
             Assert.AreEqual(
                 bytes.ReportStackContent(),
                 "enum:200 "

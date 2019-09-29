@@ -79,7 +79,8 @@ public class PrintStack : ByteManager {
                     int size = ReadIntLiteral(readAccessorFirst);
                     return $"{instruction.ToString()}(size:{size})";
                 }
-                case Instruction.ENUM_BYTE: {
+                case Instruction.ENUM_CONDITION_OPERATOR:
+                case Instruction.ENUM_DECK_POSITION: {
                     byte b = ReadEnumLiteral();
                     return $"enum:{b}";
                 }

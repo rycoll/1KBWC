@@ -153,7 +153,7 @@ public class InstructionFactory {
     public static byte[] Make_MoveToDeck(byte[] card, DeckLocation location) {
         List<byte> bytes = new List<byte>(
             new List<byte>(
-                LiteralFactory.CreateEnumLiteral((byte) location)
+                LiteralFactory.CreateEnumLiteral((byte) location, Instruction.ENUM_DECK_POSITION)
             )
         );
         bytes.AddRange(new List<byte>(card));
