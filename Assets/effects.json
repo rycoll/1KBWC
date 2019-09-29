@@ -116,12 +116,21 @@
         "fields": [],
         "canBeRoot": false
     },          
-    "ENUM_BYTE": {
-        "name": "Enum",
+    "ENUM_CONDITION_OPERATOR": {
+        "name": "Condition Operator",
         "type": "primitive",
-        "instruction": "ENUM_BYTE",
-        "message": "Byte representing an enum",
-        "returnType": "NONE",
+        "instruction": "ENUM_CONDITION_OPERATOR",
+        "message": "Condition operator",
+        "returnType": "ENUM_CONDITION_OPERATOR",
+        "fields": [],
+        "canBeRoot": false
+    },            
+    "ENUM_DECK_POSITION": {
+        "name": "Deck Position",
+        "type": "primitive",
+        "instruction": "ENUM_DECK_POSITION",
+        "message": "Position in the deck",
+        "returnType": "ENUM_DECK_POSITION",
         "fields": [],
         "canBeRoot": false
     },            
@@ -155,7 +164,13 @@
         "instruction": "LOOP",
         "message": "Do some effects a number of times",
         "returnType": "NONE",
-        "fields": ["NUMBER", "ROOT_EFFECT"],
+        "fields": [{
+            "type": "NUMBER",
+            "desc": "How many times?"
+        }, {
+            "type": "ROOT_EFFECT",
+            "desc": "What effect should be looped?"
+        }],
         "canBeRoot": true
     },                 
     "FOR_LOOP": {
@@ -244,7 +259,55 @@
         "returnType": "PLAYER",
         "fields": [],
         "canBeRoot": false
-    },    
+    }, 
+    "GET_ALL_PLAYERS": {
+        "name": "All Players",
+        "type": "getter",
+        "instruction": "GET_ALL_PLAYERS",
+        "message": "All players",
+        "returnType": "LIST",
+        "fields": [],
+        "canBeRoot": false
+    }, 
+    "GET_ALL_OPPONENTS": {
+        "name": "All Opponents",
+        "type": "getter",
+        "instruction": "GET_ALL_OPPONENTS",
+        "message": "All opponents",
+        "returnType": "LIST",
+        "fields": [],
+        "canBeRoot": false
+    }, 
+    "GET_CARDS_IN_DECK": {
+        "name": "Get Cards In Deck",
+        "type": "getter",
+        "instruction": "GET_CARDS_IN_DECK",
+        "message": "All cards currently in the deck",
+        "returnType": "LIST",
+        "fields": [],
+        "canBeRoot": false
+    }, 
+    "GET_CARDS_IN_DISCARD": {
+        "name": "Get Cards In Discard",
+        "type": "getter",
+        "instruction": "GET_CARDS_IN_DISCARD",
+        "message": "All cards currently in the discard pile",
+        "returnType": "LIST",
+        "fields": [],
+        "canBeRoot": false
+    }, 
+    "GET_CARDS_IN_HAND": {
+        "name": "Get Cards In Hand",
+        "type": "getter",
+        "instruction": "GET_CARDS_IN_HAND",
+        "message": "All cards in a specified player's hand",
+        "returnType": "LIST",
+        "fields": [{
+            "type": "PLAYER",
+            "desc": "Which player's hand?"
+        }],
+        "canBeRoot": false
+    }, 
     "GET_PLAYER": {
         "name": "Get Player",
         "type": "getter",
@@ -268,7 +331,41 @@
             "desc": "ID of player whose points should be checked"
         }],
         "canBeRoot": false
-    },    
+    },
+    "MAKE_CONDITION_BOOL": {
+        "name": "Compare Booleans",
+        "type": "getter",
+        "instruction": "MAKE_CONDITION_BOOL",
+        "message": "Compare two things",
+        "returnType": "CONDITION",
+        "fields": [{
+            "type": "BOOL",
+            "desc": "First thing to compare"
+        }, {
+            "type": "BOOL",
+            "desc": "Second thing to compare"
+        }, {
+            "type": "ENUM_CONDITION_OPERATOR",
+            "desc": "Comparison operator"
+        }]
+    }, 
+    "MAKE_CONDITION_NUMBER": {
+        "name": "Compare Numbers",
+        "type": "getter",
+        "instruction": "MAKE_CONDITION_NUMBER",
+        "message": "Compare two numbers",
+        "returnType": "CONDITION",
+        "fields": [{
+            "type": "NUMBER",
+            "desc": "First number to compare"
+        }, {
+            "type": "NUMBER",
+            "desc": "Second number to compare"
+        }, {
+            "type": "ENUM_CONDITION_OPERATOR",
+            "desc": "Comparison operator"
+        }]
+    }, 
     "TARGET_PLAYER": {
         "name": "Target Player",
         "type": "getter",
