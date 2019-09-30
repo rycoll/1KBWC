@@ -13,7 +13,7 @@
         "type": "primitive",
         "instruction": "INT",
         "message": "A number",
-        "returnType": "NUMBER",
+        "returnType": "NONE",
         "fields": [],
         "canBeRoot": false
     },                  
@@ -22,7 +22,7 @@
         "type": "primitive",
         "instruction": "STRING",
         "message": "Some text",
-        "returnType": "TEXT",
+        "returnType": "NONE",
         "fields": [],
         "canBeRoot": false
     },               
@@ -31,7 +31,7 @@
         "type": "primitive",
         "instruction": "BOOL",
         "message": "True or false",
-        "returnType": "BOOL",
+        "returnType": "NONE",
         "fields": [],
         "canBeRoot": false
     },                 
@@ -40,7 +40,7 @@
         "type": "primitive",
         "instruction": "LIST",
         "message": "A list of items",
-        "returnType": "LIST",
+        "returnType": "NONE",
         "fields": [],
         "canBeRoot": false
     },                 
@@ -58,7 +58,7 @@
         "type": "primitive",
         "instruction": "PLAYER",
         "message": "A player",
-        "returnType": "PLAYER",
+        "returnType": "NONE",
         "fields": [],
         "canBeRoot": false
     },               
@@ -67,7 +67,7 @@
         "type": "primitive",
         "instruction": "CARD",
         "message": "A card",
-        "returnType": "CARD",
+        "returnType": "NONE",
         "fields": [],
         "canBeRoot": false
     },                 
@@ -76,7 +76,7 @@
         "type": "primitive",
         "instruction": "CONDITION",
         "message": "A condition",
-        "returnType": "CONDITION",
+        "returnType": "NONE",
         "fields": [],
         "canBeRoot": false
     },            
@@ -121,7 +121,7 @@
         "type": "primitive",
         "instruction": "ENUM_CONDITION_OPERATOR",
         "message": "Condition operator",
-        "returnType": "ENUM_CONDITION_OPERATOR",
+        "returnType": "NONE",
         "fields": [],
         "canBeRoot": false
     },            
@@ -130,7 +130,7 @@
         "type": "primitive",
         "instruction": "ENUM_DECK_POSITION",
         "message": "Position in the deck",
-        "returnType": "ENUM_DECK_POSITION",
+        "returnType": "NONE",
         "fields": [],
         "canBeRoot": false
     },            

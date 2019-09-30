@@ -28,6 +28,14 @@ public class ParsedField {
 
 public class EffectJSONParser {
 
+    public static List<EffectData> GetEffectDataFromJSONFile() {
+        return ConvertParsedJSON(
+            ParseJSON(
+                ReadJSON("Assets/effects.json")
+            )
+        );
+    }
+
     public static List<EffectData> ConvertParsedJSON (List<ParsedEffect> parsedList) {
         List<EffectData> effects = new List<EffectData>();
         foreach (ParsedEffect parsed in parsedList) {

@@ -40,9 +40,8 @@ public class QuestionPanelController : MonoBehaviour
         Dropdown(true, ReturnType.NONE);
         Input(false);
 
-        List<string> options = EffectData.InstructionDataMap.Values
-            .Where(value => EffectData.BaseInstructions.Contains(value.instruction))
-            .Select(value => value.name).ToList();
+        List<string> options = EffectData.GetAllRootEffects()
+            .Select(effect => effect.name).ToList();
         dropdown.ClearOptions();
         dropdown.AddOptions(options);
     }
@@ -59,9 +58,15 @@ public class QuestionPanelController : MonoBehaviour
         submitSelectionButton.gameObject.SetActive(active);
 
         // set appropriate dropdown options with ReturnType
-        List<string> options = EffectData.InstructionDataMap.Values
-            .Where(value => type == value.returnType)
-            .Select(value => value.name).ToList();
+        List<string> options;
+        if (type == ReturnType.ROOT_EFFECT) {
+            options = EffectData.GetAllRootEffects()
+                .Select(effect => effect.name).ToList();
+        } else {
+            options = EffectData.Effects
+                .Where(effect => effect.returnType == type)
+                .Select(effect => effect.name).ToList();
+        }
         dropdown.ClearOptions();
         dropdown.AddOptions(options);
     }
