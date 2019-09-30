@@ -1,5 +1,5 @@
-{
-    "EFFECT_DELIMITER": {
+{ "effects": [
+    {
         "name": "Effect Delimiter",
         "type": "primitive",
         "instruction": "EFFECT_DELIMITER",
@@ -8,7 +8,7 @@
         "fields": [],
         "canBeRoot": false
     },     
-    "INT": {
+    {
         "name": "Number",
         "type": "primitive",
         "instruction": "INT",
@@ -17,7 +17,7 @@
         "fields": [],
         "canBeRoot": false
     },                  
-    "STRING": {
+    {
         "name": "String",
         "type": "primitive",
         "instruction": "STRING",
@@ -26,7 +26,7 @@
         "fields": [],
         "canBeRoot": false
     },               
-    "BOOL": {
+    {
         "name": "True/False",
         "type": "primitive",
         "instruction": "BOOL",
@@ -35,7 +35,7 @@
         "fields": [],
         "canBeRoot": false
     },                 
-    "LIST": {
+    {
         "name": "List",
         "type": "primitive",
         "instruction": "LIST",
@@ -44,7 +44,7 @@
         "fields": [],
         "canBeRoot": false
     },                 
-    "LIST_ITEM": {
+    {
         "name": "List Item",
         "type": "primitive",
         "instruction": "LIST_ITEM",
@@ -53,7 +53,7 @@
         "fields": [],
         "canBeRoot": false
     },            
-    "PLAYER": {
+    {
         "name": "Player",
         "type": "primitive",
         "instruction": "PLAYER",
@@ -62,7 +62,7 @@
         "fields": [],
         "canBeRoot": false
     },               
-    "CARD": {
+    {
         "name": "Card",
         "type": "primitive",
         "instruction": "CARD",
@@ -71,7 +71,7 @@
         "fields": [],
         "canBeRoot": false
     },                 
-    "CONDITION": {
+    {
         "name": "Condition",
         "type": "primitive",
         "instruction": "CONDITION",
@@ -80,7 +80,7 @@
         "fields": [],
         "canBeRoot": false
     },            
-    "LISTENER": {
+    {
         "name": "Listener",
         "type": "primitive",
         "instruction": "LISTENER",
@@ -89,7 +89,7 @@
         "fields": [],
         "canBeRoot": false
     },             
-    "COLOUR": {
+    {
         "name": "Colour",
         "type": "primitive",
         "instruction": "COLOUR",
@@ -98,7 +98,7 @@
         "fields": [],
         "canBeRoot": false
     },               
-    "CHUNK": {
+    {
         "name": "Chunk",
         "type": "auxiliary",
         "instruction": "CHUNK",
@@ -107,7 +107,7 @@
         "fields": [],
         "canBeRoot": false
     },                
-    "PLACEHOLDER": {
+    {
         "name": "Placeholder",
         "type": "auxiliary",
         "instruction": "PLACEHOLDER",
@@ -116,7 +116,7 @@
         "fields": [],
         "canBeRoot": false
     },          
-    "ENUM_CONDITION_OPERATOR": {
+    {
         "name": "Condition Operator",
         "type": "primitive",
         "instruction": "ENUM_CONDITION_OPERATOR",
@@ -125,7 +125,7 @@
         "fields": [],
         "canBeRoot": false
     },            
-    "ENUM_DECK_POSITION": {
+    {
         "name": "Deck Position",
         "type": "primitive",
         "instruction": "ENUM_DECK_POSITION",
@@ -134,7 +134,7 @@
         "fields": [],
         "canBeRoot": false
     },            
-    "IF": {
+    {
         "name": "If... Then...",
         "type": "control",
         "instruction": "IF",
@@ -149,7 +149,7 @@
             }],
         "canBeRoot": true
     },                   
-    "ENDIF": {
+    {
         "name": "Endif",
         "type": "auxiliary",
         "instruction": "ENDIF",
@@ -158,7 +158,7 @@
         "fields": [],
         "canBeRoot": false
     },                
-    "LOOP": {
+    {
         "name": "Loop",
         "type": "control",
         "instruction": "LOOP",
@@ -173,7 +173,7 @@
         }],
         "canBeRoot": true
     },                 
-    "FOR_LOOP": {
+    {
         "name": "For Loop",
         "type": "control",
         "instruction": "FOR_LOOP",
@@ -188,7 +188,7 @@
         }],
         "canBeRoot": true
     },             
-    "ENDLOOP": {
+    {
         "name": "End Loop",
         "type": "auxiliary",
         "instruction": "ENDLOOP",
@@ -197,7 +197,7 @@
         "fields": [],
         "canBeRoot": false
     },              
-    "ADD": {
+    {
         "name": "Add numbers",
         "type": "getter",
         "instruction": "ADD",
@@ -212,7 +212,7 @@
         }],
         "canBeRoot": false
     },                  
-    "MULTIPLY": {
+    {
         "name": "Multiply numbers",
         "type": "getter",
         "instruction": "MULTIPLY",
@@ -227,7 +227,7 @@
         }],
         "canBeRoot": false
     },             
-    "LIST_LENGTH": {
+    {
         "name": "List Length",
         "type": "getter",
         "instruction": "LIST_LENGTH",
@@ -239,7 +239,7 @@
         }],
         "canBeRoot": false
     },          
-    "RANDOM_NUMBER": {
+    {
         "name": "Random Number",
         "type": "getter",
         "instruction": "RANDOM_NUMBER",
@@ -251,7 +251,7 @@
         }],
         "canBeRoot": false
     },        
-    "GET_ACTIVE_PLAYER": {
+    {
         "name": "Get Active Player",
         "type": "getter",
         "instruction": "GET_ACTIVE_PLAYER",
@@ -260,7 +260,7 @@
         "fields": [],
         "canBeRoot": false
     }, 
-    "GET_ALL_PLAYERS": {
+    {
         "name": "All Players",
         "type": "getter",
         "instruction": "GET_ALL_PLAYERS",
@@ -269,7 +269,7 @@
         "fields": [],
         "canBeRoot": false
     }, 
-    "GET_ALL_OPPONENTS": {
+    {
         "name": "All Opponents",
         "type": "getter",
         "instruction": "GET_ALL_OPPONENTS",
@@ -278,7 +278,7 @@
         "fields": [],
         "canBeRoot": false
     }, 
-    "GET_CARDS_IN_DECK": {
+    {
         "name": "Get Cards In Deck",
         "type": "getter",
         "instruction": "GET_CARDS_IN_DECK",
@@ -287,7 +287,7 @@
         "fields": [],
         "canBeRoot": false
     }, 
-    "GET_CARDS_IN_DISCARD": {
+    {
         "name": "Get Cards In Discard",
         "type": "getter",
         "instruction": "GET_CARDS_IN_DISCARD",
@@ -296,7 +296,7 @@
         "fields": [],
         "canBeRoot": false
     }, 
-    "GET_CARDS_IN_HAND": {
+    {
         "name": "Get Cards In Hand",
         "type": "getter",
         "instruction": "GET_CARDS_IN_HAND",
@@ -308,7 +308,7 @@
         }],
         "canBeRoot": false
     }, 
-    "GET_PLAYER": {
+    {
         "name": "Get Player",
         "type": "getter",
         "instruction": "GET_PLAYER",
@@ -320,7 +320,7 @@
         }],
         "canBeRoot": false
     },           
-    "GET_PLAYER_POINTS": {
+    {
         "name": "Get Player's Points",
         "type": "getter",
         "instruction": "GET_PLAYER_POINTS",
@@ -332,7 +332,7 @@
         }],
         "canBeRoot": false
     },
-    "MAKE_CONDITION_BOOL": {
+    {
         "name": "Compare Booleans",
         "type": "getter",
         "instruction": "MAKE_CONDITION_BOOL",
@@ -349,7 +349,7 @@
             "desc": "Comparison operator"
         }]
     }, 
-    "MAKE_CONDITION_NUMBER": {
+    {
         "name": "Compare Numbers",
         "type": "getter",
         "instruction": "MAKE_CONDITION_NUMBER",
@@ -366,7 +366,7 @@
             "desc": "Comparison operator"
         }]
     }, 
-    "TARGET_PLAYER": {
+    {
         "name": "Target Player",
         "type": "getter",
         "instruction": "TARGET_PLAYER",
@@ -375,7 +375,7 @@
         "fields": [],
         "canBeRoot": false
     },        
-    "TARGET_CARD": {
+    {
         "name": "Target Card",
         "type": "getter",
         "instruction": "TARGET_CARD",
@@ -384,7 +384,7 @@
         "fields": [],
         "canBeRoot": false
     },          
-    "READ_COUNTER": {
+    {
         "name": "Read a Counter",
         "type": "getter",
         "instruction": "READ_COUNTER",
@@ -396,7 +396,7 @@
         }],
         "canBeRoot": false
     },         
-    "SET_PLAYER_POINTS": {
+    {
         "name": "Set a Player's Points",
         "type": "setter",
         "instruction": "SET_PLAYER_POINTS",
@@ -411,7 +411,7 @@
         }],
         "canBeRoot": true
     },            
-    "INCREMENT_PLAYER_POINTS": {
+    {
         "name": "Increment a Player's Points",
         "type": "setter",
         "instruction": "INCREMENT_PLAYER_POINTS",
@@ -426,7 +426,7 @@
         }],
         "canBeRoot": true
     },     
-    "SET_PLAYER_DRAW": {
+    {
         "name": "Set Player Draw Size",
         "type": "setter",
         "instruction": "SET_PLAYER_DRAW",
@@ -441,7 +441,7 @@
         }],
         "canBeRoot": true
     },              
-    "SET_PLAYER_MAX_HAND": {
+    {
         "name": "Set Player Max. Hand Size",
         "type": "setter",
         "instruction": "SET_PLAYER_MAX_HAND",
@@ -456,7 +456,7 @@
         }],
         "canBeRoot": true
     },          
-    "PLAYER_DRAW_CARD": {
+    {
         "name": "Player Draws Cards",
         "type": "setter",
         "instruction": "PLAYER_DRAW_CARD",
@@ -471,11 +471,11 @@
         }],
         "canBeRoot": true
     },             
-    "SET_COUNTER": {
+    {
         "name": "Set Counter",
         "type": "setter",
-        "instruction": "Set a named counter (e.g. 'stench' = 40)",
-        "message": "",
+        "instruction": "SET_COUNTER",
+        "message": "Set a named counter (e.g. 'stench' = 40)",
         "returnType": "NONE",
         "fields": [{
             "type": "TEXT",
@@ -486,7 +486,7 @@
         }],
         "canBeRoot": true
     },                  
-    "MOVE_TO_DISCARD": {
+    {
         "name": "Move to Discard",
         "type": "setter",
         "instruction": "MOVE_TO_DISCARD",
@@ -498,7 +498,7 @@
         }],
         "canBeRoot": true
     },              
-    "MOVE_TO_DECK": {
+    {
         "name": "Move to Deck",
         "type": "setter",
         "instruction": "MOVE_TO_DECK",
@@ -513,7 +513,7 @@
         }],
         "canBeRoot": true
     },                 
-    "ERROR": {
+    {
         "name": "Error",
         "type": "primitive",
         "instruction": "ERROR",
@@ -521,4 +521,4 @@
         "returnType": "NONE",
         "fields": []
     }  
-}
+]}
