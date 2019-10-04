@@ -335,7 +335,7 @@
     {
         "name": "Compare Booleans",
         "type": "getter",
-        "instruction": "MAKE_CONDITION_BOOL",
+        "instruction": "BOOL_COMPARISON",
         "message": "Compare two things",
         "returnType": "CONDITION",
         "fields": [{
@@ -352,7 +352,7 @@
     {
         "name": "Compare Numbers",
         "type": "getter",
-        "instruction": "MAKE_CONDITION_NUMBER",
+        "instruction": "NUM_COMPARISON",
         "message": "Compare two numbers",
         "returnType": "CONDITION",
         "fields": [{
