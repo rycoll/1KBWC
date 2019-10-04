@@ -51,7 +51,7 @@ public class EffectJSONParser {
             if (!success) throw new UnexpectedEnumException("Bad return type: " + parsed.returnType);
 
             effects.Add(new EffectData(
-                instruction, parsed.name, parsed.message, fieldArr, parsed.canBeRoot, returnType 
+                instruction, parsed.name, parsed.type, parsed.message, fieldArr, parsed.canBeRoot, returnType 
             ));
         }
         return effects;

@@ -7,6 +7,7 @@ using UnityEngine;
 public class EffectData {
     public Instruction instruction { get; private set; }
     public string name { get; private set; }
+    public string type { get; private set; }
     public string message  { get; private set; }
     public FieldData[] fields { get; private set; }
     public ReturnType returnType { get; private set; }
@@ -14,11 +15,12 @@ public class EffectData {
 
     public static List<EffectData> Effects = EffectJSONParser.GetEffectDataFromJSONFile();
 
-    public EffectData (Instruction i, string n, string m, FieldData[] f, bool root, ReturnType t = ReturnType.NONE) {
+    public EffectData (Instruction i, string n, string t, string m, FieldData[] f, bool root, ReturnType rt = ReturnType.NONE) {
         instruction = i;
         name = n;
+        type = t;
         message = m;
-        returnType = t;
+        returnType = rt;
         fields = f;
         canBeRoot = root;
     }

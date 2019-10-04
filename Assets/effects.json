@@ -13,7 +13,7 @@
         "type": "primitive",
         "instruction": "INT",
         "message": "A number",
-        "returnType": "NONE",
+        "returnType": "NUMBER",
         "fields": [],
         "canBeRoot": false
     },                  
@@ -22,7 +22,7 @@
         "type": "primitive",
         "instruction": "STRING",
         "message": "Some text",
-        "returnType": "NONE",
+        "returnType": "TEXT",
         "fields": [],
         "canBeRoot": false
     },               
@@ -31,7 +31,7 @@
         "type": "primitive",
         "instruction": "BOOL",
         "message": "True or false",
-        "returnType": "NONE",
+        "returnType": "BOOL",
         "fields": [],
         "canBeRoot": false
     },                 
@@ -121,7 +121,7 @@
         "type": "primitive",
         "instruction": "ENUM_CONDITION_OPERATOR",
         "message": "Condition operator",
-        "returnType": "NONE",
+        "returnType": "ENUM_CONDITION_OPERATOR",
         "fields": [],
         "canBeRoot": false
     },            
@@ -130,7 +130,7 @@
         "type": "primitive",
         "instruction": "ENUM_DECK_POSITION",
         "message": "Position in the deck",
-        "returnType": "NONE",
+        "returnType": "ENUM_DECK_POSITION",
         "fields": [],
         "canBeRoot": false
     },            

@@ -70,7 +70,7 @@ public class QuestionPanelController : MonoBehaviour
                 .Select(effect => effect.name).ToList();
         } else {
             options = EffectData.Effects
-                .Where(effect => effect.returnType == type)
+                .Where(effect => effect.returnType == type && effect.type != "primitive")
                 .Select(effect => effect.name).ToList();
         }
         dropdown.ClearOptions();
@@ -95,7 +95,7 @@ public class QuestionPanelController : MonoBehaviour
         string selection = dropdown.options[dropdown.value].text;
 
         // handling for enums
-        if (current != null && current.returnType != null) {
+        if (current != null) {
             string typeString = current.returnType.ToString();
             if (typeString.StartsWith("ENUM")) {
                 EnumRepesentation enumRepesentation = EnumRepesentation.EnumLookup(typeString);
