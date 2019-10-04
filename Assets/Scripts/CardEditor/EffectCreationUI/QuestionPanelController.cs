@@ -59,7 +59,13 @@ public class QuestionPanelController : MonoBehaviour
 
         // set appropriate dropdown options with ReturnType
         List<string> options;
-        if (type == ReturnType.ROOT_EFFECT) {
+
+        // handling for enums
+        string typeString = type.ToString();
+        if (typeString.StartsWith("ENUM")) {
+            EnumRepesentation enumRepesentation = EnumRepesentation.EnumLookup(typeString);
+            options = enumRepesentation.getNames().ToList();
+        } else if (type == ReturnType.ROOT_EFFECT) {
             options = EffectData.GetAllRootEffects()
                 .Select(effect => effect.name).ToList();
         } else {
@@ -87,6 +93,18 @@ public class QuestionPanelController : MonoBehaviour
 
     public void SubmitSelection () {
         string selection = dropdown.options[dropdown.value].text;
+
+        // handling for enums
+        if (current != null && current.returnType != null) {
+            string typeString = current.returnType.ToString();
+            if (typeString.StartsWith("ENUM")) {
+                EnumRepesentation enumRepesentation = EnumRepesentation.EnumLookup(typeString);
+                builder.Add((byte) enumRepesentation.getInstruction());
+                builder.Add((byte) enumRepesentation.getIndex(selection));
+                Next();
+                return;
+            }
+        } 
 
         EffectData data = EffectData.GetEffectDataByName(selection);
         builder.Add((byte) data.instruction);
