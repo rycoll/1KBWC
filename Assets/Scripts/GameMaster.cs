@@ -304,8 +304,4 @@ public class GameMaster {
     #endregion
 }
 
-public enum ListType {
-    PLAYER, CARD
-}
-
 public delegate void ReadCallback();
