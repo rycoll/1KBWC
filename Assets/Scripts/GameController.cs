@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour {
 
     protected void Start() {
         UI = this.GetComponent<UIController>();
-        Interpreter = new Interpreter(this);
+        Interpreter = new Interpreter(this, new GameMaster());
         Deck = new Deck();
         Discard = new Deck();
         Table = new Table();
@@ -148,7 +148,7 @@ public class GameController : MonoBehaviour {
     
     public bool EvaluatePlayerWinCondition (GamePlayer player) {
         AddToStack(player.WinCondition);
-        Condition condition = Interpreter.ReadConditionLiteral();
+        Condition condition = Interpreter.ReadConditionLiteral(Interpreter.skipToNext);
         return condition.Evaluate();
     }
     public bool CheckForWinner () {
