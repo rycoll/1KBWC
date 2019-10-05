@@ -327,8 +327,8 @@
         "message": "Get the point total of a specified player",
         "returnType": "NUMBER",
         "fields": [{
-            "type": "NUMBER",
-            "desc": "ID of player whose points should be checked"
+            "type": "PLAYER",
+            "desc": "Player whose points should be checked"
         }],
         "canBeRoot": false
     },
