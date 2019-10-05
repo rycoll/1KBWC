@@ -118,6 +118,42 @@ public class Interpreter : ByteManager
                     break;
                 }
 
+                case Instruction.GET_ALL_OPPONENTS: {
+                    push(LiteralFactory.CreateListLiteral(
+                        new List<GamePlayer>(game.GetOpponents())
+                    ));
+                    break;
+                }
+
+                case Instruction.GET_ALL_PLAYERS: {
+                    push(LiteralFactory.CreateListLiteral(
+                        new List<GamePlayer>(game.GetPlayers())
+                    ));
+                    break;
+                }
+
+                case Instruction.GET_CARDS_IN_DECK: {
+                    push(LiteralFactory.CreateListLiteral(
+                        new List<Card>(game.Deck.GetCards())
+                    ));
+                    break;
+                }
+
+                case Instruction.GET_CARDS_IN_DISCARD: {
+                    push(LiteralFactory.CreateListLiteral(
+                        new List<Card>(game.Discard.GetCards())
+                    ));
+                    break;
+                }
+                
+                case Instruction.GET_CARDS_IN_HAND: {
+                    GamePlayer player = gameMaster.ReadPlayerFromStack();
+                    push(LiteralFactory.CreateListLiteral(
+                        new List<Card>(player.Hand.GetCards())
+                    ));
+                    break;
+                }
+
                 case Instruction.GET_PLAYER : {
                     int id = ReadIntLiteral(skipToNext);
                     push(LiteralFactory.CreatePlayerLiteral(id));
@@ -196,7 +232,7 @@ public class Interpreter : ByteManager
 
                 case Instruction.MOVE_TO_DECK: {
                     Card card = gameMaster.ReadCardFromStack();
-                    DeckLocation posEnum = (DeckLocation) ReadIntLiteral(skipToNext);
+                    DeckLocation posEnum = (DeckLocation) ReadEnumLiteral();
                     card.Zone.MoveCard(game.Deck, card.GetID());
                     game.Deck.MoveLastAddedCard(posEnum);
                     break;
