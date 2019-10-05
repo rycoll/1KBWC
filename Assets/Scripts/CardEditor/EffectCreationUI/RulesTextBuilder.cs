@@ -8,10 +8,6 @@ public class RulesTextBuilder {
         return str.Split(separators).Length;
     }
 
-    // public static string GetFieldText ()
-
-    // use InstructionFactory as a reference guide
-    // how to handle control effects??
     public static string GetInstructionText (EffectData effect, string[] args) {
         try {
         switch (effect.instruction) {
@@ -19,7 +15,22 @@ public class RulesTextBuilder {
                 string numA = args[0], numB = args[1];
                 return $"{numA} + {numB}";
             }
+            case Instruction.FOR_LOOP: {
+                string list = args[0];
+                string rootEffect = args[1];
+                return $"For each of the {list}: {rootEffect}";
+            }
             case Instruction.GET_ACTIVE_PLAYER: return "you";
+            case Instruction.GET_ALL_PLAYERS: return "players";
+            case Instruction.GET_ALL_OPPONENTS: return "opponents";
+            case Instruction.GET_CARDS_IN_DECK: return "cards in deck";
+            case Instruction.GET_CARDS_IN_DISCARD: return "cards in discard";
+            case Instruction.GET_CARDS_IN_HAND: {
+                string player = args[0];
+                return (player.ToLower() == "you") 
+                    ? $"cards in your hand"
+                    : $"cards held by {player}";
+            }
             case Instruction.GET_PLAYER: {
                 string id = args[0];
                 return $"Player {id}";
@@ -38,6 +49,28 @@ public class RulesTextBuilder {
             case Instruction.LIST_LENGTH: {
                 string list = args[0];
                 return $"the number of {list}";
+            }
+            case Instruction.LOOP: {
+                string num = args[0];
+                string rootEffect = args[1];
+                return (CountWordsInString(num) > 1)
+                    ? $"Do this a number of times equal to {num}: {rootEffect}"
+                    : $"{num} times: {rootEffect}";
+            }
+            case Instruction.BOOL_COMPARISON: {
+                string firstBool = args[0];
+                string secondBool = args[1];
+                string operation = args[2].ToLower();
+                return (operation == "equals") 
+                    ? $"{firstBool} is {secondBool}"
+                    : $"{firstBool} isn't {secondBool}";
+            }
+            case Instruction.NUM_COMPARISON: {
+                string firstNum = args[0];
+                string secondNum = args[1];
+                string operation = args[2].ToLower();
+                if (operation == "equals") return $"{firstNum} is equal to {secondNum}";
+                return $"{firstNum} {operation} {secondNum}";
             }
             case Instruction.MOVE_TO_DECK: {
                 string card = args[0], location = args[1].ToLower();
