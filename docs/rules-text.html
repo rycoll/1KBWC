@@ -1,12 +1,14 @@
 ---
 title: Rules Text Reference
 layout: default
+order_number: 3
 ---
-
-{% include effect-toc.html %}
-
-<div class="c-reference-container">
-    {% for effect_data in site.data.effects.effects %} 
-        {% include rules-text.html effect=effect_data %} 
-    {% endfor %}
+<div class="c-container">
+    {% include effect-toc.html %}
+    <div class="c-reference-container">
+        {% for effect_data in site.data.effects.effects %} 
+            {% include rules-text.html effect=effect_data %} 
+        {% endfor %}
+    </div>
 </div>
+

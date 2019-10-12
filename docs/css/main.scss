@@ -1,17 +1,43 @@
 ---
 ---
 
+$main-colour: #222;
+$highlight: orange;
+
 body {
     font-family: sans-serif;
-    background-color: #fef;
+    background-color: #eeeeee;
+}
+
+.highlighter-rouge {
+    font-size: 1.25em;
+    background: #222;
+    color: greenyellow;
 }
 
 .c-page {
     width: 90%;
     margin: auto;
 
+    &__topnav {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #222;
+    }
+
     &__header {
-        text-align: center;
+        display: inline-block;
+    }
+
+    &__navlink {
+        margin: 5px;
+        padding: 5px;
+        border-radius: 4px;
+        text-decoration: none;
+        color: $main-colour;
+        font-weight: 800;
+        background-color: $highlight
     }
 }
 
@@ -19,8 +45,7 @@ body {
     display: flex;
 }
 
-$toc-color: #222;
-$toc-highlight: orange;
+
 
 .c-effect-toc {
     height: 90vh;
@@ -46,10 +71,10 @@ $toc-highlight: orange;
         font-size: 1em;
         margin: 0;
         text-decoration: none;
-        color: $toc-color;
+        color: $main-colour;
 
         &:hover {
-            color: $toc-highlight;
+            color: $highlight;
         }
     }
 
@@ -63,7 +88,7 @@ $toc-highlight: orange;
     }
      
     &::-webkit-scrollbar-thumb {
-      background-color: $toc-highlight;
+      background-color: $highlight;
       border-radius: 4px;
 
     }
@@ -102,7 +127,7 @@ $toc-highlight: orange;
     }
 
     .root {
-        color: $toc-highlight;
+        color: $highlight;
     }
 
 

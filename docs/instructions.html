@@ -1,11 +1,13 @@
 ---
 title: Instruction Reference
 layout: default
+order_number: 2
 ---
 {% include effect-toc.html %}
-
-<div class="c-reference-container">
-    {% for effect_data in site.data.effects.effects %} 
-        {% include bytecode-order.html effect=effect_data %}
-    {% endfor %}
+<div class="c-container">
+    <div class="c-reference-container">
+        {% for effect_data in site.data.effects.effects %} 
+            {% include bytecode-order.html effect=effect_data %}
+        {% endfor %}
+    </div>
 </div>
