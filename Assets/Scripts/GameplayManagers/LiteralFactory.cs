@@ -54,7 +54,7 @@ public class LiteralFactory {
         bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) op, Instruction.ENUM_CONDITION_OPERATOR)));
         bytes.AddRange(new List<byte>(operandB));
         bytes.AddRange(new List<byte>(operandA));
-        bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) t, Instruction.ENUM_CONDITION_OPERATOR)));
+        bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) t, Instruction.ENUM_CONDITION_TYPE)));
         bytes.Add((byte) Instruction.CONDITION);
         return bytes.ToArray();
     }
@@ -67,7 +67,7 @@ public class LiteralFactory {
         bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) condition.Operator, Instruction.ENUM_CONDITION_OPERATOR)));
         bytes.AddRange(new List<byte>(operandB));
         bytes.AddRange(new List<byte>(operandA));
-        bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) ConditionType.BOOL, Instruction.ENUM_CONDITION_OPERATOR)));
+        bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) ConditionType.BOOL, Instruction.ENUM_CONDITION_TYPE)));
         bytes.Add((byte) Instruction.CONDITION);
         return bytes.ToArray();
     }
@@ -80,7 +80,7 @@ public class LiteralFactory {
         bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) condition.Operator, Instruction.ENUM_CONDITION_OPERATOR)));
         bytes.AddRange(new List<byte>(operandB));
         bytes.AddRange(new List<byte>(operandA));
-        bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) ConditionType.NUM, Instruction.ENUM_CONDITION_OPERATOR)));
+        bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) ConditionType.NUM, Instruction.ENUM_CONDITION_TYPE)));
         bytes.Add((byte) Instruction.CONDITION);
         return bytes.ToArray();
     }

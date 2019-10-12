@@ -43,19 +43,22 @@ public enum Instruction {
     TARGET_CARD             = 051,
     READ_COUNTER            = 052,
 
-    // external primitives (setters)
-    SET_PLAYER_POINTS           = 060,
-    INCREMENT_PLAYER_POINTS     = 061,
-    SET_PLAYER_DRAW             = 062,
-    SET_PLAYER_MAX_HAND         = 063,
-    PLAYER_DRAW_CARD            = 064,
-    SET_COUNTER                 = 065,
-    MOVE_TO_DISCARD             = 066,
-    MOVE_TO_DECK                = 067,
-
     // enums
-    ENUM_DECK_POSITION          = 200,
-    ENUM_CONDITION_OPERATOR     = 201,
+    ENUM_DECK_POSITION          = 060,
+    ENUM_CONDITION_OPERATOR     = 061,
+    ENUM_CONDITION_TYPE         = 062,
+
+    // external primitives (setters)
+    SET_PLAYER_POINTS           = 070,
+    INCREMENT_PLAYER_POINTS     = 071,
+    SET_PLAYER_DRAW             = 072,
+    SET_PLAYER_MAX_HAND         = 073,
+    PLAYER_DRAW_CARD            = 074,
+    SET_COUNTER                 = 075,
+    MOVE_TO_DISCARD             = 076,
+    MOVE_TO_DECK                = 077,
+
+
 
     ERROR = 255
 }

@@ -3,10 +3,17 @@ using System.Collections.Generic;
 
 public class ByteManager {
 
-    public static int MAX_STACK_SIZE = 2058;
+    public static int MAX_STACK_SIZE = 2048;
     protected int currentStackSize = 0;
     protected byte[] stack = new byte[MAX_STACK_SIZE];
 
+    private const byte accessorRangeLowBound = 0030;
+    private const byte accessorRangeHighBound = 0070;
+    private Instruction[] enumInstructions = {
+        Instruction.ENUM_CONDITION_OPERATOR,
+        Instruction.ENUM_DECK_POSITION,
+        Instruction.ENUM_CONDITION_TYPE
+    };
 
     public int GetCurrentStackSize () {
         return currentStackSize;
@@ -16,7 +23,7 @@ public class ByteManager {
         return currentStackSize > 0;
     }
 
-    public void ClearStack () {
+    public void ClearStack () { 
         stack = new byte[MAX_STACK_SIZE];
         currentStackSize = 0;
     }
@@ -49,7 +56,7 @@ public class ByteManager {
         if (!HasBytes()) {
             throw new StackEmptyException("Pop failed, stack is empty! " + currentStackSize);
         }
-        stack[currentStackSize] = 0;
+        stack[currentStackSize] = 255;
         return stack[--currentStackSize];
     }
 
@@ -101,7 +108,7 @@ public class ByteManager {
 
     public bool NextInstructionIsAccessor () {
         byte top = peek();
-        return top < 0060 && top >= 0030;
+        return top < accessorRangeHighBound && top >= accessorRangeLowBound;
     }
 
     #endregion
@@ -112,7 +119,8 @@ public class ByteManager {
         try {
             CheckType(new Instruction[]{
                 Instruction.ENUM_CONDITION_OPERATOR,
-                Instruction.ENUM_DECK_POSITION
+                Instruction.ENUM_DECK_POSITION,
+                Instruction.ENUM_CONDITION_TYPE
             });
             return pop();
         } catch (UnexpectedByteException e) {
