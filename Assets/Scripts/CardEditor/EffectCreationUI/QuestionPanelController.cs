@@ -146,6 +146,8 @@ public class QuestionPanelController : MonoBehaviour
             if (typeString.StartsWith("BYTE_")) {
                 EnumRepesentation enumRepesentation = EnumRepesentation.EnumLookup(typeString);
                 builder.Add((byte) enumRepesentation.getInstruction());
+                Next();
+                return;
             }
             
             SetState(next);
@@ -156,7 +158,7 @@ public class QuestionPanelController : MonoBehaviour
 
     public void Last () {
         RulesTextInterpreter rulesTextBuilder = new RulesTextInterpreter(
-            builder.ExportEffect()
+            builder.ExportEffect(true)
         );
         string rulesText = rulesTextBuilder.GetFullRulesText();
         Debug.Log(rulesText);

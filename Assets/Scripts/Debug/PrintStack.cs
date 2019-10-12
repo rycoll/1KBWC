@@ -31,6 +31,10 @@ public class PrintStack : ByteManager {
     public string PrintNext () { 
         Instruction instruction = (Instruction) peek();
         try {
+            if (Array.IndexOf(enumInstructions, instruction) != -1) {
+                byte b = ReadEnumLiteral();
+                return $"enum:{b}";
+            }
             switch (instruction) {
                 case Instruction.INT: {
                     int n = ReadIntLiteral(readAccessorFirst);
@@ -78,11 +82,6 @@ public class PrintStack : ByteManager {
                     pop();
                     int size = ReadIntLiteral(readAccessorFirst);
                     return $"{instruction.ToString()}(size:{size})";
-                }
-                case Instruction.ENUM_CONDITION_OPERATOR:
-                case Instruction.ENUM_DECK_POSITION: {
-                    byte b = ReadEnumLiteral();
-                    return $"enum:{b}";
                 }
                 default: {
                     pop();

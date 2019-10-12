@@ -9,7 +9,7 @@ public class ByteManager {
 
     private const byte accessorRangeLowBound = 0030;
     private const byte accessorRangeHighBound = 0070;
-    private Instruction[] enumInstructions = {
+    protected Instruction[] enumInstructions = {
         Instruction.ENUM_CONDITION_OPERATOR,
         Instruction.ENUM_DECK_POSITION,
         Instruction.ENUM_CONDITION_TYPE
