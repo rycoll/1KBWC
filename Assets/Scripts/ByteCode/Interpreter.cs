@@ -161,8 +161,8 @@ public class Interpreter : ByteManager
                 }
 
                 case Instruction.GET_PLAYER_POINTS: {
-                    int id = ReadIntLiteral(skipToNext);
-                    int points = game.GetPlayer(id).Points;
+                    GamePlayer player = gameMaster.ReadPlayerFromStack();
+                    int points = player.Points;
                     push(LiteralFactory.CreateIntLiteral(points));
                     break;
                 }
