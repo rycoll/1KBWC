@@ -146,6 +146,9 @@
             }, {
                 "type": "ROOT_EFFECT",
                 "desc": "What should happen when the condition is met?"
+            }, {
+                "type": "BYTE_ENDIF",
+                "desc": "Signals end of IF block"
             }],
         "canBeRoot": true
     },                   
@@ -170,6 +173,9 @@
         }, {
             "type": "ROOT_EFFECT",
             "desc": "What effect should be looped?"
+        }, {
+            "type": "BYTE_ENDLOOP",
+            "desc": "Signals end of loop"
         }],
         "canBeRoot": true
     },                 
@@ -185,6 +191,9 @@
         }, {
             "type": "ROOT_EFFECT",
             "desc": "What should happen for each item in the list?"
+        }, {
+            "type": "BYTE_ENDLOOP",
+            "desc": "Signals end of loop"
         }],
         "canBeRoot": true
     },             

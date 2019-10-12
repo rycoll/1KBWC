@@ -140,6 +140,14 @@ public class QuestionPanelController : MonoBehaviour
         if (processingQueue.Count > 0) {
             QuestionnaireQueueItem next = processingQueue[0];
             processingQueue.Remove(next);
+
+            // handling for auxiliary bytes
+            string typeString = next.data.returnType.ToString();
+            if (typeString.StartsWith("BYTE_")) {
+                EnumRepesentation enumRepesentation = EnumRepesentation.EnumLookup(typeString);
+                builder.Add((byte) enumRepesentation.getInstruction());
+            }
+            
             SetState(next);
         } else {
             Last();
@@ -147,7 +155,11 @@ public class QuestionPanelController : MonoBehaviour
     }
 
     public void Last () {
-
+        RulesTextInterpreter rulesTextBuilder = new RulesTextInterpreter(
+            builder.ExportEffect()
+        );
+        string rulesText = rulesTextBuilder.GetFullRulesText();
+        Debug.Log(rulesText);
     }
 
 }

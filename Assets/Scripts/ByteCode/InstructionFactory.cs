@@ -61,7 +61,9 @@ public class InstructionFactory {
     #region CONTROL
 
     public static byte[] Make_If(byte[] code, byte[] condition) {
-        List<byte> bytes = new List<byte>(code);
+        List<byte> bytes = new List<byte>();
+        bytes.Add((byte) Instruction.ENDIF);
+        bytes.AddRange(new List<byte>(code));
         bytes.AddRange(new List<byte>(condition));
         bytes.Add((byte) Instruction.IF);
         return bytes.ToArray();

@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
@@ -28,6 +25,8 @@ namespace Tests
 
             bytes.push(if_false);
             game.ExecuteNext();
+            byte endif = bytes.pop();
+            Assert.AreEqual(endif, (byte) Instruction.ENDIF);
             Assert.IsFalse(bytes.HasBytes());
 
             compare = new CompareNum(1, 2, ConditionOperator.NOT_EQUAL);
