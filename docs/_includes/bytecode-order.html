@@ -1,0 +1,53 @@
+<div class="c-reference">
+    <h3 id="{{ include.effect.name | slugify }}">
+        {{ include.effect.name }} - {{ include.effect.instruction }}
+    </h3>
+
+    {% assign instruction = include.effect.instruction %}
+    {% assign info = site.data.instruction-bytecode[instruction] %}
+
+    <div class="c-bytecode-reference__row">
+        <span class="c-bytecode-reference__code c-bytecode-reference__code--head">HEAD</span>
+        {% for code in info.code %}
+            <span class="c-bytecode-reference__code c-bytecode-reference__code--{{code}}">{{code}}</span>
+        {% endfor %}
+    </div>
+
+    {% for code in info.code %}
+        {% if forloop.first %}
+            <div class="c-bytecode-reference__row">
+            <span class="c-bytecode-reference__code c-bytecode-reference__code--head">HEAD</span>
+        {% endif %}
+        {% case code %}
+            {% when "byte encoding of number" %}
+                {% include bytecode-chunks/int.html type="int" %}
+            {% when "int" %}
+                {% include bytecode-chunks/int.html type="int" %}
+            {% when "list" %}
+                {% include bytecode-chunks/list.html type="list" %}
+            {% when "string" %}
+                {% include bytecode-chunks/string.html type="string" %}
+            {% when "enum" %}
+                {% include bytecode-chunks/enum.html type="enum" %}
+            {% when "card" %}
+                {% include bytecode-chunks/card.html type="card" %}
+            {% when "player" %}
+                {% include bytecode-chunks/player.html type="player" %}
+            {% when "condition" %}
+                {% include bytecode-chunks/condition.html type="condition" %}
+            {% when "chunk" %}
+                {% include bytecode-chunks/chunk.html type="chunk" %}
+            {% else %}
+            <span class="c-bytecode-reference__code c-bytecode-reference__code--{{code}}">{{code}}</span>
+        {% endcase %}
+        {% if forloop.last %}
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    {% for note in info.notes %}
+        {% if forloop.first %}<ul>{% endif %}
+            <li>{{ note }}</li>
+        {% if forloop.last %}</ul>{% endif %}
+    {% endfor %}
+</div>

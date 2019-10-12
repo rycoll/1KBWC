@@ -1,0 +1,62 @@
+<div class="c-reference c-rules-text">
+    <h3 id="{{ include.effect.name | slugify }}">
+        {{ include.effect.name }} - {{ include.effect.instruction }}
+        {% if include.effect.canBeRoot %} <span class="root">[ROOT]</span>{% endif %}
+    </h3>
+    <h4>
+        {{ include.effect.message }}
+    </h4>
+
+    {% assign instruction = include.effect.instruction %}
+    {% assign text_info = site.data.rules-text[instruction] %}
+
+    <div class="c-reference__sections">
+
+        <div class="c-reference__section">
+            <h5 class="c-reference__section-header">Text</h5>
+            {% assign text_size = text_info["text"] | size %}
+            {% if text_size > 0 %}
+                <ul>
+                {% for text in text_info["text"] %}
+                    <li>{{ text }}</li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p class="c-rules-text__note">This instruction has no associated text.</p>
+            {% endif %}
+
+        </div>
+        <div class="c-reference__section">
+            <h5 class="c-reference__section-header">Arguments</h5>
+            {% assign fields_size = include.effect.fields | size %}
+            {% if fields_size > 0 %}
+                {% for field in include.effect.fields %}
+                    <h6 class="c-reference__section-header">{{ field['type'] }}</h6>
+                    {% assign relevant_effects = site.data.effects.effects | where: "returnType", field['type'] %}
+                    
+                    {% for relevant_effect in relevant_effects %}
+                        {% if forloop.first %}<ul>{% endif %}
+                        {% assign relevant_instruction = relevant_effect['instruction'] %}
+                        {% assign text_args = site.data.rules-text[relevant_instruction] %}
+
+                        {% assign args_size = text_args | size %}
+                        {% if args_size > 0 %}
+                                {% for text_arg in text_args.text %}
+                                    <li>{{ relevant_instruction}}: {{ text_arg }}</li>
+                                {% endfor %}
+                
+                        {% endif %}
+                        {% if forloop.last %}</ul>{% endif %}
+                    {% else %}
+                    <p class="c-rules-text__note">No relevant instruc tions found for fields.</p>
+                    {% endfor %}
+                {% endfor %}
+            {% else %}
+               <p class="c-rules-text__note">This instruction requires no arguments.</p>
+            {% endif %}
+        </div>
+</div>
+
+</div>
+<hr>
+

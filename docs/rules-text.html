@@ -1,0 +1,12 @@
+---
+title: Rules Text Reference
+layout: default
+---
+
+{% include effect-toc.html %}
+
+<div class="c-reference-container">
+    {% for effect_data in site.data.effects.effects %} 
+        {% include rules-text.html effect=effect_data %} 
+    {% endfor %}
+</div>

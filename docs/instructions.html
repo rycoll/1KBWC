@@ -1,0 +1,11 @@
+---
+title: Instruction Reference
+layout: default
+---
+{% include effect-toc.html %}
+
+<div class="c-reference-container">
+    {% for effect_data in site.data.effects.effects %} 
+        {% include bytecode-order.html effect=effect_data %}
+    {% endfor %}
+</div>

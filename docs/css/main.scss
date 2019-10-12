@@ -1,0 +1,138 @@
+---
+---
+
+body {
+    font-family: sans-serif;
+    background-color: #fef;
+}
+
+.c-page {
+    width: 90%;
+    margin: auto;
+
+    &__header {
+        text-align: center;
+    }
+}
+
+.c-container {
+    display: flex;
+}
+
+$toc-color: #222;
+$toc-highlight: orange;
+
+.c-effect-toc {
+    height: 90vh;
+    width: 20vw;
+    position: fixed;
+    overflow-y: scroll;
+    margin-right: 5px;
+    text-align: left;
+    font-size: 16px;
+
+    ul, ol {
+        list-style: none;
+    }
+
+
+    &__item {
+        padding: 5px;
+        user-select: none;
+    }
+
+    &__header {
+        font-weight: 600;
+        font-size: 1em;
+        margin: 0;
+        text-decoration: none;
+        color: $toc-color;
+
+        &:hover {
+            color: $toc-highlight;
+        }
+    }
+
+    &::-webkit-scrollbar {
+        width: 0.4em;
+
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+     
+    &::-webkit-scrollbar-thumb {
+      background-color: $toc-highlight;
+      border-radius: 4px;
+
+    }
+}
+
+.c-reference-container {
+    margin-left: 25%;
+    width: 70vw;
+}
+
+.c-reference {
+
+    padding: 0 30px;
+
+    &__sections {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    &__section {
+        border: 1px solid black;
+        width: 45%;
+    }
+
+    &__section-header {
+        text-align: center;
+    }
+}
+
+.c-rules-text {
+
+    &__note {
+        color: red;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .root {
+        color: $toc-highlight;
+    }
+
+
+}
+
+.c-bytecode-reference {
+
+    padding: 0 30px;
+
+    &__row {
+        margin: 15px 0;
+    }
+
+    &__code {
+
+        border-radius: 4px;
+        padding: 5px;
+        background-color: #222;
+        color: white;
+        text-transform: uppercase;
+        font-weight: 600;
+
+        &--card {background-color: #800000;}
+        &--condition {background-color: #505;}
+        &--chunk {background-color: #fec000;}
+        &--enum {background-color: #00afff;}
+        &--int {background-color: #c00;}
+        &--list {background-color: #cc00cc;}
+        &--player {background-color: #0000cc;}
+        &--string {background-color: #00cc00;}
+    }
+}
+

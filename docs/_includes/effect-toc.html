@@ -1,0 +1,9 @@
+<div class="c-effect-toc">
+    <ul>
+    {% for effect_data in site.data.effects.effects %}
+        <li>
+            {% include effect-toc-item.html effect=effect_data %}
+        </li>
+    {% endfor %}
+    </ul>
+</div>

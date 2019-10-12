@@ -1,0 +1,185 @@
+{
+    "EFFECT_DELIMITER": {
+       "text": ["linebreak"]
+    },     
+    "INT": {
+       "text": ["4"]
+    },                  
+    "STRING": {
+       "text": ["some text"]
+    },               
+    "BOOL": {
+       "text": ["true", "false"]
+    },                 
+    "LIST": {
+       "text": []
+    },                 
+    "LIST_ITEM": {
+       "text": []
+    },            
+    "PLAYER": {
+       "text": ["Player 1"]
+    },               
+    "CARD": {
+       "text": ["Card 001", "[name of card]"]
+    },                 
+    "CONDITION": {
+       "text": []
+    },            
+    "LISTENER": {
+       "text": []
+    },             
+    "COLOUR": {
+       "text": ["#FFFFFF"]
+    },               
+    "CHUNK": {
+       "text": []
+    },                
+    "PLACEHOLDER": {
+       "text": []
+    },          
+    "ENUM_CONDITION_OPERATOR": {
+       "text": [
+          "equals", "is not",
+          "is greater than", "is greater than or equal to",
+          "is less than", "is less than or equal to"
+       ]
+    },            
+    "ENUM_DECK_POSITION": {
+       "text": [
+          "top", "bottom", "random", "shuffle"
+       ]
+    },            
+    "IF": {
+       "text": ["If [condition], then [root effect]"]
+    },                   
+    "ENDIF": {
+       "text": []
+    },                
+    "LOOP": {
+       "text": [
+           "[num] times: [root effect]",
+           "Do this a number of times equal to [num]: [root effect]"
+        ]
+    },                 
+    "FOR_LOOP": {
+       "text": [
+          "For each [list]: [root effect]"
+       ]
+    },             
+    "ENDLOOP": {
+       "text": []
+    },              
+    "ADD": {
+       "text": ["[num] + [num]"]
+    },                  
+    "MULTIPLY": {
+       "text": ["[num] * [num]"]
+    },             
+    "LIST_LENGTH": {
+       "text": ["the number of [list]"]
+    },        
+    "GET_ACTIVE_PLAYER": {
+       "text": ["you"]
+    },
+    "GET_ALL_PLAYERS": {
+       "text": ["players"]
+    },   
+    "GET_ALL_OPPONENTS": {
+       "text": ["opponents"]
+    },   
+    "GET_CARDS_IN_DECK": {
+       "text": ["cards in deck"]
+    },   
+    "GET_CARDS_IN_DISCARD": {
+       "text": ["cards in discard"]
+    },   
+    "GET_CARDS_IN_HAND": {
+       "text": [
+          "cards held by [player]",
+          "cards in [player]r hand"
+         ]
+    },   
+    "GET_PLAYER": {
+       "text": []
+    },           
+    "GET_PLAYER_POINTS": {
+       "text": [
+          "[player]'s point total",
+          "your point total"
+       ]
+    },
+    "BOOL_COMPARISON": {
+       "text": [
+          "[bool] is [bool]",
+          "[bool] isn't [bool]"
+         ]
+    },   
+    "NUM_COMPARISON": {
+       "text": [
+          "[num] is less than [num]",
+          "[num] is less than or equal to [num]",
+          "[num] is greater than [num]",
+          "[num] is greater than or equal to [num]",
+          "[num] is equal to [num]"
+         ]
+    },   
+    "TARGET_PLAYER": {
+       "text": ["player of your choice"]
+    },        
+    "TARGET_CARD": {
+       "text": ["card of your choice"]
+    },
+    "RANDOM_NUMBER": {
+       "text": ["a number between 1 and [num]"]
+    },    
+    "READ_COUNTER": {
+       "text": ["[key]"]
+    },         
+    "SET_PLAYER_POINTS": {
+       "text": [
+           "[Player]'s point total is set to [num]",
+           "[Player]r point total is set to [num]"
+       ]
+    },            
+    "INCREMENT_PLAYER_POINTS": {
+       "text": [
+            "[Player] gain(s) [num] points",
+            "[Player] gains(s) points equal to [num]"
+       ]
+    },     
+    "SET_PLAYER_DRAW": {
+       "text": [
+          "[Player] now draw(s) [num] cards each turn.",
+          "[Player] now draw(s) cards equal to [num] each turn."
+       ]
+    },              
+    "SET_PLAYER_MAX_HAND": {
+       "text": [
+          "[Player] now has/have a maximum hand size of [num]",
+          "[Player] now has/have a maximum hand size equal to [num]"
+       ]
+    },          
+    "PLAYER_DRAW_CARD": {
+       "text": [
+          "[Player] draw(s) [num] cards.",
+          "[Player] draws cards equal to [num]."
+       ]
+    },             
+    "SET_COUNTER": {
+       "text": [
+          "Set [key] to [num]."
+       ]
+    },              
+    "MOVE_TO_DECK": {
+       "text": [
+          "Put [card] on the top of the deck.",
+          "Put [card] on the bottom of the deck.",
+          "Put [card] somewhere in the deck.",
+          "Shuffle [card] into the deck."
+       ]
+    },                 
+    "ERROR": {
+       "text": []
+    }
+}
