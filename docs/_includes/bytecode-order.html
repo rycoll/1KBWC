@@ -37,6 +37,8 @@
                 {% include bytecode-chunks/condition.html type="condition" %}
             {% when "chunk" %}
                 {% include bytecode-chunks/chunk.html type="chunk" %}
+            {% when "placeholder" %}
+                {% include bytecode-chunks/placeholder.html type="placeholder" %}
             {% else %}
             <span class="c-bytecode-reference__code c-bytecode-reference__code--{{code}}">{{code}}</span>
         {% endcase %}

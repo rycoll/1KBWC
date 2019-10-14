@@ -134,12 +134,12 @@
        "notes": []
     },
     "BOOL_COMPARISON": {
-       "code": [],
-       "notes": []
+       "code": ["bool", "bool", "enum"],
+       "notes": ["The enum represents the comparison operator."]
     },   
     "NUM_COMPARISON": {
-       "code": [],
-       "notes": []
+       "code": ["int", "int", "enum"],
+       "notes": ["The enum represents the comparison operator."]
     },   
     "TARGET_PLAYER": {
        "code": [],
