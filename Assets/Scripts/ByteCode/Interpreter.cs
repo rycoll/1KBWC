@@ -174,6 +174,26 @@ public class Interpreter : ByteManager
                     break;
                 }
 
+                case Instruction.BOOL_COMPARISON: {
+                    bool operandA = ReadBoolLiteral(skipToNext);
+                    bool operandB = ReadBoolLiteral(skipToNext);
+                    byte operatorEnum = ReadEnumLiteral();
+                    push(LiteralFactory.CreateConditionLiteral(
+                        new CompareBool(operandA, operandB, (ConditionOperator) operatorEnum)
+                    ));
+                    break;
+                }
+
+                case Instruction.NUM_COMPARISON: {
+                    int operandA = ReadIntLiteral(skipToNext);
+                    int operandB = ReadIntLiteral(skipToNext);
+                    byte operatorEnum = ReadEnumLiteral();
+                    push(LiteralFactory.CreateConditionLiteral(
+                        new CompareNum(operandA, operandB, (ConditionOperator) operatorEnum)
+                    ));
+                    break;
+                }
+
                 case Instruction.TARGET_PLAYER: {
                     game.PresentChoiceOfPlayers(new List<GamePlayer>(game.GetPlayers()));
                     break;

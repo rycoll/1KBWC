@@ -19,6 +19,15 @@ public class InstructionFactory {
         return bytes.ToArray();
     }
 
+    public static byte[] Make_BoolComparison(byte[] operandA, byte[] operandB, byte operatorEnum) {
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(LiteralFactory.CreateEnumLiteral(operatorEnum, Instruction.ENUM_CONDITION_OPERATOR));
+        bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(new List<byte>(operandA));
+        bytes.Add((byte) Instruction.BOOL_COMPARISON);
+        return bytes.ToArray();
+    }
+
     public static byte[] Make_Multiply(byte[] a, byte[] b) {
         List<byte> bytes = new List<byte>(a);
         bytes.AddRange(new List<byte>(b));
@@ -47,6 +56,15 @@ public class InstructionFactory {
     public static byte[] Make_GetPlayerPoints (byte[] id) {
         List<byte> bytes = new List<byte>(id);
         bytes.Add((byte) Instruction.GET_PLAYER_POINTS);
+        return bytes.ToArray();
+    }
+
+    public static byte[] Make_NumComparison(byte[] operandA, byte[] operandB, byte operatorEnum) {
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(LiteralFactory.CreateEnumLiteral(operatorEnum, Instruction.ENUM_CONDITION_OPERATOR));
+        bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(new List<byte>(operandA));
+        bytes.Add((byte) Instruction.NUM_COMPARISON);
         return bytes.ToArray();
     }
 
