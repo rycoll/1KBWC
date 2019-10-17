@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ByteManager {
 
@@ -73,6 +74,19 @@ public class ByteManager {
             throw new StackEmptyException("Peek failed, stack is empty! " + currentStackSize);
         }
         return stack[currentStackSize - 1];
+    }
+
+    public byte peek(int n) {
+        if (!HasBytes()) {
+            throw new StackEmptyException("Peek failed, stack is empty! " + currentStackSize);
+        }
+        try {
+            return stack[currentStackSize - n];
+        } catch (IndexOutOfRangeException e) {
+            Debug.Log("Couldn't peek " + n + " bytes");
+            Debug.Log(ReportStackContent());
+            throw e;
+        }
     }
 
     #endregion
