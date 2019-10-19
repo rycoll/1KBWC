@@ -13,10 +13,10 @@ public class GamePlayer {
         DrawPerTurn = 1;
         Colour = Random.ColorHSV();
         // set default win condition
-        byte[] indexBytes = Interpreter.CreateIntLiteral(index);
+        byte[] indexBytes = LiteralFactory.CreateIntLiteral(index);
         byte[] getPlayerPoints = InstructionFactory.Make_GetPlayerPoints(indexBytes);
-        byte[] numberToCompare = Interpreter.CreateIntLiteral(100);
-        WinCondition = Interpreter.CreateConditionLiteral(getPlayerPoints, numberToCompare, ConditionOperator.AT_LEAST);
+        byte[] numberToCompare = LiteralFactory.CreateIntLiteral(100);
+        WinCondition = LiteralFactory.CreateConditionLiteral(getPlayerPoints, numberToCompare, ConditionType.NUM, ConditionOperator.AT_LEAST);
     }
 
     public string Name { get; set; }

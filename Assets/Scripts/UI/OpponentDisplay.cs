@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class OpponentDisplay : MonoBehaviour
 {
-    public static UIController UI; 
+    public GameController GC;
 
     public Text nameText;
     public Text handText;
@@ -39,6 +39,6 @@ public class OpponentDisplay : MonoBehaviour
             Debug.Log("No player set!");
             return;
         }
-        UI.DisplayOpponentCards(this.opponent);
+        GC.DisplayOpponentCards(this.opponent);
     }
 }

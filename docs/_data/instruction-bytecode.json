@@ -1,0 +1,196 @@
+{
+    "EFFECT_DELIMITER": {
+       "code": [],
+       "notes": []
+    },     
+    "INT": {
+       "code": ["byte encoding of number"],
+       "notes": []
+    },                  
+    "STRING": {
+       "code": ["int", "byte encoding of string"],
+       "notes": []
+    },               
+    "BOOL": {
+       "code": ["0 / 1"],
+       "notes": []
+    },                 
+    "LIST": {
+       "code": ["enum", "int", "list item head", "byte encoding of list item"],
+       "notes": [
+          "The enum represents the type of list (i.e. what kind of things are in the list)",
+          "The int represents the number of items in the list"
+         ]
+    },                 
+    "LIST_ITEM": {
+       "code": ["byte encoding of list item"],
+       "notes": []
+    },            
+    "PLAYER": {
+       "code": ["int"],
+       "notes": ["Number corresponds to the player's index"]
+    },               
+    "CARD": {
+       "code": ["int"],
+       "notes": ["Number corresponds to the card's ID"]
+    },                 
+    "CONDITION": {
+       "code": ["enum", "operand", "operand", "enum"],
+       "notes": [
+          "The first enum determines the type of the operands",
+          "The operands can be Numbers, Bools, etc.",
+          "The second enum determines the operator"
+      ]
+    },            
+    "LISTENER": {
+       "code": ["int"],
+       "notes": []
+    },             
+    "COLOUR": {
+       "code": [],
+       "notes": []
+    },               
+    "CHUNK": {
+       "code": ["int", "bytes"],
+       "notes": ["The int is the number of bytes in the chunk"]
+    },                
+    "PLACEHOLDER": {
+       "code": ["int"],
+       "notes": ["The int refers to the ID of the enclosing control instruction"]
+    },          
+    "ENUM_CONDITION_OPERATOR": {
+       "code": [],
+       "notes": []
+    },            
+    "ENUM_DECK_POSITION": {
+       "code": [],
+       "notes": []
+    },            
+    "IF": {
+       "code": ["condition", "bytecode", "endif"],
+       "notes": []
+    },                   
+    "ENDIF": {
+       "code": [],
+       "notes": []
+    },                
+    "LOOP": {
+       "code": ["int", "bytecode", "endloop"],
+       "notes": []
+    },                 
+    "FOR_LOOP": {
+       "code": ["int", "list", "chunk", "placeholder", "endloop"],
+       "notes": [
+          "The int refers to an ID, used to find and replace placeholder instructions within the loop",
+          "Chunks are the code to loop. Placeholders between these chunks are replaced with the current iteration's item, and integrated into the chunk in-place."
+       ]
+    },             
+    "ENDLOOP": {
+       "code": [],
+       "notes": []
+    },              
+    "ADD": {
+       "code": ["int", "int"],
+       "notes": []
+    },                  
+    "MULTIPLY": {
+       "code": ["int", "int"],
+       "notes": []
+    },             
+    "LIST_LENGTH": {
+       "code": ["list"],
+       "notes": []
+    },        
+    "GET_ACTIVE_PLAYER": {
+       "code": [],
+       "notes": []
+    },
+    "GET_ALL_PLAYERS": {
+       "code": [],
+       "notes": []
+    },   
+    "GET_ALL_OPPONENTS": {
+       "code": [],
+       "notes": []
+    },   
+    "GET_CARDS_IN_DECK": {
+       "code": [],
+       "notes": []
+    },   
+    "GET_CARDS_IN_DISCARD": {
+       "code": [],
+       "notes": []
+    },   
+    "GET_CARDS_IN_HAND": {
+       "code": ["player"],
+       "notes": []
+    },   
+    "GET_PLAYER": {
+       "code": ["int"],
+       "notes": []
+    },           
+    "GET_PLAYER_POINTS": {
+       "code": ["player"],
+       "notes": []
+    },
+    "BOOL_COMPARISON": {
+       "code": ["bool", "bool", "enum"],
+       "notes": ["The enum represents the comparison operator."]
+    },   
+    "NUM_COMPARISON": {
+       "code": ["int", "int", "enum"],
+       "notes": ["The enum represents the comparison operator."]
+    },   
+    "TARGET_PLAYER": {
+       "code": [],
+       "notes": []
+    },        
+    "TARGET_CARD": {
+       "code": [],
+       "notes": []
+    },
+    "RANDOM_NUMBER": {
+      "code": ["int"],
+      "notes": ["The int is the upper bound for the random number generation."]
+    },           
+    "READ_COUNTER": {
+       "code": ["string"],
+       "notes": ["The string is the key to read."]
+    },         
+    "SET_PLAYER_POINTS": {
+       "code": ["player", "int"],
+       "notes": []
+    },            
+    "INCREMENT_PLAYER_POINTS": {
+       "code": ["player", "int"],
+       "notes": []
+    },     
+    "SET_PLAYER_DRAW": {
+       "code": ["player", "int"],
+       "notes": []
+    },              
+    "SET_PLAYER_MAX_HAND": {
+       "code": ["player", "int"],
+       "notes": []
+    },          
+    "PLAYER_DRAW_CARD": {
+       "code": ["player", "int"],
+       "notes": []
+    },             
+    "SET_COUNTER": {
+       "code": ["string", "int"],
+       "notes": []
+    },              
+    "MOVE_TO_DECK": {
+       "code": ["card", "enum"],
+       "notes": ["The enum represents the position in the deck where the card should be moved."]
+    },                 
+    "MOVE_TO_DISCARD": {
+       "code": ["card"],
+       "notes": []
+    },                 
+    "ERROR": {
+       "code": [],
+       "notes": []
+    }
+}

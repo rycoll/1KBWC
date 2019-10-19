@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
@@ -28,6 +26,8 @@ namespace Tests
 
             bytes.push(if_false);
             game.ExecuteNext();
+            byte endif = bytes.pop();
+            Assert.AreEqual(endif, (byte) Instruction.ENDIF);
             Assert.IsFalse(bytes.HasBytes());
 
             compare = new CompareNum(1, 2, ConditionOperator.NOT_EQUAL);
@@ -46,13 +46,14 @@ namespace Tests
             int numLoops = 3;
             bytes.push(InstructionFactory.Make_Loop(
                 LiteralFactory.CreateIntLiteral(numLoops),
-                new byte[]{0x00, 0x01, 0x02}
+                // have to reverse this manually since not handled by InstructionFactory or whatever
+                new byte[]{0002, 0001, 0000}
             ));
             game.ExecuteNext();
             for (int i = 0; i < numLoops; i++) {
-                Assert.AreEqual(bytes.pop(), 0x00);
-                Assert.AreEqual(bytes.pop(), 0x01);
-                Assert.AreEqual(bytes.pop(), 0x02);
+                Assert.AreEqual(bytes.pop(), 0000);
+                Assert.AreEqual(bytes.pop(), 0001);
+                Assert.AreEqual(bytes.pop(), 0002);
             }
         }
 
@@ -68,12 +69,13 @@ namespace Tests
             List<byte[]> chunkList = new List<byte[]>{
                 new byte[]{1, 2},
                 new byte[]{3, 4},
-                new byte[0]
+                new byte[0],
             };
 
             bytes.push(InstructionFactory.Make_ForLoop(items, chunkList));
-            game.ExecuteNext();
 
+            game.ExecuteNext();
+            
             for (int i = 0; i < list.Count; i++) {
                 Assert.AreEqual(1, bytes.pop());
                 Assert.AreEqual(2, bytes.pop());
@@ -82,6 +84,15 @@ namespace Tests
                 Assert.AreEqual(4, bytes.pop());
                 Assert.AreEqual(bytes.ReadPlayerLiteral(game.queryCheck), i);
             }
+        }
+
+        
+        [Test]
+        public void NestedForLoop() {
+            // for each player:
+            //   for each card in that players hand:
+            //      discard card
+            throw new System.Exception("Test not implemented yet 😢");
         }
     }
 }

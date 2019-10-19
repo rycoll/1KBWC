@@ -74,7 +74,7 @@ namespace Tests
             GamePlayer target = game.Players.GetPlayer(1);
             target.Points = 22;
             bytes.push(InstructionFactory.Make_GetPlayerPoints(
-                LiteralFactory.CreateIntLiteral(target.Index)
+                LiteralFactory.CreatePlayerLiteral(target)
             ));
             game.ExecuteNext();
             Assert.AreEqual(bytes.ReadIntLiteral(game.queryCheck), 22);
@@ -86,6 +86,7 @@ namespace Tests
             bytes.push(InstructionFactory.Make_ReadCounter(
                 LiteralFactory.CreateStringLiteral("my-key")
             ));
+            game.ExecuteNext();
             Assert.AreEqual(bytes.ReadIntLiteral(game.queryCheck), 11);
         }
 

@@ -11,9 +11,6 @@ public enum Instruction {
     CONDITION           = 008,
     LISTENER            = 009,
     COLOUR              = 010,
-    CHUNK               = 011,
-    PLACEHOLDER         = 012,
-    ENUM_BYTE           = 013,
 
     // control
     IF                  = 020,
@@ -30,22 +27,39 @@ public enum Instruction {
     RANDOM_NUMBER       = 033,
 
     //   external
-    GET_ACTIVE_PLAYER   = 040,
-    GET_PLAYER          = 041,
-    GET_PLAYER_POINTS   = 042,
-    TARGET_PLAYER       = 043,
-    TARGET_CARD         = 044,
-    READ_COUNTER        = 045,
+    GET_ACTIVE_PLAYER       = 040,
+    GET_ALL_PLAYERS         = 041,
+    GET_ALL_OPPONENTS       = 042,
+    GET_CARDS_IN_DECK       = 043,
+    GET_CARDS_IN_DISCARD    = 044,
+    GET_CARDS_IN_HAND       = 045,
+    GET_PLAYER              = 046,
+    GET_PLAYER_POINTS       = 047,
+    BOOL_COMPARISON         = 048,
+    NUM_COMPARISON          = 049,
+    TARGET_PLAYER           = 050,
+    TARGET_CARD             = 051,
+    READ_COUNTER            = 052,
+    PLACEHOLDER             = 053,
+    CHUNK                   = 054,
+    CARD_HAS_TAG            = 055,
+
+    // enums
+    ENUM_DECK_POSITION          = 080,
+    ENUM_CONDITION_OPERATOR     = 081,
+    ENUM_CONDITION_TYPE         = 082,
+    ENUM_LIST_TYPE              = 082,
 
     // external primitives (setters)
-    SET_PLAYER_POINTS           = 060,
-    INCREMENT_PLAYER_POINTS     = 061,
-    SET_PLAYER_DRAW             = 062,
-    SET_PLAYER_MAX_HAND         = 063,
-    PLAYER_DRAW_CARD            = 064,
-    SET_COUNTER                 = 065,
-    MOVE_TO_DISCARD             = 066,
-    MOVE_TO_DECK                = 067,
+    SET_PLAYER_POINTS           = 100,
+    INCREMENT_PLAYER_POINTS     = 101,
+    SET_PLAYER_DRAW             = 102,
+    SET_PLAYER_MAX_HAND         = 103,
+    PLAYER_DRAW_CARD            = 104,
+    SET_COUNTER                 = 105,
+    MOVE_TO_DISCARD             = 106,
+    MOVE_TO_DECK                = 107,
+
 
 
     ERROR = 255

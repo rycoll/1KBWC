@@ -14,9 +14,9 @@ public class Listener {
         DestroyOnTrigger = b;
     }
 
-    public void Check (GameController gameController) {
+    public void Check (GameMaster GM) {
         if (Trigger.Evaluate()) {
-            gameController.ExecuteEffects(Effects);
+            GM.ExecuteEffects(Effects);
         }
     }
 }

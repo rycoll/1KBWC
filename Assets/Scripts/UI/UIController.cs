@@ -18,10 +18,7 @@ public class UIController : MonoBehaviour {
     public GameObject smallCardDisplayPrefab;
     public GameObject opponentPrefab;
     public GameObject choiceItemPrefab;
-
-    public void Start() {
-        OpponentDisplay.UI = this;
-    }        
+    
     public void AddCardToHandDisplay (Card card)
     {
         GameObject cardDisplay = Instantiate(cardInHandDisplayPrefab) as GameObject;
@@ -54,7 +51,7 @@ public class UIController : MonoBehaviour {
         }
     }
 
-    public void DisplayOpponentCards (GamePlayer opponent) {
+    public void DisplayOpponentCards (GamePlayer opponent, Table table, int opponentIndex) {
         foreach (Transform child in opponentCardDisplay.transform) {
             GameObject.Destroy(child.gameObject);
         }
@@ -63,7 +60,7 @@ public class UIController : MonoBehaviour {
         background.color = opponent.Colour;
 
         GameController game = GetComponent<GameController>();
-        Card[] opponentCards = game.Table.GetCardsByPlayer(game.GetIndexOfPlayer(opponent));
+        Card[] opponentCards = table.GetCardsByPlayer(opponentIndex);
         foreach (Card card in opponentCards) {
             GameObject cardDisplay = Instantiate(smallCardDisplayPrefab) as GameObject;
             cardDisplay.transform.SetParent(opponentCardDisplay.transform);
@@ -89,17 +86,17 @@ public class UIController : MonoBehaviour {
         parent.SetActive(!parent.activeSelf);
     }
 
-    public void UpdateFlagsText () {
-        GameVariables gameVariables = GetComponent<GameController>().Variables;
+    public void UpdateFlagsText (GameVariables variables) {
+
         string newText = "";
 
-        foreach (string str in gameVariables.GetFlags()) {
+        foreach (string str in variables.GetFlags()) {
             newText += str + "\n";
         }
-        foreach (KeyValuePair<string, string> kvp in gameVariables.GetVariables()) {
+        foreach (KeyValuePair<string, string> kvp in variables.GetVariables()) {
             newText += kvp.Key + ": " + kvp.Value + "\n";
         }
-        foreach (KeyValuePair<string, int> kvp in gameVariables.GetCounters()) {
+        foreach (KeyValuePair<string, int> kvp in variables.GetCounters()) {
             newText += kvp.Key + ": " + kvp.Value + "\n";
         }
 

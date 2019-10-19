@@ -1,12 +1,16 @@
 using System.Collections.Generic;
+using System;
 
 /* These methods help ensure that each instruction type is built consistently! */
 
 public class InstructionFactory {
+
+    private static Random rng = new Random();
     private static int forloopID = 0;
     public static int ForLoopID {
         get {
-            return forloopID++;
+            //return forloopID++;
+            return rng.Next(1, Int32.MaxValue);
         }
     }
 
@@ -16,6 +20,15 @@ public class InstructionFactory {
         List<byte> bytes = new List<byte>(a);
         bytes.AddRange(new List<byte>(b));
         bytes.Add((byte) Instruction.ADD);
+        return bytes.ToArray();
+    }
+
+    public static byte[] Make_BoolComparison(byte[] operandA, byte[] operandB, byte operatorEnum) {
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(LiteralFactory.CreateEnumLiteral(operatorEnum, Instruction.ENUM_CONDITION_OPERATOR));
+        bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(new List<byte>(operandA));
+        bytes.Add((byte) Instruction.BOOL_COMPARISON);
         return bytes.ToArray();
     }
 
@@ -50,9 +63,25 @@ public class InstructionFactory {
         return bytes.ToArray();
     }
 
+    public static byte[] Make_NumComparison(byte[] operandA, byte[] operandB, byte operatorEnum) {
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(LiteralFactory.CreateEnumLiteral(operatorEnum, Instruction.ENUM_CONDITION_OPERATOR));
+        bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(new List<byte>(operandA));
+        bytes.Add((byte) Instruction.NUM_COMPARISON);
+        return bytes.ToArray();
+    }
+
     public static byte[] Make_ReadCounter (byte[] str) {
         List<byte> bytes = new List<byte>(str);
         bytes.Add((byte) Instruction.READ_COUNTER);
+        return bytes.ToArray();
+    }
+
+    public static byte[] Make_CardHasTag (byte[] card, byte[] str) {
+        List<byte> bytes = new List<byte>(str);
+        bytes.AddRange(new List<byte>(card));
+        bytes.Add((byte) Instruction.CARD_HAS_TAG);
         return bytes.ToArray();
     }
 
@@ -61,7 +90,9 @@ public class InstructionFactory {
     #region CONTROL
 
     public static byte[] Make_If(byte[] code, byte[] condition) {
-        List<byte> bytes = new List<byte>(code);
+        List<byte> bytes = new List<byte>();
+        bytes.Add((byte) Instruction.ENDIF);
+        bytes.AddRange(new List<byte>(code));
         bytes.AddRange(new List<byte>(condition));
         bytes.Add((byte) Instruction.IF);
         return bytes.ToArray();
@@ -78,6 +109,7 @@ public class InstructionFactory {
     }
 
     public static byte[] Make_CodeWithPlaceholders (List<byte[]> chunks, int id) {
+        chunks.Reverse();
         List<byte> bytes = new List<byte>();
         for (int i = 0; i < chunks.Count; i++) {
             bytes.AddRange(LiteralFactory.CreateChunkLiteral(chunks[i]));
@@ -153,7 +185,7 @@ public class InstructionFactory {
     public static byte[] Make_MoveToDeck(byte[] card, DeckLocation location) {
         List<byte> bytes = new List<byte>(
             new List<byte>(
-                LiteralFactory.CreateEnumLiteral((byte) location)
+                LiteralFactory.CreateEnumLiteral((byte) location, Instruction.ENUM_DECK_POSITION)
             )
         );
         bytes.AddRange(new List<byte>(card));

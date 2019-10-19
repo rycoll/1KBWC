@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>{{ site.title }}{% if page.title %} | {{ page.title }}{% endif %}</title>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+    </head>
+    <body>
+
+        <div class="c-page">
+            <div class="c-page__topnav">
+                <h1 class="c-page__header">{{ page.title }}</h1>
+                <div>
+                    {% assign sorted_pages = site.pages | sort: "order_number" %}
+                    {% for page in sorted_pages %} 
+                        {% if page.order_number %}
+                            <a class="c-page__navlink" href="{{page.url}}">{{ page.title}}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {{ content }}
+        </div>
+
+    </body>
+</html>
