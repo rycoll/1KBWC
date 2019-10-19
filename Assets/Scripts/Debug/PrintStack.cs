@@ -14,6 +14,16 @@ public class PrintStack : ByteManager {
         readAccessorFirst = ReadAccessorFirst;
     }
 
+    public static void PrintByteString (byte[] bytes) {
+        Debug.Log(new PrintStack(bytes, bytes.Length).ReportStackContent());
+    }
+
+    public static void PrintRawBytes (byte[] bytes) {
+        string str = "";
+        foreach (byte b in bytes) { str += b.ToString() + " "; }
+        Debug.Log(str);
+    }
+
     public void ReadAccessorFirst () {
         PrintNext();
     }
@@ -57,16 +67,18 @@ public class PrintStack : ByteManager {
                     return $"{instruction.ToString()}({card})";
                 }
                 case Instruction.LIST: {
+                    // pop head and ENUM_LIST_TYPE head
                     pop();
-                    ListType type = (ListType) pop();
+                    byte type = ReadEnumLiteral();
                     int size = ReadIntLiteral(readAccessorFirst);
 
                     push(LiteralFactory.CreateIntLiteral(size));
-                    push((byte) type);
+                    push(LiteralFactory.CreateEnumLiteral(type, Instruction.ENUM_LIST_TYPE));
                     push((byte) Instruction.LIST);
                     ReadList(readAccessorFirst);
 
-                    return $"{instruction.ToString()}(size:{size},type:{type})";
+                    string typeName = EnumRepesentation.EnumLookup("ENUM_LIST_TYPE").getName((int) type);
+                    return $"{instruction.ToString()}(size:{size},type:{typeName})";
                 }
                 case Instruction.FOR_LOOP: {
                     pop();
@@ -90,13 +102,13 @@ public class PrintStack : ByteManager {
             }
         } catch (UnexpectedByteException e) {
             Debug.LogError($"Printer jam! ({instruction}) --- {e}");
-            return ((byte) instruction).ToString();
+            return "#" + ((byte) instruction).ToString();
         } catch (StackFullException e) {
             Debug.LogError($"Printer jam! ({instruction}) --- {e}");
-            return ((byte) instruction).ToString();
+            return "#" + ((byte) instruction).ToString();
         } catch (StackEmptyException e) {
             Debug.LogError($"Printer jam! ({instruction}) --- {e}");
-            return ((byte) instruction).ToString();
+            return "#" + ((byte) instruction).ToString();
         }
     }
 

@@ -73,6 +73,9 @@ public class QuestionPanelController : MonoBehaviour
                 .Where(effect => effect.returnType == type && effect.type != "primitive")
                 .Select(effect => effect.name).ToList();
         }
+
+        // need to check all ancestors for potential placeholders
+
         dropdown.ClearOptions();
         dropdown.AddOptions(options);
     }

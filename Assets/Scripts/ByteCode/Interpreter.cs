@@ -5,13 +5,11 @@ using UnityEngine;
 
 public class Interpreter : ByteManager
 {
-    private static GameController game;
-    private GameMaster gameMaster;
+    private GameMaster GM;
     public ReadCallback skipToNext;
 
-    public Interpreter (GameController gc, GameMaster gm) {
-        game = gc;
-        gameMaster = gm;
+    public Interpreter (GameMaster gm) {
+        GM = gm;
         skipToNext = executeNext;
     }
 
@@ -45,6 +43,21 @@ public class Interpreter : ByteManager
                     break;
                 }
 
+                case Instruction.LIST_LENGTH: {	
+                    List<byte[]> list = ReadList(skipToNext);	
+                    push(LiteralFactory.CreateIntLiteral(list.Count));	
+                    break;	
+                }
+
+                case Instruction.CARD_HAS_TAG: {
+                    Card card = GM.ReadCardFromStack();
+                    string tagName = ReadStringLiteral(skipToNext);
+                    push(LiteralFactory.CreateBoolLiteral(
+                        card.HasTag(tagName)
+                    ));
+                    break;	
+                }
+
                 case Instruction.MULTIPLY: {
                     int a = ReadIntLiteral(skipToNext);
                     int b = ReadIntLiteral(skipToNext);
@@ -73,6 +86,7 @@ public class Interpreter : ByteManager
                 case Instruction.FOR_LOOP: {
                     int ID = ReadIntLiteral(skipToNext);
                     List<byte[]> items = ReadList(skipToNext);
+                    items.Reverse();
                     
                     List<byte> bytestring = new List<byte>();
                     while (peek() != (byte) Instruction.ENDLOOP) {
@@ -91,15 +105,19 @@ public class Interpreter : ByteManager
                                 int chunkSize = ReadIntLiteral(skipToNext);
                                 for (int n = 0; n < chunkSize; n++) {
                                     // add to start, to retain stack ordering
-                                    compiled.Insert(0, pop());
+                                    compiled.Insert(n, pop());
                                 }
                             } else if (currentByte == (byte) Instruction.PLACEHOLDER) {
                                 int placeholderID = ReadIntLiteral(skipToNext);
                                   if (placeholderID == ID) {
-                                    compiled.AddRange(new List<byte>(items[i]));
+                                    byte[] placeholder = (byte[]) items[i].Clone();
+                                    Array.Reverse(placeholder);
+                                    compiled.InsertRange(0, new List<byte>(placeholder));
                                 } else {
-                                    compiled.Add((byte) Instruction.PLACEHOLDER);
-                                    compiled.AddRange(new List<byte>(LiteralFactory.CreateIntLiteral(placeholderID)));
+                                    byte[] replaceID = LiteralFactory.CreateIntLiteral(placeholderID);
+                                    Array.Reverse(replaceID);
+                                    compiled.InsertRange(0, new List<byte>(replaceID));
+                                    compiled.Insert(0, (byte) Instruction.PLACEHOLDER);
                                 }
                             } else {
                                 throw new UnexpectedByteException("Expected CHUNK or PLACEHOLDER, found " +  currentByte);
@@ -107,6 +125,7 @@ public class Interpreter : ByteManager
                             currentByte = pop();
                         }
                     }
+                    
                     push(compiled.ToArray());
                     break;
                 }
@@ -114,40 +133,40 @@ public class Interpreter : ByteManager
                 // QUERIES
 
                 case Instruction.GET_ACTIVE_PLAYER: {
-                    push(LiteralFactory.CreatePlayerLiteral(game.GetActivePlayer()));
+                    push(LiteralFactory.CreatePlayerLiteral(GM.Players.GetActivePlayer()));
                     break;
                 }
 
                 case Instruction.GET_ALL_OPPONENTS: {
                     push(LiteralFactory.CreateListLiteral(
-                        new List<GamePlayer>(game.GetOpponents())
+                        new List<GamePlayer>(GM.Players.GetOpponents())
                     ));
                     break;
                 }
 
                 case Instruction.GET_ALL_PLAYERS: {
                     push(LiteralFactory.CreateListLiteral(
-                        new List<GamePlayer>(game.GetPlayers())
+                        new List<GamePlayer>(GM.Players.GetPlayers())
                     ));
                     break;
                 }
 
                 case Instruction.GET_CARDS_IN_DECK: {
                     push(LiteralFactory.CreateListLiteral(
-                        new List<Card>(game.Deck.GetCards())
+                        new List<Card>(GM.Cards.Deck.GetCards())
                     ));
                     break;
                 }
 
                 case Instruction.GET_CARDS_IN_DISCARD: {
                     push(LiteralFactory.CreateListLiteral(
-                        new List<Card>(game.Discard.GetCards())
+                        new List<Card>(GM.Cards.Discard.GetCards())
                     ));
                     break;
                 }
                 
                 case Instruction.GET_CARDS_IN_HAND: {
-                    GamePlayer player = gameMaster.ReadPlayerFromStack();
+                    GamePlayer player = GM.ReadPlayerFromStack();
                     push(LiteralFactory.CreateListLiteral(
                         new List<Card>(player.Hand.GetCards())
                     ));
@@ -161,7 +180,7 @@ public class Interpreter : ByteManager
                 }
 
                 case Instruction.GET_PLAYER_POINTS: {
-                    GamePlayer player = gameMaster.ReadPlayerFromStack();
+                    GamePlayer player = GM.ReadPlayerFromStack();
                     int points = player.Points;
                     push(LiteralFactory.CreateIntLiteral(points));
                     break;
@@ -169,7 +188,7 @@ public class Interpreter : ByteManager
 
                 case Instruction.READ_COUNTER: {
                     string key = ReadStringLiteral(skipToNext);
-                    int count = game.Variables.GetCounter(key);
+                    int count = GM.Variables.GetCounter(key);
                     push(LiteralFactory.CreateIntLiteral(count));
                     break;
                 }
@@ -195,29 +214,29 @@ public class Interpreter : ByteManager
                 }
 
                 case Instruction.TARGET_PLAYER: {
-                    game.PresentChoiceOfPlayers(new List<GamePlayer>(game.GetPlayers()));
+                    GM.UI.PresentChoiceOfPlayers(new List<GamePlayer>(GM.Players.GetPlayers()), this);
                     break;
                 }
 
                 case Instruction.TARGET_CARD: {
-                    game.PresentChoiceOfCards(new List<Card>(game.Table.GetCards()));
+                    GM.UI.PresentChoiceOfCards(new List<Card>(GM.Cards.Table.GetCards()), this);
                     break;
                 }
 
                 // EFFECTS
-
+ 
                 case Instruction.INCREMENT_PLAYER_POINTS: {
-                    GamePlayer player = gameMaster.ReadPlayerFromStack();
+                    GamePlayer player = GM.ReadPlayerFromStack();
                     int pointsNum = ReadIntLiteral(skipToNext);
-                    game.SetPlayerPoints(player, player.Points + pointsNum);
+                    GM.SetPlayerPoints(player, player.Points + pointsNum);
                     break;
                 }
 
                 case Instruction.PLAYER_DRAW_CARD: {
-                    GamePlayer player = gameMaster.ReadPlayerFromStack();
+                    GamePlayer player = GM.ReadPlayerFromStack();
                     int numCards = ReadIntLiteral(skipToNext);
-                    for (int n = 0; n < numCards;) {
-                        game.PlayerDrawCard(player);
+                    for (int n = 0; n < numCards; n++) {
+                        GM.PlayerDrawCard(player);
                     }
                     break;
                 }
@@ -225,42 +244,42 @@ public class Interpreter : ByteManager
                 case Instruction.SET_COUNTER: {
                     string key = ReadStringLiteral(skipToNext);
                     int count = ReadIntLiteral(skipToNext);
-                    game.SetCounter(key, count);
+                    GM.Variables.SetCounter(key, count);
                     break;
                 }
 
                 case Instruction.SET_PLAYER_DRAW: {
-                    GamePlayer player = gameMaster.ReadPlayerFromStack();
+                    GamePlayer player = GM.ReadPlayerFromStack();
                     int num = ReadIntLiteral(skipToNext);
                     player.SetDrawPerTurn(num);
                     break;
                 }
 
                 case Instruction.SET_PLAYER_MAX_HAND: {
-                    GamePlayer player = gameMaster.ReadPlayerFromStack();
+                    GamePlayer player = GM.ReadPlayerFromStack();
                     int num = ReadIntLiteral(skipToNext);
-                    //player.Hand.MaxHandSize = num;
+                    player.Hand.SetMax(num);
                     break;
                 }
                 
                 case Instruction.SET_PLAYER_POINTS: {
-                    GamePlayer player = gameMaster.ReadPlayerFromStack();
+                    GamePlayer player = GM.ReadPlayerFromStack();
                     int pointsNum = ReadIntLiteral(skipToNext);
-                    game.SetPlayerPoints(player, pointsNum);
+                    GM.SetPlayerPoints(player, pointsNum);
                     break;
                 }
 
                 case Instruction.MOVE_TO_DECK: {
-                    Card card = gameMaster.ReadCardFromStack();
+                    Card card = GM.ReadCardFromStack();
                     DeckLocation posEnum = (DeckLocation) ReadEnumLiteral();
-                    card.Zone.MoveCard(game.Deck, card.GetID());
-                    game.Deck.MoveLastAddedCard(posEnum);
+                    card.Zone.MoveCard(GM.Cards.Deck, card.GetID());
+                    GM.Cards.Deck.MoveLastAddedCard(posEnum);
                     break;
                 }
 
                 case Instruction.MOVE_TO_DISCARD: {
-                    Card card = gameMaster.ReadCardFromStack();
-                    card.Zone.MoveCard(game.Discard, card.GetID());
+                    Card card = GM.ReadCardFromStack();
+                    card.Zone.MoveCard(GM.Cards.Discard, card.GetID());
                     break;
                 }
             }
@@ -276,7 +295,7 @@ public class Interpreter : ByteManager
     public void PlayerChoiceCallback (GamePlayer chosenPlayer) {
         if (chosenPlayer != null) {
             byte[] player = LiteralFactory.CreatePlayerLiteral(chosenPlayer);
-            game.AddToStack(player);
+            GM.AddToStack(player);
         }
         next();
     }  
@@ -284,7 +303,7 @@ public class Interpreter : ByteManager
     public void CardChoiceCallback (Card chosenCard) {
         if (chosenCard != null) {
             byte[] card = LiteralFactory.CreateCardLiteral(chosenCard.GetID());
-            game.AddToStack(card);
+            GM.AddToStack(card);
         }
         next();
     }  

@@ -1,12 +1,16 @@
 using System.Collections.Generic;
+using System;
 
 /* These methods help ensure that each instruction type is built consistently! */
 
 public class InstructionFactory {
+
+    private static Random rng = new Random();
     private static int forloopID = 0;
     public static int ForLoopID {
         get {
-            return forloopID++;
+            //return forloopID++;
+            return rng.Next(1, Int32.MaxValue);
         }
     }
 
@@ -74,6 +78,13 @@ public class InstructionFactory {
         return bytes.ToArray();
     }
 
+    public static byte[] Make_CardHasTag (byte[] card, byte[] str) {
+        List<byte> bytes = new List<byte>(str);
+        bytes.AddRange(new List<byte>(card));
+        bytes.Add((byte) Instruction.CARD_HAS_TAG);
+        return bytes.ToArray();
+    }
+
     #endregion
 
     #region CONTROL
@@ -98,6 +109,7 @@ public class InstructionFactory {
     }
 
     public static byte[] Make_CodeWithPlaceholders (List<byte[]> chunks, int id) {
+        chunks.Reverse();
         List<byte> bytes = new List<byte>();
         for (int i = 0; i < chunks.Count; i++) {
             bytes.AddRange(LiteralFactory.CreateChunkLiteral(chunks[i]));

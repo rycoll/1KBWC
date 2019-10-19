@@ -114,7 +114,18 @@ public class RulesTextInterpreter : ByteManager
             text += GetNext();
         }
 
+        // uppercase first letter
+        text = char.ToUpper(text[0]) + text.Substring(1);
+
         return text;
+    }
+
+    private string GetPlaceholderString (string id) {
+        return $"**PLACEHOLDER_({id})**"; 
+    }
+
+    private string ReplacePlaceholderStrings (string original, string id, string replacement) {
+        return original.Replace($"**PLACEHOLDER_({id})**", replacement);
     }
 
     public string GetNext() {
@@ -122,6 +133,30 @@ public class RulesTextInterpreter : ByteManager
         EffectData effectData = EffectData.Effects.First(effect => effect.instruction == instruction);
         string[] args = new string[effectData.fields.Length];
         switch(instruction) {
+            case Instruction.INT: {
+                byte[] intRepresentation = pop(4);
+                args = new string[]{
+                    BitConverter.ToInt32(intRepresentation, 0).ToString()
+                };
+                break;
+            }
+            case Instruction.STRING: {
+                pop(); // lose INT head
+                byte[] intRepresentation = pop(4);
+                int arrSize = BitConverter.ToInt32(intRepresentation, 0);
+                byte[] strArray = pop(arrSize);
+                char[] chars = System.Text.Encoding.UTF8.GetChars(strArray);
+                args = new string[]{
+                    new string(chars)
+                };
+                break;
+            }
+            case Instruction.PLACEHOLDER:
+                string id = ReadIntLiteral(readAccessorFirst);
+                return GetPlaceholderString(id);
+            case Instruction.CHUNK:
+                ReadIntLiteral(readAccessorFirst);
+                return GetNext();
             // [card]
             case Instruction.MOVE_TO_DISCARD:
                 args[0] = ReadCardLiteral(readAccessorFirst);
@@ -166,8 +201,32 @@ public class RulesTextInterpreter : ByteManager
                 args[2] = ReadEnumLiteral();
                 break;
             case Instruction.FOR_LOOP:
+                string id_num = ReadIntLiteral(readAccessorFirst);
+                byte list = peek();
+                ListType listType;
+                if ((Instruction) list == Instruction.LIST) {
+                    listType = (ListType) peek(3);
+                } else if (NextInstructionIsAccessor()) {
+                    Interpreter mockInterpreter = new Interpreter(new GameMaster());
+                    mockInterpreter.push(peek());
+                    mockInterpreter.executeNext();
+                    listType = (ListType) mockInterpreter.peek(3);
+                } else {
+                    Debug.Log(ReportStackContent());
+                    throw new UnexpectedByteException($"Expected a list, got {peek()}");
+                }
                 args[0] = ReadList(readAccessorFirst);
                 args[1] = GetNext();
+                string replacement = "";
+                switch(listType) {
+                    case ListType.CARD:
+                        replacement = "that card";
+                        break;
+                    case ListType.PLAYER:
+                        replacement = "that player";
+                        break;
+                }
+                args[1] = ReplacePlaceholderStrings(args[1], id_num, replacement);
                 break;
             case Instruction.IF:
                 args[0] = ReadConditionLiteral(readAccessorFirst);
@@ -189,6 +248,10 @@ public class RulesTextInterpreter : ByteManager
             case Instruction.SET_COUNTER:
                 args[0] = ReadStringLiteral(readAccessorFirst);
                 args[1] = ReadIntLiteral(readAccessorFirst);
+                break;
+            case Instruction.CARD_HAS_TAG:
+                args[0] = ReadCardLiteral(readAccessorFirst);
+                args[1] = ReadStringLiteral(readAccessorFirst);
                 break;
             // no args
             default:

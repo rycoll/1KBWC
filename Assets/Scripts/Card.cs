@@ -50,6 +50,10 @@ public abstract class Card {
         Tags.Remove(tag);
     }
 
+    public bool HasTag (string tag) {
+        return Tags.Contains(tag);
+    }
+
     public void AddEffect(byte[] effect) {
         AddEffect(new List<byte>(effect));
     }

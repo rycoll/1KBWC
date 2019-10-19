@@ -376,6 +376,20 @@
         }]
     }, 
     {
+        "name": "Card Has Tag",
+        "type": "getter",
+        "instruction": "CARD_HAS_TAG",
+        "message": "Check if a card has a specified tag or not.",
+        "returnType": "BOOL",
+        "fields": [{
+            "type": "CARD",
+            "desc": "Card to check"
+        }, {
+            "type": "STRING",
+            "desc": "Name of the tag to look for"
+        }]
+    }, 
+    {
         "name": "Target Player",
         "type": "getter",
         "instruction": "TARGET_PLAYER",

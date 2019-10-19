@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 
 public class PlayerManager {
@@ -14,6 +12,13 @@ public class PlayerManager {
         players = new GamePlayer[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
             players[i] = new GamePlayer($"Player {i + 1}", i);
+        }
+    }
+
+    public void PassTurnIndex () {
+        activePlayerIndex++;
+        if (activePlayerIndex >= players.Length) {
+            activePlayerIndex = 0;
         }
     }
 
@@ -32,7 +37,7 @@ public class PlayerManager {
     public GamePlayer[] GetPlayers() => players;
 
     // this will need to be updated
-    private bool IsLocalPlayer(GamePlayer player) => player == players[0];
+    public bool IsLocalPlayer(GamePlayer player) => player == players[0];
 
     public GamePlayer[] GetOpponents() => players.Where(player => !IsLocalPlayer(player)).ToArray();
 

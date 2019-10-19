@@ -9,7 +9,7 @@ public class ByteManager {
     protected byte[] stack = new byte[MAX_STACK_SIZE];
 
     private const byte accessorRangeLowBound = 0030;
-    private const byte accessorRangeHighBound = 0070;
+    private const byte accessorRangeHighBound = 0100;
     protected Instruction[] enumInstructions = {
         Instruction.ENUM_CONDITION_OPERATOR,
         Instruction.ENUM_DECK_POSITION,
@@ -32,6 +32,9 @@ public class ByteManager {
     public string ReportStackContent () {
         PrintStack printer = new PrintStack(stack, currentStackSize);
         return printer.PrintStackInstructions();
+    }
+    public void PrintRawBytes () {
+        PrintStack.PrintRawBytes(stack);
     }
 
     #region Basic Stack Operations
@@ -134,7 +137,8 @@ public class ByteManager {
             CheckType(new Instruction[]{
                 Instruction.ENUM_CONDITION_OPERATOR,
                 Instruction.ENUM_DECK_POSITION,
-                Instruction.ENUM_CONDITION_TYPE
+                Instruction.ENUM_CONDITION_TYPE,
+                Instruction.ENUM_LIST_TYPE
             });
             return pop();
         } catch (UnexpectedByteException e) {
@@ -240,8 +244,8 @@ public class ByteManager {
         }
         try {
             CheckType(Instruction.LIST);
-            // discard list type
-            pop();
+            // discard list type (enum head + enum byte)
+            pop(2);
             int num = ReadIntLiteral(cb);
             List<byte[]> items = new List<byte[]>();
             for (int i = 0; i < num; i++) {
@@ -265,7 +269,10 @@ public class ByteManager {
         }
         try {
             CheckType(Instruction.LIST);
-            CheckType(ListType.PLAYER);
+            ListType listType = (ListType) ReadEnumLiteral();
+            if (listType != ListType.PLAYER) {
+                throw new UnexpectedByteException("Expected player list, got list of type " + listType);
+            }
             int num = ReadIntLiteral(cb);
             List<int> players = new List<int>();
             for (int i = 0; i < num; i++) {
@@ -285,7 +292,10 @@ public class ByteManager {
         }
         try {
             CheckType(Instruction.LIST);
-            CheckType(ListType.CARD);
+            ListType listType = (ListType) ReadEnumLiteral();
+            if (listType != ListType.CARD) {
+                throw new UnexpectedByteException("Expected card list, got list of type " + listType);
+            }
             int num = ReadIntLiteral(cb);
             List<int> cards = new List<int>();
             for (int i = 0; i < num; i++) {

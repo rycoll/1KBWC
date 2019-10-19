@@ -11,8 +11,6 @@ public enum Instruction {
     CONDITION           = 008,
     LISTENER            = 009,
     COLOUR              = 010,
-    CHUNK               = 011,
-    PLACEHOLDER         = 012,
 
     // control
     IF                  = 020,
@@ -42,21 +40,25 @@ public enum Instruction {
     TARGET_PLAYER           = 050,
     TARGET_CARD             = 051,
     READ_COUNTER            = 052,
+    PLACEHOLDER             = 053,
+    CHUNK                   = 054,
+    CARD_HAS_TAG            = 055,
 
     // enums
-    ENUM_DECK_POSITION          = 060,
-    ENUM_CONDITION_OPERATOR     = 061,
-    ENUM_CONDITION_TYPE         = 062,
+    ENUM_DECK_POSITION          = 080,
+    ENUM_CONDITION_OPERATOR     = 081,
+    ENUM_CONDITION_TYPE         = 082,
+    ENUM_LIST_TYPE              = 082,
 
     // external primitives (setters)
-    SET_PLAYER_POINTS           = 070,
-    INCREMENT_PLAYER_POINTS     = 071,
-    SET_PLAYER_DRAW             = 072,
-    SET_PLAYER_MAX_HAND         = 073,
-    PLAYER_DRAW_CARD            = 074,
-    SET_COUNTER                 = 075,
-    MOVE_TO_DISCARD             = 076,
-    MOVE_TO_DECK                = 077,
+    SET_PLAYER_POINTS           = 100,
+    INCREMENT_PLAYER_POINTS     = 101,
+    SET_PLAYER_DRAW             = 102,
+    SET_PLAYER_MAX_HAND         = 103,
+    PLAYER_DRAW_CARD            = 104,
+    SET_COUNTER                 = 105,
+    MOVE_TO_DISCARD             = 106,
+    MOVE_TO_DECK                = 107,
 
 
 

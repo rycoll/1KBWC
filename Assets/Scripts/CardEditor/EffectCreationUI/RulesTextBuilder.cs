@@ -8,17 +8,12 @@ public class RulesTextBuilder {
         return str.Split(separators).Length;
     }
 
-    public static string SetLetterCase(string str, bool upcase) {
-        if (upcase) return char.ToUpper(str[0]) + str.Substring(1);
-        return char.ToLower(str[0]) + str.Substring(1);
-    }
-
     public static string GetInstructionText (EffectData effect, string[] args) {
         try {
             switch (effect.instruction) {
                 case Instruction.ADD: {
                     string numA = args[0], numB = args[1];
-                    return $"{numA} + {numB}";
+                    return $"({numA} + {numB})";
                 }
                 case Instruction.FOR_LOOP: {
                     string list = args[0];
@@ -27,8 +22,8 @@ public class RulesTextBuilder {
                 }
                 case Instruction.IF: {
                     string condition = args[0];
-                    string rootEffect = SetLetterCase(args[1], false);
-                    return $"If {condition}, then {rootEffect}.";
+                    string rootEffect = args[1];
+                    return $"if {condition}, then {rootEffect}";
                 }
                 case Instruction.GET_ACTIVE_PLAYER: return "you";
                 case Instruction.GET_ALL_PLAYERS: return "players";
@@ -43,7 +38,7 @@ public class RulesTextBuilder {
                 }
                 case Instruction.GET_PLAYER: {
                     string id = args[0];
-                    return $"Player {id}";
+                    return $"player {id}";
                 }
                 case Instruction.GET_PLAYER_POINTS: {
                     string player = args[0];
@@ -52,7 +47,7 @@ public class RulesTextBuilder {
                         : $"the score of {player}";
                 }
                 case Instruction.INCREMENT_PLAYER_POINTS: {
-                    string num = args[0], player = args[1];
+                    string player = args[0], num = args[1];
                     string verb = (player.ToLower() == "you") ? "gain" : "gains";
                     return (CountWordsInString(num) > 1)
                         ? $"{player} {verb} points equal to {num}."
@@ -62,11 +57,15 @@ public class RulesTextBuilder {
                     string list = args[0];
                     return $"the number of {list}";
                 }
+                case Instruction.CARD_HAS_TAG: {
+                    string card = args[0], tag = args[1];
+                    return $"{card} is {tag}";
+                }
                 case Instruction.LOOP: {
                     string num = args[0];
                     string rootEffect = args[1];
                     return (CountWordsInString(num) > 1)
-                        ? $"Do this a number of times equal to {num}: {rootEffect}"
+                        ? $"do this a number of times equal to {num}: {rootEffect}"
                         : $"{num} times: {rootEffect}";
                 }
                 case Instruction.BOOL_COMPARISON: {
@@ -100,27 +99,30 @@ public class RulesTextBuilder {
                 case Instruction.MOVE_TO_DECK: {
                     string card = args[0], location = args[1].ToLower();
                     if (location == "top" || location == "bottom") {
-                        return $"Move {card} to the {location} of the deck.";
+                        return $"move {card} to the {location} of the deck.";
                     } else if (location == "random") {
-                        return $"Put {card} at a random position in the deck.";
+                        return $"put {card} at a random position in the deck.";
                     } else {
-                        return $"Shuffle {card} into the deck.";
+                        return $"shuffle {card} into the deck.";
                     }
                 }
                 case Instruction.MOVE_TO_DISCARD: {
                     string card = args[0];
-                    return $"Put {card} into Discard.";
+                    return $"put {card} into Discard.";
                 }
                 case Instruction.MULTIPLY: {
                     string numA = args[0], numB = args[1];
-                    return $"{numA} * {numB}";
+                    return $"({numA} * {numB})";
                 }
                 case Instruction.PLAYER_DRAW_CARD: {
                     string player = args[0], num = args[1];
                     string verb = (player.ToLower() == "you") ? "draw" : "draws";
                     return (CountWordsInString(num) > 1)
                         ? $"{player} {verb} cards equal to {num}."
-                        : $"{player} {verb} {num} cards.";
+                        : ((num == "1")
+                            ? $"{player} {verb} {num} card."
+                            : $"{player} {verb} {num} cards."
+                        );
                 }
                 case Instruction.RANDOM_NUMBER: {
                     string upper = args[0];
@@ -131,27 +133,27 @@ public class RulesTextBuilder {
                 }
                 case Instruction.SET_COUNTER: {
                     string key = args[0], num = args[1];
-                    return $"Set {key.ToUpper()} to {num}.";
+                    return $"set {key.ToUpper()} to {num}.";
                 }
                 case Instruction.SET_PLAYER_DRAW: {
-                    string num = args[0], player = args[1];
+                    string player = args[0], num = args[1];
                     string verb = (player.ToLower() == "you") ? "draw" : "draws";
                     return (CountWordsInString(num) > 1)
                         ? $"{player} now {verb} cards equal to {num} per turn."
                         : $"{player} now {verb} {num} cards per turn.";
                 }
                 case Instruction.SET_PLAYER_MAX_HAND: {
-                    string num = args[0], player = args[1];
+                    string player = args[0], num = args[1];
                     return (CountWordsInString(num) > 1)
                         ? $"{player} can now hold cards equal to {num} in hand."
                         : $"{player} can now hold a maximum of {num} cards in hand.";
                 }
                 case Instruction.SET_PLAYER_POINTS: {
-                    string num = args[0], player = args[1];
+                    string player = args[0], num = args[1];
                     if (player.ToLower() == "you") {
                         return (CountWordsInString(num) > 1)
-                            ? $"Set your score equal to {num}."
-                            : $"Set your score to {num}";
+                            ? $"set your score equal to {num}."
+                            : $"set your score to {num}.";
                     }
                     return (CountWordsInString(num) > 1)
                         ? $"{player} has their score set equal to {num}."

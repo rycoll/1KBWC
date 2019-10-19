@@ -87,11 +87,12 @@ public class LiteralFactory {
 
     public static byte[] CreateListLiteral(byte[] objects, ListType type, int length) {
         byte[] listSize = CreateIntLiteral(length);
+        byte[] listType = CreateEnumLiteral((byte) type, Instruction.ENUM_LIST_TYPE);
 
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(objects));
         bytes.AddRange(new List<byte>(listSize));
-        bytes.Add((byte) type);
+        bytes.AddRange(listType);
         bytes.Add((byte) Instruction.LIST);
         return bytes.ToArray();
     }

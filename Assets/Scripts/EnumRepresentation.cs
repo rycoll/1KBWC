@@ -38,6 +38,8 @@ public class EnumRepesentation {
                 return new EnumRepesentation(Enum.GetNames(typeof(ConditionType)), Instruction.ENUM_CONDITION_TYPE);
             case "ENUM_DECK_POSITION":
                 return new EnumRepesentation(Enum.GetNames(typeof(DeckLocation)), Instruction.ENUM_DECK_POSITION);
+            case "ENUM_LIST_TYPE":
+                return new EnumRepesentation(Enum.GetNames(typeof(ListType)), Instruction.ENUM_LIST_TYPE);
             default:
                 return new EnumRepesentation(new string[0], Instruction.ERROR);
         }
