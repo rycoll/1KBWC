@@ -43,6 +43,16 @@ public class Interpreter : ByteManager
                     break;
                 }
 
+                case Instruction.UNLESS: {
+                    Condition condition = ReadConditionLiteral(skipToNext);
+                    if (condition.Evaluate()) {
+                        while (currentStackSize > 0 && peek() != (byte) Instruction.ENDIF) {
+                            pop();
+                        }
+                    }
+                    break;
+                }
+
                 case Instruction.LIST_LENGTH: {	
                     List<byte[]> list = ReadList(skipToNext);	
                     push(LiteralFactory.CreateIntLiteral(list.Count));	
@@ -55,6 +65,32 @@ public class Interpreter : ByteManager
                     push(LiteralFactory.CreateBoolLiteral(
                         card.HasTag(tagName)
                     ));
+                    break;	
+                }
+
+                case Instruction.PLAYER_IS_WINNING: {
+                    GamePlayer player = GM.ReadPlayerFromStack();
+                    bool winning = true;
+                    foreach (GamePlayer otherPlayer in GM.Players.GetPlayers()) {
+                        if (otherPlayer.Points > player.Points) {
+                            winning = false;
+                            break;
+                        }
+                    }
+                    push(LiteralFactory.CreateBoolLiteral(winning));
+                    break;	
+                }
+
+                case Instruction.PLAYER_IS_LOSING: {
+                    GamePlayer player = GM.ReadPlayerFromStack();
+                    bool losing = true;
+                    foreach (GamePlayer otherPlayer in GM.Players.GetPlayers()) {
+                        if (otherPlayer.Points < player.Points) {
+                            losing = false;
+                            break;
+                        }
+                    }
+                    push(LiteralFactory.CreateBoolLiteral(losing));
                     break;	
                 }
 

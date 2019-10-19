@@ -25,6 +25,11 @@ public class RulesTextBuilder {
                     string rootEffect = args[1];
                     return $"if {condition}, then {rootEffect}";
                 }
+                case Instruction.UNLESS: {
+                    string condition = args[0];
+                    string rootEffect = args[1];
+                    return $"unless {condition}, {rootEffect}";
+                }
                 case Instruction.GET_ACTIVE_PLAYER: return "you";
                 case Instruction.GET_ALL_PLAYERS: return "players";
                 case Instruction.GET_ALL_OPPONENTS: return "opponents";
@@ -161,6 +166,16 @@ public class RulesTextBuilder {
                 }
                 case Instruction.TARGET_CARD: return "a card of your choice";
                 case Instruction.TARGET_PLAYER: return "a player of your choice";
+                case Instruction.PLAYER_IS_WINNING: {
+                    string player = args[1];
+                    string verb = (player.ToLower() == "you") ? "have" : "has";
+                    return $"{player} {verb} the highest score";
+                }
+                case Instruction.PLAYER_IS_LOSING: {
+                    string player = args[1];
+                    string verb = (player.ToLower() == "you") ? "have" : "has";
+                    return $"{player} {verb} the lowest score";
+                }
 
 
                 // literals with EnterValues

@@ -14,10 +14,11 @@ public enum Instruction {
 
     // control
     IF                  = 020,
-    ENDIF               = 021,
-    LOOP                = 022,
-    FOR_LOOP            = 023,
-    ENDLOOP             = 024,
+    UNLESS              = 021,
+    ENDIF               = 022,
+    LOOP                = 023,
+    FOR_LOOP            = 024,
+    ENDLOOP             = 025,
 
     // getter primitives
     //   internal
@@ -43,6 +44,8 @@ public enum Instruction {
     PLACEHOLDER             = 053,
     CHUNK                   = 054,
     CARD_HAS_TAG            = 055,
+    PLAYER_IS_WINNING       = 056,
+    PLAYER_IS_LOSING        = 057,
 
     // enums
     ENUM_DECK_POSITION          = 080,

@@ -85,6 +85,18 @@ public class InstructionFactory {
         return bytes.ToArray();
     }
 
+    public static byte[] Make_PlayerIsWinning (byte[] player) {
+        List<byte> bytes = new List<byte>(player);
+        bytes.Add((byte) Instruction.PLAYER_IS_WINNING);
+        return bytes.ToArray();
+    }
+
+    public static byte[] Make_PlayerIsLosing (byte[] player) {
+        List<byte> bytes = new List<byte>(player);
+        bytes.Add((byte) Instruction.PLAYER_IS_LOSING);
+        return bytes.ToArray();
+    }
+
     #endregion
 
     #region CONTROL
@@ -95,6 +107,15 @@ public class InstructionFactory {
         bytes.AddRange(new List<byte>(code));
         bytes.AddRange(new List<byte>(condition));
         bytes.Add((byte) Instruction.IF);
+        return bytes.ToArray();
+    }
+
+    public static byte[] Make_Unless(byte[] code, byte[] condition) {
+        List<byte> bytes = new List<byte>();
+        bytes.Add((byte) Instruction.ENDIF);
+        bytes.AddRange(new List<byte>(code));
+        bytes.AddRange(new List<byte>(condition));
+        bytes.Add((byte) Instruction.UNLESS);
         return bytes.ToArray();
     }
 

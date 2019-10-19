@@ -153,6 +153,24 @@
         "canBeRoot": true
     },                   
     {
+        "name": "Unless...",
+        "type": "control",
+        "instruction": "UNLESS",
+        "message": "Unless a condition is met, some effects are run.",
+        "returnType": "NONE",
+        "fields": [{
+                "type": "CONDITION",
+                "desc": "Under what condition should this effect not happen?"
+            }, {
+                "type": "ROOT_EFFECT",
+                "desc": "What should happen, unless the condition is met?"
+            }, {
+                "type": "BYTE_ENDIF",
+                "desc": "Signals end of IF block"
+            }],
+        "canBeRoot": true
+    },                   
+    {
         "name": "Endif",
         "type": "auxiliary",
         "instruction": "ENDIF",
@@ -385,8 +403,30 @@
             "type": "CARD",
             "desc": "Card to check"
         }, {
-            "type": "STRING",
+            "type": "TEXT",
             "desc": "Name of the tag to look for"
+        }]
+    }, 
+    {
+        "name": "Player Has Most Points",
+        "type": "getter",
+        "instruction": "PLAYER_IS_WINNING",
+        "message": "Check if a player has the most points (or tied for most points).",
+        "returnType": "BOOL",
+        "fields": [{
+            "type": "PLAYER",
+            "desc": "Player to check"
+        }]
+    }, 
+    {
+        "name": "Player Has Least Points",
+        "type": "getter",
+        "instruction": "PLAYER_IS_LOSING",
+        "message": "Check if a player has the least points (or tied for least points).",
+        "returnType": "BOOL",
+        "fields": [{
+            "type": "PLAYER",
+            "desc": "Player to check"
         }]
     }, 
     {

@@ -188,6 +188,8 @@ public class RulesTextInterpreter : ByteManager
             // [player]
             case Instruction.GET_CARDS_IN_HAND:
             case Instruction.GET_PLAYER_POINTS:
+            case Instruction.PLAYER_IS_WINNING:
+            case Instruction.PLAYER_IS_LOSING:
                 args[0] = ReadPlayerLiteral(readAccessorFirst);
                 break;
             // [string]
@@ -229,6 +231,7 @@ public class RulesTextInterpreter : ByteManager
                 args[1] = ReplacePlaceholderStrings(args[1], id_num, replacement);
                 break;
             case Instruction.IF:
+            case Instruction.UNLESS:
                 args[0] = ReadConditionLiteral(readAccessorFirst);
                 args[1] = GetNext();
                 break;
