@@ -51,8 +51,8 @@
        "notes": []
     },               
     "CHUNK": {
-       "code": ["int", "bytes"],
-       "notes": ["The int is the number of bytes in the chunk"]
+       "code": ["bytes", "endchunk"],
+       "notes": []
     },                
     "PLACEHOLDER": {
        "code": ["int"],

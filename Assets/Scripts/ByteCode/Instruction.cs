@@ -19,6 +19,7 @@ public enum Instruction {
     LOOP                = 023,
     FOR_LOOP            = 024,
     ENDLOOP             = 025,
+    ENDCHUNK            = 026,
 
     // getter primitives
     //   internal
@@ -62,8 +63,6 @@ public enum Instruction {
     SET_COUNTER                 = 105,
     MOVE_TO_DISCARD             = 106,
     MOVE_TO_DECK                = 107,
-
-
 
     ERROR = 255
 }
