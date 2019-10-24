@@ -7,10 +7,13 @@ title: Auxiliary Bytes
 
 Auxiliary bytes are specified in the `fields` of an effect definition, in `effects.json`. This is parsed and built into the effect object.
 
+Define an auxiliary byte by adding the "auxiliary" attribute. The type field needs to match the name of a corresponding instruction (case-insensitive).
+
 ```js
 fields: {
-    "type": "BYTE_ENDLOOP",
-    "desc": "Signals end of loop"
+    "type": "ENDLOOP",
+    "desc": "Signals end of loop",
+    "attributes": ["auxiliary"]
 }
 ```
 
@@ -18,13 +21,11 @@ fields: {
 
 ### How to add
 
-* Create a corresponding entry in the ReturnType enum. This should be prefixed with "BYTE_".
-* Add the auxiliary byte as a field on the relevant effect(s) in `effects.json`.
-* Add handling in `EnumRepresentation.EnumLookup`. This should return an EnumRepresentation with the correct Instruction and an empty string array.
+* Create a corresponding entry in the ReturnType enum.
+* Add the byte as a field, with the `auxiliary` attribute, on the relevant effect(s) in `effects.json`.
 
 ### References in the code
 
 * `effects.json`: field definitions
 * ReturnType: one ReturnType enum value for each kind of auxiliary byte
-* `EnumRepresentation.EnumLookup`: lookup for instruction
 * `QuestionPanelController`: handling for auxiliary bytes during card creation (i.e. lookup and add instruction without presenting any unneeded information to the player).

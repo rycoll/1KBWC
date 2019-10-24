@@ -24,6 +24,7 @@ public class ParsedEffect {
 public class ParsedField {
     public string type;
     public string desc;
+    public string[] attributes;
 }
 
 public class EffectJSONParser {
@@ -75,7 +76,8 @@ public class EffectJSONParser {
         return new FieldData(){
             text = parsedField.desc,
             enterValue = enterType,
-            returnType = type
+            returnType = type,
+            attributes = parsedField.attributes
         };
     }
 

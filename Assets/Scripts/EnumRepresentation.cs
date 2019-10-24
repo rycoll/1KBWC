@@ -28,10 +28,6 @@ public class EnumRepesentation {
     
     public static EnumRepesentation EnumLookup (string lookupKey) {
         switch (lookupKey) {
-            case "BYTE_ENDIF":
-                return new EnumRepesentation(new string[0], Instruction.ENDIF);
-            case "BYTE_ENDLOOP":
-                return new EnumRepesentation(new string[0], Instruction.ENDLOOP);
             case "ENUM_CONDITION_OPERATOR":
                 return new EnumRepesentation(Enum.GetNames(typeof(ConditionOperator)), Instruction.ENUM_CONDITION_OPERATOR);
             case "ENUM_CONDITION_TYPE":

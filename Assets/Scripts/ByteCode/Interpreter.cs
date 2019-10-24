@@ -138,10 +138,10 @@ public class Interpreter : ByteManager
                         byte currentByte = pop();
                         while (currentByte != (byte) Instruction.ENDLOOP) {
                             if (currentByte == (byte) Instruction.CHUNK) {
-                                int chunkSize = ReadIntLiteral(skipToNext);
-                                for (int n = 0; n < chunkSize; n++) {
-                                    // add to start, to retain stack ordering
-                                    compiled.Insert(n, pop());
+                                byte nextInChunk = pop();
+                                for (int n = 0; nextInChunk != (byte) Instruction.ENDCHUNK; n++) {
+                                    compiled.Insert(n, nextInChunk);
+                                    nextInChunk = pop();
                                 }
                             } else if (currentByte == (byte) Instruction.PLACEHOLDER) {
                                 int placeholderID = ReadIntLiteral(skipToNext);

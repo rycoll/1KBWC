@@ -155,7 +155,12 @@ public class RulesTextInterpreter : ByteManager
                 string id = ReadIntLiteral(readAccessorFirst);
                 return GetPlaceholderString(id);
             case Instruction.CHUNK:
-                ReadIntLiteral(readAccessorFirst);
+                List<byte> bytesInChunk = new List<byte>();
+                while (peek() != (byte) Instruction.ENDCHUNK) {
+                    bytesInChunk.Insert(0, pop());
+                }
+                pop();
+                push(bytesInChunk.ToArray());
                 return GetNext();
             // [card]
             case Instruction.MOVE_TO_DISCARD:
@@ -214,7 +219,6 @@ public class RulesTextInterpreter : ByteManager
                     mockInterpreter.executeNext();
                     listType = (ListType) mockInterpreter.peek(3);
                 } else {
-                    Debug.Log(ReportStackContent());
                     throw new UnexpectedByteException($"Expected a list, got {peek()}");
                 }
                 args[0] = ReadList(readAccessorFirst);

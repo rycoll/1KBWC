@@ -126,8 +126,8 @@ public class LiteralFactory {
 
     public static byte[] CreateChunkLiteral(byte[] srcBytes) {
         List<byte> bytes = new List<byte>();
+        bytes.Add((byte) Instruction.ENDCHUNK);
         bytes.AddRange(srcBytes);
-        bytes.AddRange(CreateIntLiteral(srcBytes.Length));
         bytes.Add((byte) Instruction.CHUNK);
         return bytes.ToArray();
     }

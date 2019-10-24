@@ -27,10 +27,13 @@ public class EffectData {
 
     public static EffectData GetEffectDataByName (string n) {
         try {
-            return Effects.First(value => value.name == n);
+            if (n == "ENDLOOP") {
+                Debug.Log("endloop");
+            }
+            return Effects.First(value => value.name.ToLower() == n.ToLower());
         } catch (InvalidOperationException e) {
             // nothing found
-            Debug.LogWarning("Couldn't find an effect named '" + n + "'. " + e);
+            Debug.LogWarning("Couldn't find an effect named '" + n.ToLower() + "'. " + e);
             return null;
         }
     }
@@ -41,8 +44,3 @@ public class EffectData {
 
 }
 
-public enum ReturnType {
-    NONE, NUMBER, BOOL, TEXT, CARD, PLAYER, LIST, CONDITION, ROOT_EFFECT,
-    ENUM_CONDITION_OPERATOR, ENUM_DECK_POSITION,
-    BYTE_ENDIF, BYTE_ENDLOOP
-}

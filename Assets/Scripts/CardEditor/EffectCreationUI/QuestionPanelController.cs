@@ -145,10 +145,10 @@ public class QuestionPanelController : MonoBehaviour
             processingQueue.Remove(next);
 
             // handling for auxiliary bytes
-            string typeString = next.data.returnType.ToString();
-            if (typeString.StartsWith("BYTE_")) {
-                EnumRepesentation enumRepesentation = EnumRepesentation.EnumLookup(typeString);
-                builder.Add((byte) enumRepesentation.getInstruction());
+            if (Array.IndexOf(next.data.attributes, "auxiliary") != -1) {
+                string typeString = next.data.returnType.ToString();
+                Instruction instruction = EffectData.GetEffectDataByName(typeString).instruction;
+                builder.Add((byte) instruction);
                 Next();
                 return;
             }
