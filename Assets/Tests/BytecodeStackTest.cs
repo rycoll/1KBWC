@@ -65,6 +65,16 @@ namespace Tests
         }
 
         [Test]
+        public void NegativeIntBytecode()
+        {
+            byte[] arr = LiteralFactory.CreateIntLiteral(-5);
+            bytes.push(arr);
+            int n = bytes.ReadIntLiteral(dummyCallback);
+
+            Assert.AreEqual(-5, n);
+        }
+
+        [Test]
         public void StringBytecode()
         {
             bytes.push(LiteralFactory.CreateStringLiteral("Hello World 👋"));
