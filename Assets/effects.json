@@ -399,12 +399,12 @@
             "desc": "First thing to compare",
             "attributes": []
         }, {
-            "type": "BOOL",
-            "desc": "Second thing to compare",
-            "attributes": []
-        }, {
             "type": "ENUM_CONDITION_OPERATOR",
             "desc": "Comparison operator",
+            "attributes": []
+        }, {
+            "type": "BOOL",
+            "desc": "Second thing to compare",
             "attributes": []
         }]
     }, 
@@ -419,12 +419,12 @@
             "desc": "First number to compare",
             "attributes": []
         }, {
-            "type": "NUMBER",
-            "desc": "Second number to compare",
-            "attributes": []
-        }, {
             "type": "ENUM_CONDITION_OPERATOR",
             "desc": "Comparison operator",
+            "attributes": []
+        }, {
+            "type": "NUMBER",
+            "desc": "Second number to compare",
             "attributes": []
         }]
     }, 

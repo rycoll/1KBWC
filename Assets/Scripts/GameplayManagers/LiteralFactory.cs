@@ -51,8 +51,8 @@ public class LiteralFactory {
     public static byte[] CreateConditionLiteral(byte[] operandA, byte[] operandB, ConditionType t, ConditionOperator op) {
         // use this to create a reusable condition that can run queries
         List<byte> bytes = new List<byte>();
-        bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) op, Instruction.ENUM_CONDITION_OPERATOR)));
         bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) op, Instruction.ENUM_CONDITION_OPERATOR)));
         bytes.AddRange(new List<byte>(operandA));
         bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) t, Instruction.ENUM_CONDITION_TYPE)));
         bytes.Add((byte) Instruction.CONDITION);
@@ -64,8 +64,8 @@ public class LiteralFactory {
         byte[] operandB = CreateBoolLiteral(condition.CheckValue);
 
         List<byte> bytes = new List<byte>();
-        bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) condition.Operator, Instruction.ENUM_CONDITION_OPERATOR)));
         bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) condition.Operator, Instruction.ENUM_CONDITION_OPERATOR)));
         bytes.AddRange(new List<byte>(operandA));
         bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) ConditionType.BOOL, Instruction.ENUM_CONDITION_TYPE)));
         bytes.Add((byte) Instruction.CONDITION);
@@ -77,8 +77,8 @@ public class LiteralFactory {
         byte[] operandB = CreateIntLiteral(condition.OperandB);
 
         List<byte> bytes = new List<byte>();
-        bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) condition.Operator, Instruction.ENUM_CONDITION_OPERATOR)));
         bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) condition.Operator, Instruction.ENUM_CONDITION_OPERATOR)));
         bytes.AddRange(new List<byte>(operandA));
         bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) ConditionType.NUM, Instruction.ENUM_CONDITION_TYPE)));
         bytes.Add((byte) Instruction.CONDITION);

@@ -25,8 +25,8 @@ public class InstructionFactory {
 
     public static byte[] Make_BoolComparison(byte[] operandA, byte[] operandB, byte operatorEnum) {
         List<byte> bytes = new List<byte>();
-        bytes.AddRange(LiteralFactory.CreateEnumLiteral(operatorEnum, Instruction.ENUM_CONDITION_OPERATOR));
         bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(LiteralFactory.CreateEnumLiteral(operatorEnum, Instruction.ENUM_CONDITION_OPERATOR));
         bytes.AddRange(new List<byte>(operandA));
         bytes.Add((byte) Instruction.BOOL_COMPARISON);
         return bytes.ToArray();
@@ -65,8 +65,8 @@ public class InstructionFactory {
 
     public static byte[] Make_NumComparison(byte[] operandA, byte[] operandB, byte operatorEnum) {
         List<byte> bytes = new List<byte>();
-        bytes.AddRange(LiteralFactory.CreateEnumLiteral(operatorEnum, Instruction.ENUM_CONDITION_OPERATOR));
         bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(LiteralFactory.CreateEnumLiteral(operatorEnum, Instruction.ENUM_CONDITION_OPERATOR));
         bytes.AddRange(new List<byte>(operandA));
         bytes.Add((byte) Instruction.NUM_COMPARISON);
         return bytes.ToArray();
@@ -156,6 +156,23 @@ public class InstructionFactory {
         bytes.Add((byte) Instruction.FOR_LOOP);
         return bytes.ToArray();
     }
+
+    public static byte[] Make_ForLoop (byte[] itemList, List<byte[]> codeChunks, int id) {
+        // endloop, code, list, id, head
+        byte[] code = Make_CodeWithPlaceholders(codeChunks, id);
+
+        List<byte> bytes = new List<byte>();
+        bytes.Add((byte) Instruction.ENDLOOP);
+        bytes.AddRange(new List<byte>(code));
+        bytes.AddRange(new List<byte>(itemList));
+        bytes.AddRange(new List<byte>(
+            LiteralFactory.CreateIntLiteral(id)
+        ));
+        bytes.Add((byte) Instruction.FOR_LOOP);
+        return bytes.ToArray();
+    }
+
+
 
     #endregion
 

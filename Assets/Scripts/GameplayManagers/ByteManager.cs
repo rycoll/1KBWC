@@ -220,14 +220,14 @@ public class ByteManager {
             switch ((ConditionType) conditionType) {
                 case ConditionType.BOOL: {
                     bool a = ReadBoolLiteral(cb);
-                    bool b = ReadBoolLiteral(cb);
                     ConditionOperator op = (ConditionOperator) ReadEnumLiteral();
+                    bool b = ReadBoolLiteral(cb);
                     return new Condition(a, b, op);
                 }
                 case ConditionType.NUM: {
                     int a = ReadIntLiteral(cb);
-                    int b = ReadIntLiteral(cb);
                     ConditionOperator op = (ConditionOperator) ReadEnumLiteral();
+                    int b = ReadIntLiteral(cb);
                     return new Condition(a, b, op);
                 }
                 default:

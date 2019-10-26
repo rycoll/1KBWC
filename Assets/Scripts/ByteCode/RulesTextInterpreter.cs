@@ -204,8 +204,8 @@ public class RulesTextInterpreter : ByteManager
             // others
             case Instruction.BOOL_COMPARISON:
                 args[0] = ReadBoolLiteral(readAccessorFirst);
-                args[1] = ReadBoolLiteral(readAccessorFirst);
                 args[2] = ReadEnumLiteral();
+                args[1] = ReadBoolLiteral(readAccessorFirst);
                 break;
             case Instruction.FOR_LOOP:
                 string id_num = ReadIntLiteral(readAccessorFirst);
@@ -249,8 +249,8 @@ public class RulesTextInterpreter : ByteManager
                 break;
             case Instruction.NUM_COMPARISON:
                 args[0] = ReadIntLiteral(readAccessorFirst);
-                args[1] = ReadIntLiteral(readAccessorFirst);
                 args[2] = ReadEnumLiteral();
+                args[1] = ReadIntLiteral(readAccessorFirst);
                 break;
             case Instruction.SET_COUNTER:
                 args[0] = ReadStringLiteral(readAccessorFirst);
