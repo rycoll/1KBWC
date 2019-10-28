@@ -506,12 +506,12 @@
         "message": "Set the point total of a specified player",
         "returnType": "NONE",
         "fields": [{
-            "type": "NUMBER",
-            "desc": "New point total",
-            "attributes": []
-        }, {
             "type": "PLAYER",
             "desc": "Player to affect",
+            "attributes": []
+        }, {
+            "type": "NUMBER",
+            "desc": "New point total",
             "attributes": []
         }],
         "canBeRoot": true
@@ -523,12 +523,12 @@
         "message": "Add to (or subtract from) the point total of a specified player",
         "returnType": "NONE",
         "fields": [{
-            "type": "NUMBER",
-            "desc": "Number to add (use negative to substract)",
-            "attributes": []
-        }, {
             "type": "PLAYER",
             "desc": "Player to affect",
+            "attributes": []
+        }, {
+            "type": "NUMBER",
+            "desc": "Number to add (use negative to substract)",
             "attributes": []
         }],
         "canBeRoot": true
@@ -540,13 +540,14 @@
         "message": "Set the number of cards a player draws at the start of their turn",
         "returnType": "NONE",
         "fields": [{
-            "type": "NUMBER",
-            "desc": "Number to of cards to draw",
-            "attributes": []
-        }, {
             "type": "PLAYER",
             "desc": "Player to affect",
             "attributes": []
+        }, {
+            "type": "NUMBER",
+            "desc": "Number to of cards to draw",
+            "attributes": []
+
         }],
         "canBeRoot": true
     },              
@@ -557,12 +558,12 @@
         "message": "Set the maximum hand size for a specified player",
         "returnType": "NONE",
         "fields": [{
-            "type": "NUMBER",
-            "desc": "New maximum hand size",
-            "attributes": []
-        }, {
             "type": "PLAYER",
             "desc": "Player to affect",
+            "attributes": []
+        }, {
+            "type": "NUMBER",
+            "desc": "New maximum hand size",
             "attributes": []
         }],
         "canBeRoot": true
