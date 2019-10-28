@@ -28,7 +28,7 @@ public class GameMaster {
     }
 
     public void QueryBeforeRead () {
-        Bytes.next();
+        Bytes.executeNext();
     }
 
     #region Player stuff
