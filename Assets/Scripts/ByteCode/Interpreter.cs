@@ -122,47 +122,38 @@ public class Interpreter : ByteManager
                 case Instruction.FOR_LOOP: {
                     int ID = ReadIntLiteral(skipToNext);
                     List<byte[]> items = ReadList(skipToNext);
-                    items.Reverse();
-                    
                     List<byte> bytestring = new List<byte>();
-                    while (peek() != (byte) Instruction.ENDLOOP) {
+                    byte current = pop();
+                    while (current != (byte) Instruction.ENDLOOP) {
                         // add to start, to retain stack ordering
-                        bytestring.Insert(0, pop());
+                        bytestring.Insert(0, current);
+                        current = pop();
                     }
-                    bytestring.Insert(0, (byte) Instruction.ENDLOOP);
 
-                    List<byte> compiled = new List<byte>();
+                    byte[] idBytes = LiteralFactory.CreateIntLiteral(ID);
                     for (int i = 0; i < items.Count; i++) {
                         byte[] currentItem = items[i];
+                        Array.Reverse(currentItem);
+                        byte[] addToRegister = InstructionFactory.Make_AddToRegister(idBytes, currentItem);
                         push(bytestring.ToArray());
-                        byte currentByte = pop();
-                        while (currentByte != (byte) Instruction.ENDLOOP) {
-                            if (currentByte == (byte) Instruction.CHUNK) {
-                                byte nextInChunk = pop();
-                                for (int n = 0; nextInChunk != (byte) Instruction.ENDCHUNK; n++) {
-                                    compiled.Insert(n, nextInChunk);
-                                    nextInChunk = pop();
-                                }
-                            } else if (currentByte == (byte) Instruction.PLACEHOLDER) {
-                                int placeholderID = ReadIntLiteral(skipToNext);
-                                  if (placeholderID == ID) {
-                                    byte[] placeholder = (byte[]) items[i].Clone();
-                                    Array.Reverse(placeholder);
-                                    compiled.InsertRange(0, new List<byte>(placeholder));
-                                } else {
-                                    byte[] replaceID = LiteralFactory.CreateIntLiteral(placeholderID);
-                                    Array.Reverse(replaceID);
-                                    compiled.InsertRange(0, new List<byte>(replaceID));
-                                    compiled.Insert(0, (byte) Instruction.PLACEHOLDER);
-                                }
-                            } else {
-                                throw new UnexpectedByteException("Expected CHUNK or PLACEHOLDER, found " +  currentByte);
-                            }
-                            currentByte = pop();
-                        }
+                        push(addToRegister);
                     }
-                    
-                    push(compiled.ToArray());
+                    break;
+                }
+
+                case Instruction.ADD_TO_REGISTER: {
+                    int ID = ReadIntLiteral(skipToNext);
+                    int size = ReadIntLiteral(skipToNext);
+                    byte[] bytes = pop(size);
+                    register[ID] = bytes;
+                    break;
+                }
+
+                case Instruction.PLACEHOLDER: {
+                    int ID = ReadIntLiteral(skipToNext);
+                    byte[] fetch = register[ID];
+                    Array.Reverse(fetch);
+                    push(fetch);
                     break;
                 }
                 

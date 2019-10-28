@@ -129,23 +129,28 @@ public class InstructionFactory {
         return bytes.ToArray();
     }
 
-    public static byte[] Make_CodeWithPlaceholders (List<byte[]> chunks, int id) {
-        chunks.Reverse();
+    public static byte[] Make_AddToRegister(byte[] id, byte[] code) {
         List<byte> bytes = new List<byte>();
-        for (int i = 0; i < chunks.Count; i++) {
-            bytes.AddRange(LiteralFactory.CreateChunkLiteral(chunks[i]));
-            if (i < chunks.Count - 1) {
-                bytes.AddRange(LiteralFactory.CreatePlaceholderLiteral(id));
-            }
-        }
+        bytes.AddRange(code);
+        bytes.AddRange(LiteralFactory.CreateIntLiteral(code.Length));
+        bytes.AddRange(id);
+        bytes.Add((byte) Instruction.ADD_TO_REGISTER);
         return bytes.ToArray();
-    } 
+    }
 
-    public static byte[] Make_ForLoop (byte[] itemList, List<byte[]> codeChunks) {
-        // endloop, code, list, id, head
-        int id = ForLoopID;
-        byte[] code = Make_CodeWithPlaceholders(codeChunks, id);
+    public static byte[] Make_ForLoop (byte[] itemList, byte[] code) {
+        List<byte> bytes = new List<byte>();
+        bytes.Add((byte) Instruction.ENDLOOP);
+        bytes.AddRange(new List<byte>(code));
+        bytes.AddRange(new List<byte>(itemList));
+        bytes.AddRange(new List<byte>(
+            LiteralFactory.CreateIntLiteral(ForLoopID)
+        ));
+        bytes.Add((byte) Instruction.FOR_LOOP);
+        return bytes.ToArray();
+    }
 
+    public static byte[] Make_ForLoop (byte[] itemList, byte[] code, int id) {
         List<byte> bytes = new List<byte>();
         bytes.Add((byte) Instruction.ENDLOOP);
         bytes.AddRange(new List<byte>(code));
@@ -156,23 +161,6 @@ public class InstructionFactory {
         bytes.Add((byte) Instruction.FOR_LOOP);
         return bytes.ToArray();
     }
-
-    public static byte[] Make_ForLoop (byte[] itemList, List<byte[]> codeChunks, int id) {
-        // endloop, code, list, id, head
-        byte[] code = Make_CodeWithPlaceholders(codeChunks, id);
-
-        List<byte> bytes = new List<byte>();
-        bytes.Add((byte) Instruction.ENDLOOP);
-        bytes.AddRange(new List<byte>(code));
-        bytes.AddRange(new List<byte>(itemList));
-        bytes.AddRange(new List<byte>(
-            LiteralFactory.CreateIntLiteral(id)
-        ));
-        bytes.Add((byte) Instruction.FOR_LOOP);
-        return bytes.ToArray();
-    }
-
-
 
     #endregion
 

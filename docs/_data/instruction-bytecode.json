@@ -49,11 +49,7 @@
     "COLOUR": {
        "code": [],
        "notes": []
-    },               
-    "CHUNK": {
-       "code": ["bytes", "endchunk"],
-       "notes": []
-    },                
+    },                           
     "PLACEHOLDER": {
        "code": ["int"],
        "notes": ["The int refers to the ID of the enclosing control instruction"]
@@ -79,10 +75,10 @@
        "notes": []
     },                 
     "FOR_LOOP": {
-       "code": ["int", "list", "chunk", "placeholder", "endloop"],
+       "code": ["int", "list", "bytes", "endloop"],
        "notes": [
           "The int refers to an ID, used to find and replace placeholder instructions within the loop",
-          "Chunks are the code to loop. Placeholders between these chunks are replaced with the current iteration's item, and integrated into the chunk in-place."
+          "The bytes can include placeholders with a matching ID to the for loop. These will be replaced with the current list item when iterated."
        ]
     },             
     "ENDLOOP": {

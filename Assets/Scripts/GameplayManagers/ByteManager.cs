@@ -8,6 +8,8 @@ public class ByteManager {
     protected int currentStackSize = 0;
     protected byte[] stack = new byte[MAX_STACK_SIZE];
 
+    protected Dictionary<int, byte[]> register = new Dictionary<int, byte[]>();
+
     private const byte accessorRangeLowBound = 0030;
     private const byte accessorRangeHighBound = 0100;
     protected Instruction[] enumInstructions = {

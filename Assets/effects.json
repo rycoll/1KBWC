@@ -97,24 +97,7 @@
         "returnType": "NONE",
         "fields": [],
         "canBeRoot": false
-    },               
-    {
-        "name": "Chunk",
-        "type": "getter",
-        "instruction": "CHUNK",
-        "message": "A chunk of bytes",
-        "returnType": "CHUNK",
-        "fields": [{
-            "type": "ROOT_EFFECT",
-            "desc": "Do something",
-            "attributes": ["repeatable"]
-        }, {
-            "type": "ENDCHUNK",
-            "desc": "Signals end of the CHUNK",
-            "attributes": ["auxiliary"]
-        }],
-        "canBeRoot": false
-    },                
+    },                              
     {
         "name": "Placeholder",
         "type": "auxiliary",
@@ -225,7 +208,7 @@
             "desc": "What list should be iterated?",
             "attributes": []
         }, {
-            "type": "CHUNK",
+            "type": "ROOT_EFFECT",
             "desc": "What should happen for each item in the list?",
             "attributes": []
         }, {

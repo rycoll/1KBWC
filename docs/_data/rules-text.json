@@ -31,10 +31,7 @@
     },             
     "COLOUR": {
        "text": ["#FFFFFF"]
-    },               
-    "CHUNK": {
-       "text": []
-    },                
+    },                              
     "PLACEHOLDER": {
        "text": []
     },          

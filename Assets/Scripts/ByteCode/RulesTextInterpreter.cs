@@ -154,14 +154,6 @@ public class RulesTextInterpreter : ByteManager
             case Instruction.PLACEHOLDER:
                 string id = ReadIntLiteral(readAccessorFirst);
                 return GetPlaceholderString(id);
-            case Instruction.CHUNK:
-                List<byte> bytesInChunk = new List<byte>();
-                while (peek() != (byte) Instruction.ENDCHUNK) {
-                    bytesInChunk.Insert(0, pop());
-                }
-                pop();
-                push(bytesInChunk.ToArray());
-                return GetNext();
             // [card]
             case Instruction.MOVE_TO_DISCARD:
                 args[0] = ReadCardLiteral(readAccessorFirst);
@@ -177,7 +169,7 @@ public class RulesTextInterpreter : ByteManager
                 args[0] = ReadIntLiteral(readAccessorFirst);
                 args[1] = ReadIntLiteral(readAccessorFirst);
                 break;
-            // [int, player]
+            // [player, int]
             case Instruction.SET_PLAYER_POINTS:
             case Instruction.INCREMENT_PLAYER_POINTS:
             case Instruction.SET_PLAYER_DRAW:

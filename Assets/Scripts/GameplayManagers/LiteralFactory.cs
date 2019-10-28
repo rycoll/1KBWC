@@ -124,14 +124,6 @@ public class LiteralFactory {
         return bytes.ToArray();
     }
 
-    public static byte[] CreateChunkLiteral(byte[] srcBytes) {
-        List<byte> bytes = new List<byte>();
-        bytes.Add((byte) Instruction.ENDCHUNK);
-        bytes.AddRange(srcBytes);
-        bytes.Add((byte) Instruction.CHUNK);
-        return bytes.ToArray();
-    }
-
     public static byte[] CreateEnumLiteral(byte b, Instruction enumType) {
         return new byte[]{b, (byte) enumType};
     }

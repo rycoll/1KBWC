@@ -59,39 +59,33 @@ namespace Tests
 
         [Test]
         public void ForLoop() {
-            bytes.ClearStack();
-            List<GamePlayer> list = new List<GamePlayer>{
-                new GamePlayer("P1", 0),
-                new GamePlayer("P2", 1)
-            };
-            byte[] items = LiteralFactory.CreateListLiteral(list);
+            game.Players = new PlayerManager(2);
+            GamePlayer P1 = game.Players.GetPlayer(0);
+            GamePlayer P2 = game.Players.GetPlayer(1);
 
-            List<byte[]> chunkList = new List<byte[]>{
-                new byte[]{1, 2},
-                new byte[]{3, 4},
-                new byte[0],
-            };
+            byte[] items = new byte[]{ (byte) Instruction.GET_ALL_PLAYERS };
 
-            bytes.push(InstructionFactory.Make_ForLoop(items, chunkList));
+            byte[] code = InstructionFactory.Make_SetPlayerPoints(
+                LiteralFactory.CreateIntLiteral(50),
+                LiteralFactory.CreatePlaceholderLiteral(0)
+            );
 
-            game.ExecuteNext();
-            
-            for (int i = 0; i < list.Count; i++) {
-                Assert.AreEqual(1, bytes.pop());
-                Assert.AreEqual(2, bytes.pop());
-                Assert.AreEqual(bytes.ReadPlayerLiteral(game.queryCheck), i);
-                Assert.AreEqual(3, bytes.pop());
-                Assert.AreEqual(4, bytes.pop());
-                Assert.AreEqual(bytes.ReadPlayerLiteral(game.queryCheck), i);
+            bytes.push(InstructionFactory.Make_ForLoop(items, code, 0));
+
+    
+            Assert.AreNotEqual(50, P1.Points);
+            Assert.AreNotEqual(50, P2.Points);
+
+            while(bytes.HasBytes()) {
+                game.ExecuteNext();
             }
+
+            Assert.AreEqual(50, P1.Points);
+            Assert.AreEqual(50, P2.Points);
         }
 
-        
         [Test]
         public void NestedForLoop() {
-            // for each player:
-            //   for each card in that players hand:
-            //      discard card
             throw new System.Exception("Test not implemented yet 😢");
         }
     }

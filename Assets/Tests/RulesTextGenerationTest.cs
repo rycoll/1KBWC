@@ -104,16 +104,14 @@ namespace Tests
         [Test]
         public void EachPlayerDrawsACard () {
             byte[] items = new byte[]{ (byte) Instruction.GET_ALL_PLAYERS };
-
-            List<byte[]> chunkList = new List<byte[]>{
-                new byte[]{(byte) Instruction.PLAYER_DRAW_CARD},
-                LiteralFactory.CreateIntLiteral(1),
-            };
-
-            byte[] bytes = InstructionFactory.Make_ForLoop(items, chunkList);
+            byte[] code = InstructionFactory.Make_SetPlayerPoints(
+                LiteralFactory.CreateIntLiteral(50),
+                LiteralFactory.CreatePlaceholderLiteral(0)
+            );
+            byte[] bytes = InstructionFactory.Make_ForLoop(items, code, 0);
 
             string text = getText(bytes);
-            Assert.AreEqual("For each of the players: that player draws 1 card.", text);
+            Assert.AreEqual("For each of the players: that player has their score set to 50", text);
         }
 
         

@@ -90,16 +90,6 @@ public class PrintStack : ByteManager {
                     int id = ReadIntLiteral(readAccessorFirst);
                     return $"{instruction.ToString()}(id:{id})";
                 }
-                case Instruction.CHUNK: {
-                    pop();
-                    List<byte> list = new List<byte>(); 
-                    while(peek() != (byte) Instruction.ENDCHUNK) {
-                        list.Insert(0, pop());
-                    }
-                    pop();
-                    push(list.ToArray());
-                    return $"{instruction.ToString()}(size:{list.Count})";
-                }
                 default: {
                     pop();
                     return instruction.ToString();

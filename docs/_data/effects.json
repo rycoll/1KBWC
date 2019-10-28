@@ -97,16 +97,7 @@
         "returnType": "NONE",
         "fields": [],
         "canBeRoot": false
-    },               
-    {
-        "name": "Chunk",
-        "type": "auxiliary",
-        "instruction": "CHUNK",
-        "message": "A chunk of bytes",
-        "returnType": "NONE",
-        "fields": [],
-        "canBeRoot": false
-    },                
+    },                              
     {
         "name": "Placeholder",
         "type": "auxiliary",
@@ -142,13 +133,37 @@
         "returnType": "NONE",
         "fields": [{
                 "type": "CONDITION",
-                "desc": "Under what condition should this effect happen?"
+                "desc": "Under what condition should this effect happen?",
+                "attributes": []
             }, {
                 "type": "ROOT_EFFECT",
-                "desc": "What should happen when the condition is met?"
+                "desc": "What should happen when the condition is met?",
+                "attributes": []
             }, {
-                "type": "BYTE_ENDIF",
-                "desc": "Signals end of IF block"
+                "type": "ENDIF",
+                "desc": "Signals end of IF block",
+                "attributes": ["auxiliary"]
+            }],
+        "canBeRoot": true
+    },                   
+    {
+        "name": "Unless...",
+        "type": "control",
+        "instruction": "UNLESS",
+        "message": "Unless a condition is met, some effects are run.",
+        "returnType": "NONE",
+        "fields": [{
+                "type": "CONDITION",
+                "desc": "Under what condition should this effect not happen?",
+                "attributes": []
+            }, {
+                "type": "ROOT_EFFECT",
+                "desc": "What should happen, unless the condition is met?",
+                "attributes": []
+            }, {
+                "type": "ENDIF",
+                "desc": "Signals end of IF block",
+                "attributes": ["auxiliary"]
             }],
         "canBeRoot": true
     },                   
@@ -169,13 +184,16 @@
         "returnType": "NONE",
         "fields": [{
             "type": "NUMBER",
-            "desc": "How many times?"
+            "desc": "How many times?",
+            "attributes": []
         }, {
             "type": "ROOT_EFFECT",
-            "desc": "What effect should be looped?"
+            "desc": "What effect should be looped?",
+            "attributes": []
         }, {
-            "type": "BYTE_ENDLOOP",
-            "desc": "Signals end of loop"
+            "type": "ENDLOOP",
+            "desc": "Signals end of loop",
+            "attributes": ["auxiliary"]
         }],
         "canBeRoot": true
     },                 
@@ -187,18 +205,21 @@
         "returnType": "NONE",
         "fields": [{
             "type": "LIST",
-            "desc": "What list should be iterated?"
+            "desc": "What list should be iterated?",
+            "attributes": []
         }, {
             "type": "ROOT_EFFECT",
-            "desc": "What should happen for each item in the list?"
+            "desc": "What should happen for each item in the list?",
+            "attributes": []
         }, {
-            "type": "BYTE_ENDLOOP",
-            "desc": "Signals end of loop"
+            "type": "ENDLOOP",
+            "desc": "Signals end of loop",
+            "attributes": ["auxiliary"]
         }],
         "canBeRoot": true
     },             
     {
-        "name": "End Loop",
+        "name": "EndLoop",
         "type": "auxiliary",
         "instruction": "ENDLOOP",
         "message": "Signals the end of scope for a loop",
@@ -214,10 +235,12 @@
         "returnType": "NUMBER",
         "fields": [{
             "type": "NUMBER",
-            "desc": "First number to add"
+            "desc": "First number to add",
+            "attributes": []
         }, {
             "type": "NUMBER",
-            "desc": "Second number to add"
+            "desc": "Second number to add",
+            "attributes": []
         }],
         "canBeRoot": false
     },                  
@@ -229,10 +252,12 @@
         "returnType": "NUMBER",
         "fields": [{
             "type": "NUMBER",
-            "desc": "First number to multiply"
+            "desc": "First number to multiply",
+            "attributes": []
         }, {
             "type": "NUMBER",
-            "desc": "Second number to multiply"
+            "desc": "Second number to multiply",
+            "attributes": []
         }],
         "canBeRoot": false
     },             
@@ -244,7 +269,8 @@
         "returnType": "NUMBER",
         "fields": [{
             "type": "LIST",
-            "desc": "Which list to get the length of?"
+            "desc": "Which list to get the length of?",
+            "attributes": []
         }],
         "canBeRoot": false
     },          
@@ -256,7 +282,8 @@
         "returnType": "NUMBER",
         "fields": [{
             "type": "NUMBER",
-            "desc": "Upper bound for random die roll"
+            "desc": "Upper bound for random die roll",
+            "attributes": []
         }],
         "canBeRoot": false
     },        
@@ -313,7 +340,8 @@
         "returnType": "LIST",
         "fields": [{
             "type": "PLAYER",
-            "desc": "Which player's hand?"
+            "desc": "Which player's hand?",
+            "attributes": []
         }],
         "canBeRoot": false
     }, 
@@ -325,7 +353,8 @@
         "returnType": "PLAYER",
         "fields": [{
             "type": "NUMBER",
-            "desc": "ID of player to get"
+            "desc": "ID of player to get",
+            "attributes": []
         }],
         "canBeRoot": false
     },           
@@ -337,7 +366,8 @@
         "returnType": "NUMBER",
         "fields": [{
             "type": "PLAYER",
-            "desc": "Player whose points should be checked"
+            "desc": "Player whose points should be checked",
+            "attributes": []
         }],
         "canBeRoot": false
     },
@@ -349,13 +379,16 @@
         "returnType": "CONDITION",
         "fields": [{
             "type": "BOOL",
-            "desc": "First thing to compare"
-        }, {
-            "type": "BOOL",
-            "desc": "Second thing to compare"
+            "desc": "First thing to compare",
+            "attributes": []
         }, {
             "type": "ENUM_CONDITION_OPERATOR",
-            "desc": "Comparison operator"
+            "desc": "Comparison operator",
+            "attributes": []
+        }, {
+            "type": "BOOL",
+            "desc": "Second thing to compare",
+            "attributes": []
         }]
     }, 
     {
@@ -366,13 +399,56 @@
         "returnType": "CONDITION",
         "fields": [{
             "type": "NUMBER",
-            "desc": "First number to compare"
-        }, {
-            "type": "NUMBER",
-            "desc": "Second number to compare"
+            "desc": "First number to compare",
+            "attributes": []
         }, {
             "type": "ENUM_CONDITION_OPERATOR",
-            "desc": "Comparison operator"
+            "desc": "Comparison operator",
+            "attributes": []
+        }, {
+            "type": "NUMBER",
+            "desc": "Second number to compare",
+            "attributes": []
+        }]
+    }, 
+    {
+        "name": "Card Has Tag",
+        "type": "getter",
+        "instruction": "CARD_HAS_TAG",
+        "message": "Check if a card has a specified tag or not.",
+        "returnType": "BOOL",
+        "fields": [{
+            "type": "CARD",
+            "desc": "Card to check",
+            "attributes": []
+        }, {
+            "type": "TEXT",
+            "desc": "Name of the tag to look for",
+            "attributes": []
+        }]
+    }, 
+    {
+        "name": "Player Has Most Points",
+        "type": "getter",
+        "instruction": "PLAYER_IS_WINNING",
+        "message": "Check if a player has the most points (or tied for most points).",
+        "returnType": "BOOL",
+        "fields": [{
+            "type": "PLAYER",
+            "desc": "Player to check",
+            "attributes": []
+        }]
+    }, 
+    {
+        "name": "Player Has Least Points",
+        "type": "getter",
+        "instruction": "PLAYER_IS_LOSING",
+        "message": "Check if a player has the least points (or tied for least points).",
+        "returnType": "BOOL",
+        "fields": [{
+            "type": "PLAYER",
+            "desc": "Player to check",
+            "attributes": []
         }]
     }, 
     {
@@ -401,7 +477,8 @@
         "returnType": "NUMBER",
         "fields": [{
             "type": "TEXT",
-            "desc": "The name of the counter that should be checked (case insensitive)."
+            "desc": "The name of the counter that should be checked (case insensitive).",
+            "attributes": []
         }],
         "canBeRoot": false
     },         
@@ -412,11 +489,13 @@
         "message": "Set the point total of a specified player",
         "returnType": "NONE",
         "fields": [{
-            "type": "NUMBER",
-            "desc": "New point total"
-        }, {
             "type": "PLAYER",
-            "desc": "Player to affect"
+            "desc": "Player to affect",
+            "attributes": []
+        }, {
+            "type": "NUMBER",
+            "desc": "New point total",
+            "attributes": []
         }],
         "canBeRoot": true
     },            
@@ -427,11 +506,13 @@
         "message": "Add to (or subtract from) the point total of a specified player",
         "returnType": "NONE",
         "fields": [{
-            "type": "NUMBER",
-            "desc": "Number to add (use negative to substract)"
-        }, {
             "type": "PLAYER",
-            "desc": "Player to affect"
+            "desc": "Player to affect",
+            "attributes": []
+        }, {
+            "type": "NUMBER",
+            "desc": "Number to add (use negative to substract)",
+            "attributes": []
         }],
         "canBeRoot": true
     },     
@@ -442,11 +523,14 @@
         "message": "Set the number of cards a player draws at the start of their turn",
         "returnType": "NONE",
         "fields": [{
-            "type": "NUMBER",
-            "desc": "Number to of cards to draw"
-        }, {
             "type": "PLAYER",
-            "desc": "Player to affect"
+            "desc": "Player to affect",
+            "attributes": []
+        }, {
+            "type": "NUMBER",
+            "desc": "Number to of cards to draw",
+            "attributes": []
+
         }],
         "canBeRoot": true
     },              
@@ -457,11 +541,13 @@
         "message": "Set the maximum hand size for a specified player",
         "returnType": "NONE",
         "fields": [{
-            "type": "NUMBER",
-            "desc": "New maximum hand size"
-        }, {
             "type": "PLAYER",
-            "desc": "Player to affect"
+            "desc": "Player to affect",
+            "attributes": []
+        }, {
+            "type": "NUMBER",
+            "desc": "New maximum hand size",
+            "attributes": []
         }],
         "canBeRoot": true
     },          
@@ -473,10 +559,12 @@
         "returnType": "NONE",
         "fields": [{
             "type": "PLAYER",
-            "desc": "Which player should draw?"
+            "desc": "Which player should draw?",
+            "attributes": []
         }, {
             "type": "NUMBER",
-            "desc": "Number of cards to draw"
+            "desc": "Number of cards to draw",
+            "attributes": []
         }],
         "canBeRoot": true
     },             
@@ -488,10 +576,12 @@
         "returnType": "NONE",
         "fields": [{
             "type": "TEXT",
-            "desc": "Name of the counter (case insensitive)"
+            "desc": "Name of the counter (case insensitive)",
+            "attributes": []
         },{
             "type": "NUMBER",
-            "desc": "Number to set"
+            "desc": "Number to set",
+            "attributes": []
         }],
         "canBeRoot": true
     },                  
@@ -503,7 +593,8 @@
         "returnType": "NONE",
         "fields": [{
             "type": "CARD",
-            "desc": "Card to discard"
+            "desc": "Card to discard",
+            "attributes": []
         }],
         "canBeRoot": true
     },              
@@ -515,10 +606,12 @@
         "returnType": "NONE",
         "fields": [{
             "type": "CARD",
-            "desc": "Card to discard"
+            "desc": "Card to discard",
+            "attributes": []
         }, {
             "type": "ENUM_DECK_POSITION",
-            "desc": "Position in the deck"
+            "desc": "Position in the deck",
+            "attributes": []
         }],
         "canBeRoot": true
     },                 

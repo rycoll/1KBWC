@@ -19,7 +19,6 @@ public enum Instruction {
     LOOP                = 023,
     FOR_LOOP            = 024,
     ENDLOOP             = 025,
-    ENDCHUNK            = 026,
 
     // getter primitives
     //   internal
@@ -43,10 +42,9 @@ public enum Instruction {
     TARGET_CARD             = 051,
     READ_COUNTER            = 052,
     PLACEHOLDER             = 053,
-    CHUNK                   = 054,
-    CARD_HAS_TAG            = 055,
-    PLAYER_IS_WINNING       = 056,
-    PLAYER_IS_LOSING        = 057,
+    CARD_HAS_TAG            = 054,
+    PLAYER_IS_WINNING       = 055,
+    PLAYER_IS_LOSING        = 056,
 
     // enums
     ENUM_DECK_POSITION          = 080,
@@ -63,6 +61,9 @@ public enum Instruction {
     SET_COUNTER                 = 105,
     MOVE_TO_DISCARD             = 106,
     MOVE_TO_DECK                = 107,
+
+    // for internal logic (hidden)
+    ADD_TO_REGISTER             = 200,
 
     ERROR = 255
 }

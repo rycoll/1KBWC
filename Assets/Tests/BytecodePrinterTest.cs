@@ -106,17 +106,6 @@ namespace Tests
         }
 
         [Test]
-        public void Chunk()
-        {
-            byte[] someBytes = LiteralFactory.CreateStringLiteral("hello");
-            bytes.push(LiteralFactory.CreateChunkLiteral(someBytes));
-            Assert.AreEqual(
-                bytes.ReportStackContent(),
-                $"CHUNK(size:{someBytes.Length}) STRING(hello) "
-            );
-        }
-
-        [Test]
         public void Enum()
         {
             bytes.push(LiteralFactory.CreateEnumLiteral(200, Instruction.ENUM_DECK_POSITION));
