@@ -84,7 +84,14 @@
     "ENDLOOP": {
        "code": [],
        "notes": []
-    },              
+    }, 
+    "ADD_TO_REGISTER": {
+       "code": ["int", "bytes"],
+       "notes": [
+          "This instruction is for internal use only. It sets memory for the interpreter.",
+          "The int is the key at which the bytes should be added in the register"
+       ]
+    },             
     "ADD": {
        "code": ["int", "int"],
        "notes": []
