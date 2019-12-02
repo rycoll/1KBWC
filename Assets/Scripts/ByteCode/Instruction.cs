@@ -50,7 +50,7 @@ public enum Instruction {
     ENUM_DECK_POSITION          = 080,
     ENUM_CONDITION_OPERATOR     = 081,
     ENUM_CONDITION_TYPE         = 082,
-    ENUM_LIST_TYPE              = 082,
+    ENUM_LIST_TYPE              = 083,
 
     // external primitives (setters)
     SET_PLAYER_POINTS           = 100,
