@@ -55,6 +55,32 @@ namespace Tests
         }
 
         [Test]
+        public void PopInstruction() {
+            bytes.push(LiteralFactory.CreateStringLiteral("Hello world"));
+            bytes.push(LiteralFactory.CreateIntLiteral(5));
+            bytes.push(LiteralFactory.CreateBoolLiteral(true));
+            bytes.push((byte) Instruction.EFFECT_DELIMITER);
+
+            byte[] instructionArr = bytes.popInstruction(dummyCallback);
+            Assert.AreEqual(1, instructionArr.Length);
+            Assert.AreEqual(Instruction.EFFECT_DELIMITER, (Instruction) instructionArr[0]);
+
+            byte[] boolArr = bytes.popInstruction(dummyCallback);
+            Assert.AreEqual(2, boolArr.Length);
+            bytes.push(boolArr);
+            Assert.AreEqual(true, bytes.ReadBoolLiteral(dummyCallback));
+ 
+            byte[] intArr = bytes.popInstruction(dummyCallback);
+            Assert.AreEqual(5, intArr.Length);
+            bytes.push(intArr);
+            Assert.AreEqual(5, bytes.ReadIntLiteral(dummyCallback));
+
+            byte[] stringArr = bytes.popInstruction(dummyCallback);
+            bytes.push(stringArr);
+            Assert.AreEqual("Hello world", bytes.ReadStringLiteral(dummyCallback));
+        }
+
+        [Test]
         public void IntBytecode([NUnit.Framework.Range(0, 100, 25)] int num)
         {
             byte[] arr = LiteralFactory.CreateIntLiteral(num);

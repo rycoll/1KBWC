@@ -74,6 +74,48 @@ public class ByteManager {
         return arr;
     }
 
+    public byte[] popInstruction(ReadCallback cb) {
+        // bytes returned in reverse order, so they can be pushed straight back on
+        Debug.Log("POP: " + ReportStackContent());
+        List<byte> bytes = new List<byte>();
+        byte b = peek();
+        switch ((Instruction) b) {
+            case Instruction.INT:
+                for (int i = 0; i < 5; i++) {
+                    bytes.Insert(0, pop());
+                }
+                break;
+            case Instruction.STRING: 
+                byte headInstruction = pop();
+                int size = ReadIntLiteral(cb);
+                byte[] sizeBytes = LiteralFactory.CreateIntLiteral(size);
+                byte[] charBytes = pop(size);
+
+                PrintStack.PrintRawBytes(sizeBytes);
+
+                bytes.Insert(0, headInstruction);
+                for (int i = sizeBytes.Length - 1; i >= 0; i--) {
+                    bytes.Insert(0, sizeBytes[i]);
+                }
+                for (int i = 0; i < charBytes.Length; i++) {
+                    bytes.Insert(0, charBytes[i]);
+                }
+                break;
+            case Instruction.BOOL:
+            case Instruction.ENUM_CONDITION_OPERATOR:
+            case Instruction.ENUM_CONDITION_TYPE:
+            case Instruction.ENUM_DECK_POSITION:
+            case Instruction.ENUM_LIST_TYPE:
+                bytes.Insert(0, pop());
+                bytes.Insert(0, pop());
+                break;
+            default:
+                bytes.Add(pop());
+                break;
+        }
+        return bytes.ToArray();
+    }
+
     public byte peek() {
         if (!HasBytes()) {
             throw new StackEmptyException("Peek failed, stack is empty! " + currentStackSize);
