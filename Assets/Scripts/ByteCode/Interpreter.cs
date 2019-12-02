@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -103,18 +103,20 @@ public class Interpreter : ByteManager
 
                 case Instruction.LOOP: {
                     int num = ReadIntLiteral(skipToNext);
-                    List<byte> bytes = new List<byte>();
+                    List<byte[]> instructionArrays = new List<byte[]>();
                     while (currentStackSize > 0) {
-                        byte b = pop();
-                        if (b == (byte) Instruction.ENDLOOP) {
+                        if (peek() == (byte) Instruction.ENDLOOP) {
+                            pop();
                             break;
                         }
+                        byte[] arr = popInstruction(skipToNext);
                         // add to start, to retain stack ordering
-                        bytes.Insert(0, b);
+                        instructionArrays.Add(arr);
                     }
-                    byte[] byteArr = bytes.ToArray();
                     for (int n = 0; n < num; n++) {
-                        push(byteArr);
+                        for (int m = 0; m < instructionArrays.Count; m++) {       
+                            push(instructionArrays[m]);
+                        }
                     }
                     break;
                 }

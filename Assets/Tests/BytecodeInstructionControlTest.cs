@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -44,16 +44,29 @@ namespace Tests
         [Test]
         public void Loop() {
             int numLoops = 3;
+
+            List<byte> loopCode = new List<byte>();
+            loopCode.Insert(0, (byte) Instruction.EFFECT_DELIMITER);
+            loopCode.InsertRange(0, LiteralFactory.CreateIntLiteral(4));
+            loopCode.Insert(0, (byte) Instruction.EFFECT_DELIMITER);
+            loopCode.InsertRange(0, LiteralFactory.CreateStringLiteral("Hello world"));
+            loopCode.Insert(0, (byte) Instruction.EFFECT_DELIMITER);
+            loopCode.InsertRange(0, LiteralFactory.CreateBoolLiteral(true));
+
             bytes.push(InstructionFactory.Make_Loop(
                 LiteralFactory.CreateIntLiteral(numLoops),
-                // have to reverse this manually since not handled by InstructionFactory or whatever
-                new byte[]{0002, 0001, 0000}
+                loopCode.ToArray()
             ));
+
             game.ExecuteNext();
+ 
             for (int i = 0; i < numLoops; i++) {
-                Assert.AreEqual(bytes.pop(), 0000);
-                Assert.AreEqual(bytes.pop(), 0001);
-                Assert.AreEqual(bytes.pop(), 0002);
+                Assert.AreEqual(true, bytes.ReadBoolLiteral(game.queryCheck));
+                Assert.AreEqual(Instruction.EFFECT_DELIMITER, (Instruction) bytes.pop());
+                Assert.AreEqual("Hello world", bytes.ReadStringLiteral(game.queryCheck));
+                Assert.AreEqual(Instruction.EFFECT_DELIMITER, (Instruction) bytes.pop());
+                Assert.AreEqual(4, bytes.ReadIntLiteral(game.queryCheck));
+                Assert.AreEqual(Instruction.EFFECT_DELIMITER, (Instruction) bytes.pop());
             }
         }
 

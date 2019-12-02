@@ -76,7 +76,6 @@ public class ByteManager {
 
     public byte[] popInstruction(ReadCallback cb) {
         // bytes returned in reverse order, so they can be pushed straight back on
-        Debug.Log("POP: " + ReportStackContent());
         List<byte> bytes = new List<byte>();
         byte b = peek();
         switch ((Instruction) b) {
@@ -90,8 +89,6 @@ public class ByteManager {
                 int size = ReadIntLiteral(cb);
                 byte[] sizeBytes = LiteralFactory.CreateIntLiteral(size);
                 byte[] charBytes = pop(size);
-
-                PrintStack.PrintRawBytes(sizeBytes);
 
                 bytes.Insert(0, headInstruction);
                 for (int i = sizeBytes.Length - 1; i >= 0; i--) {
