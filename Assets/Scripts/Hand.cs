@@ -25,6 +25,7 @@ public class Hand : CardZone {
             return false;
         }
         cards.Add(cardToAdd);
+        cardToAdd.Zone = this;
         return true;
     }
 
