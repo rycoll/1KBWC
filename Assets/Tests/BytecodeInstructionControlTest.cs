@@ -85,9 +85,10 @@ namespace Tests
 
             bytes.push(InstructionFactory.Make_ForLoop(items, code, 0));
 
-    
             Assert.AreNotEqual(50, P1.Points);
             Assert.AreNotEqual(50, P2.Points);
+
+            game.ExecuteNext();
 
             while(bytes.HasBytes()) {
                 game.ExecuteNext();

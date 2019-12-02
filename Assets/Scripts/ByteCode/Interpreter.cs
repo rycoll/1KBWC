@@ -110,7 +110,6 @@ public class Interpreter : ByteManager
                             break;
                         }
                         byte[] arr = popInstruction(skipToNext);
-                        // add to start, to retain stack ordering
                         instructionArrays.Add(arr);
                     }
                     for (int n = 0; n < num; n++) {
@@ -124,20 +123,23 @@ public class Interpreter : ByteManager
                 case Instruction.FOR_LOOP: {
                     int ID = ReadIntLiteral(skipToNext);
                     List<byte[]> items = ReadList(skipToNext);
-                    List<byte> bytestring = new List<byte>();
-                    byte current = pop();
-                    while (current != (byte) Instruction.ENDLOOP) {
-                        // add to start, to retain stack ordering
-                        bytestring.Insert(0, current);
-                        current = pop();
+                    List<byte[]> instructionArrays = new List<byte[]>();
+                    while (currentStackSize > 0) {
+                        if (peek() == (byte) Instruction.ENDLOOP) {
+                            pop();
+                            break;
+                        }
+                        byte[] arr = popInstruction(skipToNext);
+                        instructionArrays.Insert(0, arr);
                     }
 
                     byte[] idBytes = LiteralFactory.CreateIntLiteral(ID);
                     for (int i = 0; i < items.Count; i++) {
                         byte[] currentItem = items[i];
-                        Array.Reverse(currentItem);
                         byte[] addToRegister = InstructionFactory.Make_AddToRegister(idBytes, currentItem);
-                        push(bytestring.ToArray());
+                        for (int m = 0; m < instructionArrays.Count; m++) {       
+                            push(instructionArrays[m]);
+                        }
                         push(addToRegister);
                     }
                     break;
@@ -154,7 +156,6 @@ public class Interpreter : ByteManager
                 case Instruction.PLACEHOLDER: {
                     int ID = ReadIntLiteral(skipToNext);
                     byte[] fetch = register[ID];
-                    Array.Reverse(fetch);
                     push(fetch);
                     break;
                 }
