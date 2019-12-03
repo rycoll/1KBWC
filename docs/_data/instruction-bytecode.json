@@ -86,10 +86,11 @@
        "notes": []
     }, 
     "ADD_TO_REGISTER": {
-       "code": ["int", "bytes"],
+       "code": ["int", "int", "bytes"],
        "notes": [
           "This instruction is for internal use only. It sets memory for the interpreter.",
-          "The int is the key at which the bytes should be added in the register"
+          "The first int is the key at which the bytes should be added in the register",
+          "The second int is number of bytes to be stored in the register"
        ]
     },             
     "ADD": {
