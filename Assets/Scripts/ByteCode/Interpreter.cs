@@ -132,15 +132,24 @@ public class Interpreter : ByteManager
                 }
 
                 case Instruction.LOOP: {
+                    int id = ReadIntLiteral(skipToNext);
                     int num = ReadIntLiteral(skipToNext);
                     List<byte[]> instructionArrays = new List<byte[]>();
                     while (currentStackSize > 0) {
                         if (peek() == (byte) Instruction.ENDLOOP) {
                             pop();
-                            break;
+                            int endloopID = ReadIntLiteral(skipToNext);
+                            if (endloopID == id) {
+                                break;
+                            } else {
+                                List<byte> endloopBytes = new List<byte>(LiteralFactory.CreateIntLiteral(endloopID));
+                                endloopBytes.Add((byte) Instruction.ENDLOOP);
+                                instructionArrays.Insert(0, endloopBytes.ToArray());
+                            }
+                        } else {
+                            byte[] arr = popInstruction(skipToNext);
+                            instructionArrays.Insert(0, arr);
                         }
-                        byte[] arr = popInstruction(skipToNext);
-                        instructionArrays.Add(arr);
                     }
                     for (int n = 0; n < num; n++) {
                         for (int m = 0; m < instructionArrays.Count; m++) {       

@@ -96,14 +96,44 @@ namespace Tests
             ));
 
             game.ExecuteNext();
- 
             for (int i = 0; i < numLoops; i++) {
-                Assert.AreEqual(true, bytes.ReadBoolLiteral(game.queryCheck));
-                Assert.AreEqual(Instruction.EFFECT_DELIMITER, (Instruction) bytes.pop());
-                Assert.AreEqual("Hello world", bytes.ReadStringLiteral(game.queryCheck));
                 Assert.AreEqual(Instruction.EFFECT_DELIMITER, (Instruction) bytes.pop());
                 Assert.AreEqual(4, bytes.ReadIntLiteral(game.queryCheck));
                 Assert.AreEqual(Instruction.EFFECT_DELIMITER, (Instruction) bytes.pop());
+                Assert.AreEqual("Hello world", bytes.ReadStringLiteral(game.queryCheck));
+                Assert.AreEqual(Instruction.EFFECT_DELIMITER, (Instruction) bytes.pop());
+                Assert.AreEqual(true, bytes.ReadBoolLiteral(game.queryCheck));
+            }
+        }
+
+        [Test]
+        public void NestedLoop() {
+            int innerLoops = 3;
+            int outerLoops = 2;
+
+            List<byte> loopCode = new List<byte>();
+            loopCode.Insert(0, (byte) Instruction.EFFECT_DELIMITER);
+            loopCode.InsertRange(0, LiteralFactory.CreateIntLiteral(4));
+            loopCode.InsertRange(0, LiteralFactory.CreateStringLiteral("Hello world"));
+
+            byte[] innerLoop = InstructionFactory.Make_Loop(
+                LiteralFactory.CreateIntLiteral(innerLoops),
+                loopCode.ToArray()
+            );
+            byte[] outerLoop = InstructionFactory.Make_Loop(
+                LiteralFactory.CreateIntLiteral(outerLoops),
+                innerLoop
+            );
+            bytes.push(outerLoop);
+
+            game.ExecuteNext();
+            for (int i = 0; i < outerLoops; i++) {
+                game.ExecuteNext();
+                for (int j = 0; j < innerLoops; j++) {
+                    Assert.AreEqual(Instruction.EFFECT_DELIMITER, (Instruction) bytes.pop());
+                    Assert.AreEqual(4, bytes.ReadIntLiteral(game.queryCheck));
+                    Assert.AreEqual("Hello world", bytes.ReadStringLiteral(game.queryCheck));
+                }
             }
         }
 

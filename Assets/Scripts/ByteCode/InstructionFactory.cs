@@ -145,12 +145,17 @@ public class InstructionFactory {
         return bytes.ToArray();
     }
 
-    public static byte[] Make_AddToRegister(byte[] id, byte[] code) {
+    public static byte[] Make_Loop (byte[] num, byte[] code) {
+        int id = RandomID;
+        byte[] endloop = Make_EndLoop(id);
         List<byte> bytes = new List<byte>();
-        bytes.AddRange(code);
-        bytes.AddRange(LiteralFactory.CreateIntLiteral(code.Length));
-        bytes.AddRange(id);
-        bytes.Add((byte) Instruction.ADD_TO_REGISTER);
+        bytes.AddRange(endloop);
+        bytes.AddRange(new List<byte>(code));
+        bytes.AddRange(new List<byte>(num));
+        bytes.AddRange(new List<byte>(
+            LiteralFactory.CreateIntLiteral(id)
+        ));
+        bytes.Add((byte) Instruction.LOOP);
         return bytes.ToArray();
     }
 
