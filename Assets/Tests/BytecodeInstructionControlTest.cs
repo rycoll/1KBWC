@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
@@ -20,25 +21,61 @@ namespace Tests
         public void IfStatement() {
             CompareNum compare = new CompareNum(1, 2, ConditionOperator.EQUAL);
             byte[] if_false = InstructionFactory.Make_If(
-                new byte[]{255},
+                new byte[]{(byte) Instruction.EFFECT_DELIMITER},
                 LiteralFactory.CreateConditionLiteral(compare)
             );
-
             bytes.push(if_false);
             game.ExecuteNext();
-            byte endif = bytes.pop();
-            Assert.AreEqual(endif, (byte) Instruction.ENDIF);
             Assert.IsFalse(bytes.HasBytes());
 
             compare = new CompareNum(1, 2, ConditionOperator.NOT_EQUAL);
             byte[] if_true = InstructionFactory.Make_If(
-                new byte[]{255},
+               new byte[]{(byte) Instruction.EFFECT_DELIMITER},
                 LiteralFactory.CreateConditionLiteral(compare)
             );
-
             bytes.push(if_true);
             game.ExecuteNext();
-            Assert.IsTrue(bytes.pop() == 255);            
+            Assert.IsTrue(bytes.HasBytes());
+            Assert.AreEqual((byte) Instruction.EFFECT_DELIMITER, bytes.pop());
+            Assert.IsFalse(bytes.HasBytes());
+        }
+
+        [Test]
+        public void UnlessStatement() {
+            CompareNum compare = new CompareNum(1, 2, ConditionOperator.EQUAL);
+            byte[] unless_false = InstructionFactory.Make_Unless(
+                new byte[]{(byte) Instruction.EFFECT_DELIMITER},
+                LiteralFactory.CreateConditionLiteral(compare)
+            );
+            bytes.push(unless_false);
+            game.ExecuteNext();
+            Assert.IsTrue(bytes.HasBytes());   
+        }
+
+        [Test]
+        public void NestedIfStatement() {
+            CompareNum isFalse = new CompareNum(1, 2, ConditionOperator.EQUAL);
+            byte[] inner_if_false = InstructionFactory.Make_If(
+                new byte[]{(byte) Instruction.ERROR},
+                LiteralFactory.CreateConditionLiteral(isFalse)
+            );
+
+            List<byte> innerCode = new List<byte>(inner_if_false);
+            innerCode.Insert(0, (byte) Instruction.EFFECT_DELIMITER);
+
+            CompareNum isTrue = new CompareNum(1, 2, ConditionOperator.NOT_EQUAL);
+            byte[] outer_if_true = InstructionFactory.Make_If(
+                innerCode.ToArray(),
+                LiteralFactory.CreateConditionLiteral(isTrue)
+            );
+
+            bytes.push(outer_if_true);
+            game.ExecuteNext();
+            Assert.IsTrue(bytes.HasBytes()); 
+            game.ExecuteNext();
+            Assert.IsTrue(bytes.HasBytes()); 
+            bytes.pop(); 
+            Assert.IsFalse(bytes.HasBytes()); 
         }
 
         [Test]

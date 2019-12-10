@@ -34,21 +34,51 @@ public class Interpreter : ByteManager
                 }
 
                 case Instruction.IF: {
+                    int controlID = ReadIntLiteral(skipToNext);
                     Condition condition = ReadConditionLiteral(skipToNext);
-                    if (!condition.Evaluate()) {
-                        while (currentStackSize > 0 && peek() != (byte) Instruction.ENDIF) {
-                            pop();
+                    List<byte> blockBytes = new List<byte>();
+
+                    while (currentStackSize > 0) {
+                        byte b = pop();
+                        if (b == (byte) Instruction.ENDIF) {
+                            int id = ReadIntLiteral(skipToNext);
+                            if (id == controlID) {
+                                break;
+                            } else {
+                                blockBytes.Insert(0, (byte) Instruction.ENDIF);
+                                blockBytes.InsertRange(0, LiteralFactory.CreateIntLiteral(id));
+                            }
+                        } else {
+                            blockBytes.Insert(0, b);
                         }
+                    }
+                    if (condition.Evaluate()) {
+                        push(blockBytes.ToArray());
                     }
                     break;
                 }
 
                 case Instruction.UNLESS: {
+                    int controlID = ReadIntLiteral(skipToNext);
                     Condition condition = ReadConditionLiteral(skipToNext);
-                    if (condition.Evaluate()) {
-                        while (currentStackSize > 0 && peek() != (byte) Instruction.ENDIF) {
-                            pop();
+                    List<byte> blockBytes = new List<byte>();
+
+                    while (currentStackSize > 0) {
+                        byte b = pop();
+                        if (b == (byte) Instruction.ENDIF) {
+                            int id = ReadIntLiteral(skipToNext);
+                            if (id == controlID) {
+                                break;
+                            } else {
+                                blockBytes.Insert(0, (byte) Instruction.ENDIF);
+                                blockBytes.InsertRange(0, LiteralFactory.CreateIntLiteral(id));
+                            }
+                        } else {
+                            blockBytes.Insert(0, b);
                         }
+                    }
+                    if (!condition.Evaluate()) {
+                        push(blockBytes.ToArray());
                     }
                     break;
                 }

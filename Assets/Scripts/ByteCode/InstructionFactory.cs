@@ -6,10 +6,8 @@ using System;
 public class InstructionFactory {
 
     private static Random rng = new Random();
-    private static int forloopID = 0;
-    public static int ForLoopID {
+    public static int RandomID {
         get {
-            //return forloopID++;
             return rng.Next(1, Int32.MaxValue);
         }
     }
@@ -101,20 +99,38 @@ public class InstructionFactory {
 
     #region CONTROL
 
-    public static byte[] Make_If(byte[] code, byte[] condition) {
+    public static byte[] Make_EndIf(int id) {
+        byte[] idArr = LiteralFactory.CreateIntLiteral(id);
         List<byte> bytes = new List<byte>();
+        bytes.AddRange(new List<byte>(idArr));
         bytes.Add((byte) Instruction.ENDIF);
+        return bytes.ToArray();
+    }
+
+    public static byte[] Make_If(byte[] code, byte[] condition) {
+        int id = RandomID;
+        byte[] endif = Make_EndIf(id);
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(endif);
         bytes.AddRange(new List<byte>(code));
         bytes.AddRange(new List<byte>(condition));
+        bytes.AddRange(new List<byte>(
+            LiteralFactory.CreateIntLiteral(id)
+        ));
         bytes.Add((byte) Instruction.IF);
         return bytes.ToArray();
     }
 
     public static byte[] Make_Unless(byte[] code, byte[] condition) {
+        int id = RandomID;
+        byte[] endif = Make_EndIf(id);
         List<byte> bytes = new List<byte>();
-        bytes.Add((byte) Instruction.ENDIF);
+        bytes.AddRange(endif);
         bytes.AddRange(new List<byte>(code));
         bytes.AddRange(new List<byte>(condition));
+        bytes.AddRange(new List<byte>(
+            LiteralFactory.CreateIntLiteral(id)
+        ));
         bytes.Add((byte) Instruction.UNLESS);
         return bytes.ToArray();
     }
