@@ -80,7 +80,12 @@ public class PrintStack : ByteManager {
                     string typeName = EnumRepesentation.EnumLookup("ENUM_LIST_TYPE").getName((int) type);
                     return $"{instruction.ToString()}(size:{size},type:{typeName})";
                 }
-                case Instruction.FOR_LOOP: {
+                case Instruction.IF:
+                case Instruction.UNLESS:
+                case Instruction.LOOP:
+                case Instruction.FOR_LOOP:
+                case Instruction.ENDIF:
+                case Instruction.ENDLOOP: {
                     pop();
                     int id = ReadIntLiteral(readAccessorFirst);
                     return $"{instruction.ToString()}(id:{id})";

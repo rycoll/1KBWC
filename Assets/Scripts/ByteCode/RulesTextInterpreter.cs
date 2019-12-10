@@ -228,10 +228,14 @@ public class RulesTextInterpreter : ByteManager
                 break;
             case Instruction.IF:
             case Instruction.UNLESS:
+                // get rid of ID
+                ReadIntLiteral(readAccessorFirst);
                 args[0] = ReadConditionLiteral(readAccessorFirst);
                 args[1] = GetNext();
                 break;
             case Instruction.LOOP:
+                // get rid of ID
+                ReadIntLiteral(readAccessorFirst);
                 args[0] = ReadIntLiteral(readAccessorFirst);
                 args[1] = GetNext();
                 break;
@@ -251,6 +255,10 @@ public class RulesTextInterpreter : ByteManager
             case Instruction.CARD_HAS_TAG:
                 args[0] = ReadCardLiteral(readAccessorFirst);
                 args[1] = ReadStringLiteral(readAccessorFirst);
+                break;
+            case Instruction.ENDIF:
+            case Instruction.ENDLOOP:
+                ReadIntLiteral(readAccessorFirst);
                 break;
             // no args
             default:
