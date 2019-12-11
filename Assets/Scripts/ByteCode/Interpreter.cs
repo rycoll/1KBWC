@@ -273,8 +273,8 @@ public class Interpreter : ByteManager
 
                 case Instruction.BOOL_COMPARISON: {
                     bool operandA = ReadBoolLiteral(skipToNext);
-                    bool operandB = ReadBoolLiteral(skipToNext);
                     byte operatorEnum = ReadEnumLiteral();
+                    bool operandB = ReadBoolLiteral(skipToNext);
                     push(LiteralFactory.CreateConditionLiteral(
                         new CompareBool(operandA, operandB, (ConditionOperator) operatorEnum)
                     ));

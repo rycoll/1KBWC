@@ -103,6 +103,21 @@ namespace Tests
             game.ExecuteNext();
             Assert.AreEqual(bytes.ReadIntLiteral(game.queryCheck), 117);
         }
+
+        [Test]
+        public void CheckConditions() {
+            bytes.push(InstructionFactory.Make_IsFalse(
+                LiteralFactory.CreateBoolLiteral(true)
+            ));
+            Condition falseCondition = bytes.ReadConditionLiteral(game.queryCheck);
+            Assert.IsFalse(falseCondition.Evaluate());
+
+            bytes.push(InstructionFactory.Make_IsTrue(
+                LiteralFactory.CreateBoolLiteral(true)
+            ));
+            Condition trueCondition = bytes.ReadConditionLiteral(game.queryCheck);
+            Assert.IsTrue(trueCondition.Evaluate());
+        }
         
     }
 }

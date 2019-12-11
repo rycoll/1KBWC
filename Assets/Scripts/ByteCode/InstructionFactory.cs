@@ -21,11 +21,20 @@ public class InstructionFactory {
         return bytes.ToArray();
     }
 
-    public static byte[] Make_BoolComparison(byte[] operandA, byte[] operandB, byte operatorEnum) {
+    public static byte[] Make_IsTrue(byte[] boolean) {
         List<byte> bytes = new List<byte>();
-        bytes.AddRange(new List<byte>(operandB));
-        bytes.AddRange(LiteralFactory.CreateEnumLiteral(operatorEnum, Instruction.ENUM_CONDITION_OPERATOR));
-        bytes.AddRange(new List<byte>(operandA));
+        bytes.AddRange(LiteralFactory.CreateBoolLiteral(true));
+        bytes.AddRange(LiteralFactory.CreateEnumLiteral((byte) ConditionOperator.EQUAL, Instruction.ENUM_CONDITION_OPERATOR));
+        bytes.AddRange(new List<byte>(boolean));
+        bytes.Add((byte) Instruction.BOOL_COMPARISON);
+        return bytes.ToArray();
+    }
+
+    public static byte[] Make_IsFalse(byte[] boolean) {
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(LiteralFactory.CreateBoolLiteral(false));
+        bytes.AddRange(LiteralFactory.CreateEnumLiteral((byte) ConditionOperator.EQUAL, Instruction.ENUM_CONDITION_OPERATOR));
+        bytes.AddRange(new List<byte>(boolean));
         bytes.Add((byte) Instruction.BOOL_COMPARISON);
         return bytes.ToArray();
     }
