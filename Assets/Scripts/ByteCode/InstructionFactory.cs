@@ -135,13 +135,20 @@ public class InstructionFactory {
         return bytes.ToArray();
     }
 
-    public static byte[] Make_Loop (byte[] num, byte[] code) {
-        // endloop, code, num, head
+    public static byte[] Make_AddToRegister(byte[] id, byte[] code) {
         List<byte> bytes = new List<byte>();
+        bytes.AddRange(code);
+        bytes.AddRange(LiteralFactory.CreateIntLiteral(code.Length));
+        bytes.AddRange(id);
+        bytes.Add((byte) Instruction.ADD_TO_REGISTER);
+        return bytes.ToArray();
+    }
+
+    public static byte[] Make_EndLoop(int id) {
+        byte[] idArr = LiteralFactory.CreateIntLiteral(id);
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(new List<byte>(idArr));
         bytes.Add((byte) Instruction.ENDLOOP);
-        bytes.AddRange(new List<byte>(code));
-        bytes.AddRange(new List<byte>(num));
-        bytes.Add((byte) Instruction.LOOP);
         return bytes.ToArray();
     }
 
@@ -160,20 +167,23 @@ public class InstructionFactory {
     }
 
     public static byte[] Make_ForLoop (byte[] itemList, byte[] code) {
+        int id = RandomID;
+        byte[] endloop = Make_EndLoop(id);
         List<byte> bytes = new List<byte>();
-        bytes.Add((byte) Instruction.ENDLOOP);
+        bytes.AddRange(endloop);
         bytes.AddRange(new List<byte>(code));
         bytes.AddRange(new List<byte>(itemList));
         bytes.AddRange(new List<byte>(
-            LiteralFactory.CreateIntLiteral(ForLoopID)
+            LiteralFactory.CreateIntLiteral(id)
         ));
         bytes.Add((byte) Instruction.FOR_LOOP);
         return bytes.ToArray();
     }
 
     public static byte[] Make_ForLoop (byte[] itemList, byte[] code, int id) {
+        byte[] endloop = Make_EndLoop(id);
         List<byte> bytes = new List<byte>();
-        bytes.Add((byte) Instruction.ENDLOOP);
+        bytes.AddRange(endloop);
         bytes.AddRange(new List<byte>(code));
         bytes.AddRange(new List<byte>(itemList));
         bytes.AddRange(new List<byte>(

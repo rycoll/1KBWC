@@ -166,7 +166,14 @@ public class Interpreter : ByteManager
                     while (currentStackSize > 0) {
                         if (peek() == (byte) Instruction.ENDLOOP) {
                             pop();
-                            break;
+                            int endloopID = ReadIntLiteral(skipToNext);
+                            if (endloopID == ID) {
+                                break;
+                            } else {
+                                List<byte> endloopBytes = new List<byte>(LiteralFactory.CreateIntLiteral(endloopID));
+                                endloopBytes.Add((byte) Instruction.ENDLOOP);
+                                instructionArrays.Insert(0, endloopBytes.ToArray());
+                            }
                         }
                         byte[] arr = popInstruction(skipToNext);
                         instructionArrays.Insert(0, arr);
@@ -174,9 +181,10 @@ public class Interpreter : ByteManager
 
                     byte[] idBytes = LiteralFactory.CreateIntLiteral(ID);
                     for (int i = 0; i < items.Count; i++) {
-                        byte[] currentItem = items[i];
-                        byte[] addToRegister = InstructionFactory.Make_AddToRegister(idBytes, currentItem);
-                        for (int m = 0; m < instructionArrays.Count; m++) {       
+                        List<byte> currentItem = new List<byte>(items[i]);
+                        currentItem.Reverse();
+                        byte[] addToRegister = InstructionFactory.Make_AddToRegister(idBytes, currentItem.ToArray());
+                        for (int m = 0; m < instructionArrays.Count; m++) {    
                             push(instructionArrays[m]);
                         }
                         push(addToRegister);
@@ -194,8 +202,9 @@ public class Interpreter : ByteManager
 
                 case Instruction.PLACEHOLDER: {
                     int ID = ReadIntLiteral(skipToNext);
-                    byte[] fetch = register[ID];
-                    push(fetch);
+                    List<byte> fetch = new List<byte>(register[ID]);
+                    fetch.Reverse();
+                    push(fetch.ToArray());
                     break;
                 }
                 

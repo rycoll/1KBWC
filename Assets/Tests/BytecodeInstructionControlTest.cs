@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
@@ -138,6 +138,19 @@ namespace Tests
         }
 
         [Test]
+        public void AddToRegister() {
+            bytes.push(LiteralFactory.CreatePlaceholderLiteral(100));
+            bytes.push(InstructionFactory.Make_AddToRegister(
+                LiteralFactory.CreateIntLiteral(100),
+                LiteralFactory.CreateIntLiteral(4)
+            ));
+            
+            game.ExecuteNext();
+            Assert.AreEqual(4, bytes.ReadIntLiteral(game.queryCheck));
+            Assert.IsFalse(bytes.HasBytes());
+        }
+
+        [Test]
         public void ForLoop() {
             game.Players = new PlayerManager(2);
             GamePlayer P1 = game.Players.GetPlayer(0);
@@ -158,6 +171,7 @@ namespace Tests
             game.ExecuteNext();
 
             while(bytes.HasBytes()) {
+                Debug.Log((Instruction) bytes.peek());
                 game.ExecuteNext();
             }
 
@@ -165,9 +179,50 @@ namespace Tests
             Assert.AreEqual(50, P2.Points);
         }
 
+        private class TestCard : Card {
+            public TestCard () {
+                SetID();
+            }
+        }
+
         [Test]
         public void NestedForLoop() {
-            throw new System.Exception("Test not implemented yet 😢");
+            game.Players = new PlayerManager(2);
+            GamePlayer P1 = game.Players.GetPlayer(0);
+            GamePlayer P2 = game.Players.GetPlayer(1);
+
+            for (int i = 0; i < 2; i++) {
+                P1.Hand.AddCard(new TestCard());
+                P2.Hand.AddCard(new TestCard());
+                P2.Hand.AddCard(new TestCard());
+            }
+
+            Assert.AreEqual(2, P1.Hand.GetSize());
+            Assert.AreEqual(4, P2.Hand.GetSize());
+
+            byte[] innerCode = InstructionFactory.Make_MoveToDiscard(
+                LiteralFactory.CreatePlaceholderLiteral(2)
+            );
+            List<byte> innerList = new List<byte>();
+            innerList.AddRange(LiteralFactory.CreatePlaceholderLiteral(1));
+            innerList.Add((byte) Instruction.GET_CARDS_IN_HAND);
+
+            byte[] innerLoop = InstructionFactory.Make_ForLoop(innerList.ToArray(), innerCode, 2);
+
+            byte[] outerList = new byte[]{ (byte) Instruction.GET_ALL_PLAYERS };
+            byte[] outerLoop = InstructionFactory.Make_ForLoop(outerList, innerLoop, 1);
+
+            bytes.push(outerLoop);
+
+            game.ExecuteNext();
+            game.ExecuteNext();
+            
+            while(bytes.HasBytes()) {
+                game.ExecuteNext();
+            }
+
+            Assert.AreEqual(0, P1.Hand.GetSize());
+            Assert.AreEqual(0, P2.Hand.GetSize());
         }
     }
 }
