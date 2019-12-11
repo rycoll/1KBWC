@@ -95,6 +95,12 @@ public class PrintStack : ByteManager {
                     int id = ReadIntLiteral(readAccessorFirst);
                     return $"{instruction.ToString()}(id:{id})";
                 }
+                case Instruction.ADD_TO_REGISTER: {
+                    pop();
+                    int id = ReadIntLiteral(readAccessorFirst);
+                    int size = ReadIntLiteral(readAccessorFirst);
+                    return $"{instruction.ToString()}(at:{id}, size:{size})";
+                }
                 default: {
                     pop();
                     return instruction.ToString();
