@@ -1,6 +1,6 @@
 title: BWC
 
-baseurl: docs
+# baseurl: docs
 
 collections:
   data-guides:
