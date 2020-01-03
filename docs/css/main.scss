@@ -5,6 +5,7 @@ $main-colour: #222;
 $highlight: #ffc864;
 
 body {
+    margin: 0;
     font-family: sans-serif;
     background-color: #fafaff;
 }
@@ -16,18 +17,27 @@ body {
 }
 
 .c-page {
-    width: 90%;
-    margin: auto;
+    width: 70%;
+    margin: 20px auto;
+}
 
-    &__topnav {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        border-bottom: 1px solid #222;
-    }
+.c-topnav {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #222;
+
+    position: sticky;
+    top: 0;
+    background-color: white;
+    padding: 0 20px;
 
     &__header {
         display: inline-block;
+    }
+
+    &__links {
+        display: flex;
+        align-items: center;
     }
 
     &__navlink {
@@ -40,6 +50,7 @@ body {
         background-color: $highlight
     }
 }
+
 
 .c-container {
     display: flex;

@@ -1,6 +1,6 @@
 ---
 title: On Conditions
-layout: default
+layout: page
 order_number: 5
 ---
 ## Condition Instructions

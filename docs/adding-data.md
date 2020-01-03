@@ -1,6 +1,6 @@
 ---
 title: Adding Data
-layout: default
+layout: page
 order_number: 4
 ---
 Sometimes when you add new data to the code, you will need to make changes in multiple places.

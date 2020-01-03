@@ -372,22 +372,26 @@
         "canBeRoot": false
     },
     {
-        "name": "Compare Booleans",
+        "name": "Is True",
         "type": "getter",
-        "instruction": "BOOL_COMPARISON",
-        "message": "Compare two things",
+        "instruction": "IS_TRUE",
+        "message": "Check if a thing is true",
         "returnType": "CONDITION",
         "fields": [{
             "type": "BOOL",
-            "desc": "First thing to compare",
+            "desc": "Thing to check is true",
             "attributes": []
-        }, {
-            "type": "ENUM_CONDITION_OPERATOR",
-            "desc": "Comparison operator",
-            "attributes": []
-        }, {
+        }]
+    }, 
+    {
+        "name": "Is False",
+        "type": "getter",
+        "instruction": "IS_FALSE",
+        "message": "Check if a thing is false",
+        "returnType": "CONDITION",
+        "fields": [{
             "type": "BOOL",
-            "desc": "Second thing to compare",
+            "desc": "Thing to check is false",
             "attributes": []
         }]
     }, 
