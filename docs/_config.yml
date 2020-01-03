@@ -1,5 +1,7 @@
 title: BWC
 
+baseurl: docs
+
 collections:
   data-guides:
     output: false
