@@ -92,7 +92,7 @@ namespace Tests
 
         [Test]
         public void IntQuery() {
-            byte[] addInstruction = InstructionFactory.Make_Add(
+            List<byte> addInstruction = InstructionFactory.Make_Add(
                 LiteralFactory.CreateIntLiteral(4),
                 LiteralFactory.CreateIntLiteral(13)
             );

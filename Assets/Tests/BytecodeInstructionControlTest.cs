@@ -20,8 +20,8 @@ namespace Tests
         [Test]
         public void IfStatement() {
             CompareNum compare = new CompareNum(1, 2, ConditionOperator.EQUAL);
-            byte[] if_false = InstructionFactory.Make_If(
-                new byte[]{(byte) Instruction.EFFECT_DELIMITER},
+            List<byte> if_false = InstructionFactory.Make_If(
+                new List<byte>{(byte) Instruction.EFFECT_DELIMITER},
                 LiteralFactory.CreateConditionLiteral(compare)
             );
             bytes.push(if_false);
@@ -29,8 +29,8 @@ namespace Tests
             Assert.IsFalse(bytes.HasBytes());
 
             compare = new CompareNum(1, 2, ConditionOperator.NOT_EQUAL);
-            byte[] if_true = InstructionFactory.Make_If(
-               new byte[]{(byte) Instruction.EFFECT_DELIMITER},
+            List<byte> if_true = InstructionFactory.Make_If(
+               new List<byte>{(byte) Instruction.EFFECT_DELIMITER},
                 LiteralFactory.CreateConditionLiteral(compare)
             );
             bytes.push(if_true);
@@ -43,8 +43,8 @@ namespace Tests
         [Test]
         public void UnlessStatement() {
             CompareNum compare = new CompareNum(1, 2, ConditionOperator.EQUAL);
-            byte[] unless_false = InstructionFactory.Make_Unless(
-                new byte[]{(byte) Instruction.EFFECT_DELIMITER},
+            List<byte> unless_false = InstructionFactory.Make_Unless(
+                new List<byte>{(byte) Instruction.EFFECT_DELIMITER},
                 LiteralFactory.CreateConditionLiteral(compare)
             );
             bytes.push(unless_false);
@@ -55,8 +55,8 @@ namespace Tests
         [Test]
         public void NestedIfStatement() {
             CompareNum isFalse = new CompareNum(1, 2, ConditionOperator.EQUAL);
-            byte[] inner_if_false = InstructionFactory.Make_If(
-                new byte[]{(byte) Instruction.ERROR},
+            List<byte> inner_if_false = InstructionFactory.Make_If(
+                new List<byte>{(byte) Instruction.ERROR},
                 LiteralFactory.CreateConditionLiteral(isFalse)
             );
 
@@ -64,8 +64,8 @@ namespace Tests
             innerCode.Insert(0, (byte) Instruction.EFFECT_DELIMITER);
 
             CompareNum isTrue = new CompareNum(1, 2, ConditionOperator.NOT_EQUAL);
-            byte[] outer_if_true = InstructionFactory.Make_If(
-                innerCode.ToArray(),
+            List<byte> outer_if_true = InstructionFactory.Make_If(
+                innerCode,
                 LiteralFactory.CreateConditionLiteral(isTrue)
             );
 
@@ -92,7 +92,7 @@ namespace Tests
 
             bytes.push(InstructionFactory.Make_Loop(
                 LiteralFactory.CreateIntLiteral(numLoops),
-                loopCode.ToArray()
+                loopCode
             ));
 
             game.ExecuteNext();
@@ -116,11 +116,11 @@ namespace Tests
             loopCode.InsertRange(0, LiteralFactory.CreateIntLiteral(4));
             loopCode.InsertRange(0, LiteralFactory.CreateStringLiteral("Hello world"));
 
-            byte[] innerLoop = InstructionFactory.Make_Loop(
+            List<byte> innerLoop = InstructionFactory.Make_Loop(
                 LiteralFactory.CreateIntLiteral(innerLoops),
-                loopCode.ToArray()
+                loopCode
             );
-            byte[] outerLoop = InstructionFactory.Make_Loop(
+            List<byte> outerLoop = InstructionFactory.Make_Loop(
                 LiteralFactory.CreateIntLiteral(outerLoops),
                 innerLoop
             );
@@ -156,9 +156,9 @@ namespace Tests
             GamePlayer P1 = game.Players.GetPlayer(0);
             GamePlayer P2 = game.Players.GetPlayer(1);
 
-            byte[] items = new byte[]{ (byte) Instruction.GET_ALL_PLAYERS };
+            List<byte> items = new List<byte>{ (byte) Instruction.GET_ALL_PLAYERS };
 
-            byte[] code = InstructionFactory.Make_SetPlayerPoints(
+            List<byte> code = InstructionFactory.Make_SetPlayerPoints(
                 LiteralFactory.CreateIntLiteral(50),
                 LiteralFactory.CreatePlaceholderLiteral(0)
             );
@@ -200,17 +200,17 @@ namespace Tests
             Assert.AreEqual(2, P1.Hand.GetSize());
             Assert.AreEqual(4, P2.Hand.GetSize());
 
-            byte[] innerCode = InstructionFactory.Make_MoveToDiscard(
+            List<byte> innerCode = InstructionFactory.Make_MoveToDiscard(
                 LiteralFactory.CreatePlaceholderLiteral(2)
             );
             List<byte> innerList = new List<byte>();
             innerList.AddRange(LiteralFactory.CreatePlaceholderLiteral(1));
             innerList.Add((byte) Instruction.GET_CARDS_IN_HAND);
 
-            byte[] innerLoop = InstructionFactory.Make_ForLoop(innerList.ToArray(), innerCode, 2);
+            List<byte> innerLoop = InstructionFactory.Make_ForLoop(innerList, innerCode, 2);
 
-            byte[] outerList = new byte[]{ (byte) Instruction.GET_ALL_PLAYERS };
-            byte[] outerLoop = InstructionFactory.Make_ForLoop(outerList, innerLoop, 1);
+            List<byte> outerList = new List<byte>{ (byte) Instruction.GET_ALL_PLAYERS };
+            List<byte> outerLoop = InstructionFactory.Make_ForLoop(outerList, innerLoop, 1);
 
             bytes.push(outerLoop);
 

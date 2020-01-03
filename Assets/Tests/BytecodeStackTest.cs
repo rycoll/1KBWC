@@ -40,7 +40,7 @@ namespace Tests
 
         [Test]
         public void StackArrayOfBytes() {
-            byte[] arr = new byte[] {0x00, 0x01, 0x02 };
+            List<byte> arr = new List<byte> {0x00, 0x01, 0x02 };
             bytes.push(arr);
 
             Assert.AreEqual(bytes.pop(), 0x02);
@@ -61,21 +61,21 @@ namespace Tests
             bytes.push(LiteralFactory.CreateBoolLiteral(true));
             bytes.push((byte) Instruction.EFFECT_DELIMITER);
 
-            byte[] instructionArr = bytes.popInstruction(dummyCallback);
-            Assert.AreEqual(1, instructionArr.Length);
+            List<byte> instructionArr = bytes.popInstruction(dummyCallback);
+            Assert.AreEqual(1, instructionArr.Count);
             Assert.AreEqual(Instruction.EFFECT_DELIMITER, (Instruction) instructionArr[0]);
 
-            byte[] boolArr = bytes.popInstruction(dummyCallback);
-            Assert.AreEqual(2, boolArr.Length);
+            List<byte> boolArr = bytes.popInstruction(dummyCallback);
+            Assert.AreEqual(2, boolArr.Count);
             bytes.push(boolArr);
             Assert.AreEqual(true, bytes.ReadBoolLiteral(dummyCallback));
  
-            byte[] intArr = bytes.popInstruction(dummyCallback);
-            Assert.AreEqual(5, intArr.Length);
+            List<byte> intArr = bytes.popInstruction(dummyCallback);
+            Assert.AreEqual(5, intArr.Count);
             bytes.push(intArr);
             Assert.AreEqual(5, bytes.ReadIntLiteral(dummyCallback));
 
-            byte[] stringArr = bytes.popInstruction(dummyCallback);
+            List<byte> stringArr = bytes.popInstruction(dummyCallback);
             bytes.push(stringArr);
             Assert.AreEqual("Hello world", bytes.ReadStringLiteral(dummyCallback));
         }
@@ -83,7 +83,7 @@ namespace Tests
         [Test]
         public void IntBytecode([NUnit.Framework.Range(0, 100, 25)] int num)
         {
-            byte[] arr = LiteralFactory.CreateIntLiteral(num);
+            List<byte> arr = LiteralFactory.CreateIntLiteral(num);
             bytes.push(arr);
             int n = bytes.ReadIntLiteral(dummyCallback);
 
@@ -93,7 +93,7 @@ namespace Tests
         [Test]
         public void NegativeIntBytecode()
         {
-            byte[] arr = LiteralFactory.CreateIntLiteral(-5);
+            List<byte> arr = LiteralFactory.CreateIntLiteral(-5);
             bytes.push(arr);
             int n = bytes.ReadIntLiteral(dummyCallback);
 

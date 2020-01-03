@@ -6,19 +6,19 @@ public class PrintStack : ByteManager {
 
     private ReadCallback readAccessorFirst;
 
-    public PrintStack(byte[] bytes, int size) {
-        stack = new byte[MAX_STACK_SIZE];
+    public PrintStack(List<byte> bytes, int size) {
+        stack = new List<byte>();
         for (int i = 0; i < size; i++) {
             push(bytes[i]);
         }
         readAccessorFirst = ReadAccessorFirst;
     }
 
-    public static void PrintByteString (byte[] bytes) {
-        Debug.Log(new PrintStack(bytes, bytes.Length).ReportStackContent());
+    public static void PrintByteString (List<byte> bytes) {
+        Debug.Log(new PrintStack(bytes, bytes.Count).ReportStackContent());
     }
 
-    public static void PrintRawBytes (byte[] bytes) {
+    public static void PrintRawBytes (List<byte> bytes) {
         string str = "";
         foreach (byte b in bytes) { str += b.ToString() + " "; }
         Debug.Log(str);
@@ -29,7 +29,7 @@ public class PrintStack : ByteManager {
     }
     
     public string PrintStackInstructions () {
-        byte[] temp = stack;
+        List<byte> temp = stack;
         string print = "";
         while (HasBytes()){
             print += $"{PrintNext()} ";

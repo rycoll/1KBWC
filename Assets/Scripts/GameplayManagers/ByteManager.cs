@@ -6,9 +6,9 @@ public class ByteManager {
 
     public static int MAX_STACK_SIZE = 2048;
     protected int currentStackSize = 0;
-    protected byte[] stack = new byte[MAX_STACK_SIZE];
+    protected List<byte> stack = new List<byte>();
 
-    protected Dictionary<int, byte[]> register = new Dictionary<int, byte[]>();
+    protected Dictionary<int, List<byte>> register = new Dictionary<int, List<byte>>();
 
     private const byte accessorRangeLowBound = 0030;
     private const byte accessorRangeHighBound = 0100;
@@ -27,7 +27,7 @@ public class ByteManager {
     }
 
     public void ClearStack () { 
-        stack = new byte[MAX_STACK_SIZE];
+        stack = new List<byte>();
         currentStackSize = 0;
     }
 
@@ -48,9 +48,9 @@ public class ByteManager {
         stack[currentStackSize++] = b;
     }
 
-    public void push(byte[] arr) {
-        if (currentStackSize + arr.Length >= MAX_STACK_SIZE) {
-            throw new StackFullException("Stack is too full! Can't push " + arr.Length + " bytes!");
+    public void push(List<byte> arr) {
+        if (currentStackSize + arr.Count >= MAX_STACK_SIZE) {
+            throw new StackFullException("Stack is too full! Can't push " + arr.Count + " bytes!");
         }
         foreach (byte b in arr) {
             push(b);
@@ -66,15 +66,15 @@ public class ByteManager {
         return stack[--currentStackSize];
     }
 
-    public byte[] pop(int n) {
-        byte[] arr = new byte[n];
+    public List<byte> pop(int n) {
+        List<byte> arr = new List<byte>();
         for (int i = 0; i < n; i++) {
             arr[i] = pop();
         }
         return arr;
     }
 
-    public byte[] popInstruction(ReadCallback cb) {
+    public List<byte> popInstruction(ReadCallback cb) {
         // bytes returned in reverse order, so they can be pushed straight back on
         List<byte> bytes = new List<byte>();
         byte b = peek();
@@ -87,14 +87,14 @@ public class ByteManager {
             case Instruction.STRING: 
                 byte headInstruction = pop();
                 int size = ReadIntLiteral(cb);
-                byte[] sizeBytes = LiteralFactory.CreateIntLiteral(size);
-                byte[] charBytes = pop(size);
+                List<byte> sizeBytes = LiteralFactory.CreateIntLiteral(size);
+                List<byte> charBytes = pop(size);
 
                 bytes.Insert(0, headInstruction);
-                for (int i = sizeBytes.Length - 1; i >= 0; i--) {
+                for (int i = sizeBytes.Count - 1; i >= 0; i--) {
                     bytes.Insert(0, sizeBytes[i]);
                 }
-                for (int i = 0; i < charBytes.Length; i++) {
+                for (int i = 0; i < charBytes.Count; i++) {
                     bytes.Insert(0, charBytes[i]);
                 }
                 break;
@@ -110,7 +110,7 @@ public class ByteManager {
                 bytes.Add(pop());
                 break;
         }
-        return bytes.ToArray();
+        return bytes;
     }
 
     public byte peek() {
@@ -193,8 +193,8 @@ public class ByteManager {
         }
         try {
             CheckType(Instruction.INT);
-            byte[] intRepresentation = pop(4);
-            return BitConverter.ToInt32(intRepresentation, 0);
+            List<byte> intRepresentation = pop(4);
+            return BitConverter.ToInt32(intRepresentation.ToArray(), 0);
         } catch (UnexpectedByteException e) {
             throw e;
         }
@@ -207,8 +207,8 @@ public class ByteManager {
         try {
             CheckType(Instruction.STRING);
             int arrSize = ReadIntLiteral(cb);
-            byte[] strArray = pop(arrSize);
-            char[] chars = System.Text.Encoding.UTF8.GetChars(strArray);
+            List<byte> strArray = pop(arrSize);
+            char[] chars = System.Text.Encoding.UTF8.GetChars(strArray.ToArray());
             return new string(chars);
         } catch (UnexpectedByteException e) {
             throw e;

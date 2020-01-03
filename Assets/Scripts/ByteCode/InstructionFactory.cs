@@ -14,111 +14,111 @@ public class InstructionFactory {
 
     #region GETTERS 
 
-    public static byte[] Make_Add(byte[] a, byte[] b) {
+    public static List<byte> Make_Add(List<byte> a, List<byte> b) {
         List<byte> bytes = new List<byte>(a);
         bytes.AddRange(new List<byte>(b));
         bytes.Add((byte) Instruction.ADD);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_IsTrue(byte[] boolean) {
+    public static List<byte> Make_IsTrue(List<byte> boolean) {
         List<byte> bytes = new List<byte>();
         bytes.AddRange(LiteralFactory.CreateBoolLiteral(true));
         bytes.AddRange(LiteralFactory.CreateEnumLiteral((byte) ConditionOperator.EQUAL, Instruction.ENUM_CONDITION_OPERATOR));
         bytes.AddRange(new List<byte>(boolean));
         bytes.Add((byte) Instruction.BOOL_COMPARISON);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_IsFalse(byte[] boolean) {
+    public static List<byte> Make_IsFalse(List<byte> boolean) {
         List<byte> bytes = new List<byte>();
         bytes.AddRange(LiteralFactory.CreateBoolLiteral(false));
         bytes.AddRange(LiteralFactory.CreateEnumLiteral((byte) ConditionOperator.EQUAL, Instruction.ENUM_CONDITION_OPERATOR));
         bytes.AddRange(new List<byte>(boolean));
         bytes.Add((byte) Instruction.BOOL_COMPARISON);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_Multiply(byte[] a, byte[] b) {
+    public static List<byte> Make_Multiply(List<byte> a, List<byte> b) {
         List<byte> bytes = new List<byte>(a);
         bytes.AddRange(new List<byte>(b));
         bytes.Add((byte) Instruction.MULTIPLY);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_RandomNumber(byte[] upper) {
+    public static List<byte> Make_RandomNumber(List<byte> upper) {
         List<byte> bytes = new List<byte>(upper);
         bytes.Add((byte) Instruction.RANDOM_NUMBER);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_ListLength(byte[] list) {
+    public static List<byte> Make_ListLength(List<byte> list) {
         List<byte> bytes = new List<byte>(list);
         bytes.Add((byte) Instruction.LIST_LENGTH);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_GetPlayer (byte[] id) {
+    public static List<byte> Make_GetPlayer (List<byte> id) {
         List<byte> bytes = new List<byte>(id);
         bytes.Add((byte) Instruction.GET_PLAYER);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_GetPlayerPoints (byte[] id) {
+    public static List<byte> Make_GetPlayerPoints (List<byte> id) {
         List<byte> bytes = new List<byte>(id);
         bytes.Add((byte) Instruction.GET_PLAYER_POINTS);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_NumComparison(byte[] operandA, byte[] operandB, byte operatorEnum) {
+    public static List<byte> Make_NumComparison(List<byte> operandA, List<byte> operandB, byte operatorEnum) {
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(operandB));
         bytes.AddRange(LiteralFactory.CreateEnumLiteral(operatorEnum, Instruction.ENUM_CONDITION_OPERATOR));
         bytes.AddRange(new List<byte>(operandA));
         bytes.Add((byte) Instruction.NUM_COMPARISON);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_ReadCounter (byte[] str) {
+    public static List<byte> Make_ReadCounter (List<byte> str) {
         List<byte> bytes = new List<byte>(str);
         bytes.Add((byte) Instruction.READ_COUNTER);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_CardHasTag (byte[] card, byte[] str) {
+    public static List<byte> Make_CardHasTag (List<byte> card, List<byte> str) {
         List<byte> bytes = new List<byte>(str);
         bytes.AddRange(new List<byte>(card));
         bytes.Add((byte) Instruction.CARD_HAS_TAG);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_PlayerIsWinning (byte[] player) {
+    public static List<byte> Make_PlayerIsWinning (List<byte> player) {
         List<byte> bytes = new List<byte>(player);
         bytes.Add((byte) Instruction.PLAYER_IS_WINNING);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_PlayerIsLosing (byte[] player) {
+    public static List<byte> Make_PlayerIsLosing (List<byte> player) {
         List<byte> bytes = new List<byte>(player);
         bytes.Add((byte) Instruction.PLAYER_IS_LOSING);
-        return bytes.ToArray();
+        return bytes;
     }
 
     #endregion
 
     #region CONTROL
 
-    public static byte[] Make_EndIf(int id) {
-        byte[] idArr = LiteralFactory.CreateIntLiteral(id);
+    public static List<byte> Make_EndIf(int id) {
+        List<byte> idArr = LiteralFactory.CreateIntLiteral(id);
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(idArr));
         bytes.Add((byte) Instruction.ENDIF);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_If(byte[] code, byte[] condition) {
+    public static List<byte> Make_If(List<byte> code, List<byte> condition) {
         int id = RandomID;
-        byte[] endif = Make_EndIf(id);
+        List<byte> endif = Make_EndIf(id);
         List<byte> bytes = new List<byte>();
         bytes.AddRange(endif);
         bytes.AddRange(new List<byte>(code));
@@ -127,12 +127,12 @@ public class InstructionFactory {
             LiteralFactory.CreateIntLiteral(id)
         ));
         bytes.Add((byte) Instruction.IF);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_Unless(byte[] code, byte[] condition) {
+    public static List<byte> Make_Unless(List<byte> code, List<byte> condition) {
         int id = RandomID;
-        byte[] endif = Make_EndIf(id);
+        List<byte> endif = Make_EndIf(id);
         List<byte> bytes = new List<byte>();
         bytes.AddRange(endif);
         bytes.AddRange(new List<byte>(code));
@@ -141,29 +141,29 @@ public class InstructionFactory {
             LiteralFactory.CreateIntLiteral(id)
         ));
         bytes.Add((byte) Instruction.UNLESS);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_AddToRegister(byte[] id, byte[] code) {
+    public static List<byte> Make_AddToRegister(List<byte> id, List<byte> code) {
         List<byte> bytes = new List<byte>();
         bytes.AddRange(code);
-        bytes.AddRange(LiteralFactory.CreateIntLiteral(code.Length));
+        bytes.AddRange(LiteralFactory.CreateIntLiteral(code.Count));
         bytes.AddRange(id);
         bytes.Add((byte) Instruction.ADD_TO_REGISTER);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_EndLoop(int id) {
-        byte[] idArr = LiteralFactory.CreateIntLiteral(id);
+    public static List<byte> Make_EndLoop(int id) {
+        List<byte> idArr = LiteralFactory.CreateIntLiteral(id);
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(idArr));
         bytes.Add((byte) Instruction.ENDLOOP);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_Loop (byte[] num, byte[] code) {
+    public static List<byte> Make_Loop (List<byte> num, List<byte> code) {
         int id = RandomID;
-        byte[] endloop = Make_EndLoop(id);
+        List<byte> endloop = Make_EndLoop(id);
         List<byte> bytes = new List<byte>();
         bytes.AddRange(endloop);
         bytes.AddRange(new List<byte>(code));
@@ -172,12 +172,12 @@ public class InstructionFactory {
             LiteralFactory.CreateIntLiteral(id)
         ));
         bytes.Add((byte) Instruction.LOOP);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_ForLoop (byte[] itemList, byte[] code) {
+    public static List<byte> Make_ForLoop (List<byte> itemList, List<byte> code) {
         int id = RandomID;
-        byte[] endloop = Make_EndLoop(id);
+        List<byte> endloop = Make_EndLoop(id);
         List<byte> bytes = new List<byte>();
         bytes.AddRange(endloop);
         bytes.AddRange(new List<byte>(code));
@@ -186,11 +186,11 @@ public class InstructionFactory {
             LiteralFactory.CreateIntLiteral(id)
         ));
         bytes.Add((byte) Instruction.FOR_LOOP);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_ForLoop (byte[] itemList, byte[] code, int id) {
-        byte[] endloop = Make_EndLoop(id);
+    public static List<byte> Make_ForLoop (List<byte> itemList, List<byte> code, int id) {
+        List<byte> endloop = Make_EndLoop(id);
         List<byte> bytes = new List<byte>();
         bytes.AddRange(endloop);
         bytes.AddRange(new List<byte>(code));
@@ -199,56 +199,56 @@ public class InstructionFactory {
             LiteralFactory.CreateIntLiteral(id)
         ));
         bytes.Add((byte) Instruction.FOR_LOOP);
-        return bytes.ToArray();
+        return bytes;
     }
 
     #endregion
 
     #region SETTERS
 
-    public static byte[] Make_PlayerDrawCards (byte[] player, byte[] num) {
+    public static List<byte> Make_PlayerDrawCards (List<byte> player, List<byte> num) {
         List<byte> bytes = new List<byte>(new List<byte>(num));
         bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.PLAYER_DRAW_CARD);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_SetCounter (byte[] str, byte[] num) {
+    public static List<byte> Make_SetCounter (List<byte> str, List<byte> num) {
         List<byte> bytes = new List<byte>(new List<byte>(num));
         bytes.AddRange(new List<byte>(str));
         bytes.Add((byte) Instruction.SET_COUNTER);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_SetPlayerDraw (byte[] num, byte[] player) {
+    public static List<byte> Make_SetPlayerDraw (List<byte> num, List<byte> player) {
         List<byte> bytes = new List<byte>(new List<byte>(num));
         bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.SET_PLAYER_DRAW);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_SetPlayerMaxHand (byte[] num, byte[] player) {
+    public static List<byte> Make_SetPlayerMaxHand (List<byte> num, List<byte> player) {
         List<byte> bytes = new List<byte>(new List<byte>(num));
         bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.SET_PLAYER_MAX_HAND);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_SetPlayerPoints (byte[] num, byte[] player) {
+    public static List<byte> Make_SetPlayerPoints (List<byte> num, List<byte> player) {
         List<byte> bytes = new List<byte>(new List<byte>(num));
         bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.SET_PLAYER_POINTS);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_IncrementPlayerPoints(byte[] num, byte[] player) {
+    public static List<byte> Make_IncrementPlayerPoints(List<byte> num, List<byte> player) {
         List<byte> bytes = new List<byte>(new List<byte>(num));
         bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.INCREMENT_PLAYER_POINTS);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_MoveToDeck(byte[] card, DeckLocation location) {
+    public static List<byte> Make_MoveToDeck(List<byte> card, DeckLocation location) {
         List<byte> bytes = new List<byte>(
             new List<byte>(
                 LiteralFactory.CreateEnumLiteral((byte) location, Instruction.ENUM_DECK_POSITION)
@@ -256,13 +256,13 @@ public class InstructionFactory {
         );
         bytes.AddRange(new List<byte>(card));
         bytes.Add((byte) Instruction.MOVE_TO_DECK);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] Make_MoveToDiscard(byte[] card) {
+    public static List<byte> Make_MoveToDiscard(List<byte> card) {
         List<byte> bytes = new List<byte>(card);
         bytes.Add((byte) Instruction.MOVE_TO_DISCARD);
-        return bytes.ToArray();
+        return bytes;
     }
 
     #endregion

@@ -72,7 +72,7 @@ public class GameMaster {
 
     #region Stack stuff
 
-    public void AddToStack(byte[] bytes) {
+    public void AddToStack(List<byte> bytes) {
         Bytes.push(bytes);
     }
 
@@ -105,7 +105,7 @@ public class GameMaster {
     }
 
     public void ExecuteEffects (List<byte> effects) {
-        AddToStack(effects.ToArray());
+        AddToStack(effects);
         while (Bytes.GetCurrentStackSize() > 0) {
             Bytes.next();
             // pause between effects here

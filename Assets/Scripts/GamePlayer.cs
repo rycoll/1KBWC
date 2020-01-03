@@ -13,9 +13,9 @@ public class GamePlayer {
         DrawPerTurn = 1;
         Colour = Random.ColorHSV();
         // set default win condition
-        byte[] indexBytes = LiteralFactory.CreateIntLiteral(index);
-        byte[] getPlayerPoints = InstructionFactory.Make_GetPlayerPoints(indexBytes);
-        byte[] numberToCompare = LiteralFactory.CreateIntLiteral(100);
+        List<byte> indexBytes = LiteralFactory.CreateIntLiteral(index);
+        List<byte> getPlayerPoints = InstructionFactory.Make_GetPlayerPoints(indexBytes);
+        List<byte> numberToCompare = LiteralFactory.CreateIntLiteral(100);
         WinCondition = LiteralFactory.CreateConditionLiteral(getPlayerPoints, numberToCompare, ConditionType.NUM, ConditionOperator.AT_LEAST);
     }
 
@@ -25,7 +25,7 @@ public class GamePlayer {
     public int Points { get; set; }
     public int DrawPerTurn { get; private set; }
     public Color Colour { get; set; }
-    public byte[] WinCondition { get; set; }
+    public List<byte> WinCondition { get; set; }
 
     public bool AddToHand (Card card)
     {

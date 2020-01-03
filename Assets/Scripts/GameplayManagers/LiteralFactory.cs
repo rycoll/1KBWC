@@ -3,52 +3,52 @@ using System.Collections.Generic;
 
 public class LiteralFactory {
 
-    public static byte[] CreateIntLiteral(int n) {
+    public static List<byte> CreateIntLiteral(int n) {
         // getbytes uses same endian format as the system
-        byte[] intRepresentation = BitConverter.GetBytes(n);
-        Array.Reverse(intRepresentation);
+        List<byte> intRepresentation = new List<byte>(BitConverter.GetBytes(n));
+        intRepresentation.Reverse();
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(intRepresentation));
         bytes.Add((byte) Instruction.INT);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] CreateStringLiteral(string str) {
-        byte[] arr = System.Text.Encoding.UTF8.GetBytes(str);
-        Array.Reverse(arr);
-        byte[] strSize = CreateIntLiteral(arr.Length);
+    public static List<byte> CreateStringLiteral(string str) {
+        List<byte> arr = new List<byte>(System.Text.Encoding.UTF8.GetBytes(str));
+        arr.Reverse();
+        List<byte> strSize = CreateIntLiteral(arr.Count);
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(arr));
         bytes.AddRange(new List<byte>(strSize));
         bytes.Add((byte) Instruction.STRING);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] CreatePlayerLiteral(GamePlayer player) {
+    public static List<byte> CreatePlayerLiteral(GamePlayer player) {
         return CreatePlayerLiteral(player.Index);
     }
-    public static byte[] CreatePlayerLiteral(int n) {
+    public static List<byte> CreatePlayerLiteral(int n) {
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(CreateIntLiteral(n)));
         bytes.Add((byte) Instruction.PLAYER);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] CreateCardLiteral(int n) {
+    public static List<byte> CreateCardLiteral(int n) {
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(CreateIntLiteral(n)));
         bytes.Add((byte) Instruction.CARD);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] CreateBoolLiteral(bool b) {
-        byte[] boolArr = new byte[2];
+    public static List<byte> CreateBoolLiteral(bool b) {
+        List<byte> boolArr = new List<byte>();
         boolArr[0] = b ? (byte) 1 : (byte) 0;
         boolArr[1] = (byte) Instruction.BOOL;
         return boolArr;
     }
 
-    public static byte[] CreateConditionLiteral(byte[] operandA, byte[] operandB, ConditionType t, ConditionOperator op) {
+    public static List<byte> CreateConditionLiteral(List<byte> operandA, List<byte> operandB, ConditionType t, ConditionOperator op) {
         // use this to create a reusable condition that can run queries
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(operandB));
@@ -56,12 +56,12 @@ public class LiteralFactory {
         bytes.AddRange(new List<byte>(operandA));
         bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) t, Instruction.ENUM_CONDITION_TYPE)));
         bytes.Add((byte) Instruction.CONDITION);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] CreateConditionLiteral(CompareBool condition) {
-        byte[] operandA = CreateBoolLiteral(condition.Operand);
-        byte[] operandB = CreateBoolLiteral(condition.CheckValue);
+    public static List<byte> CreateConditionLiteral(CompareBool condition) {
+        List<byte> operandA = CreateBoolLiteral(condition.Operand);
+        List<byte> operandB = CreateBoolLiteral(condition.CheckValue);
 
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(operandB));
@@ -69,12 +69,12 @@ public class LiteralFactory {
         bytes.AddRange(new List<byte>(operandA));
         bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) ConditionType.BOOL, Instruction.ENUM_CONDITION_TYPE)));
         bytes.Add((byte) Instruction.CONDITION);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] CreateConditionLiteral(CompareNum condition) {
-        byte[] operandA = CreateIntLiteral(condition.OperandA);
-        byte[] operandB = CreateIntLiteral(condition.OperandB);
+    public static List<byte> CreateConditionLiteral(CompareNum condition) {
+        List<byte> operandA = CreateIntLiteral(condition.OperandA);
+        List<byte> operandB = CreateIntLiteral(condition.OperandB);
 
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(operandB));
@@ -82,21 +82,21 @@ public class LiteralFactory {
         bytes.AddRange(new List<byte>(operandA));
         bytes.AddRange(new List<byte>(CreateEnumLiteral((byte) ConditionType.NUM, Instruction.ENUM_CONDITION_TYPE)));
         bytes.Add((byte) Instruction.CONDITION);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] CreateListLiteral(byte[] objects, ListType type, int length) {
-        byte[] listSize = CreateIntLiteral(length);
-        byte[] listType = CreateEnumLiteral((byte) type, Instruction.ENUM_LIST_TYPE);
+    public static List<byte> CreateListLiteral(List<byte> objects, ListType type, int length) {
+        List<byte> listSize = CreateIntLiteral(length);
+        List<byte> listType = CreateEnumLiteral((byte) type, Instruction.ENUM_LIST_TYPE);
 
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(objects));
         bytes.AddRange(new List<byte>(listSize));
         bytes.AddRange(listType);
         bytes.Add((byte) Instruction.LIST);
-        return bytes.ToArray();
+        return bytes;
     }
-    public static byte[] CreateListLiteral(List<GamePlayer> players) {
+    public static List<byte> CreateListLiteral(List<GamePlayer> players) {
         List<byte> bytes = new List<byte>();
         foreach (GamePlayer player in players) {
             List<byte> playerBytes = new List<byte>(CreatePlayerLiteral(player));
@@ -104,9 +104,9 @@ public class LiteralFactory {
             bytes.AddRange(new List<byte>(CreateIntLiteral(playerBytes.Count)));
             bytes.Add((byte) Instruction.LIST_ITEM);
         }
-        return CreateListLiteral(bytes.ToArray(), ListType.PLAYER, players.Count);
+        return CreateListLiteral(bytes, ListType.PLAYER, players.Count);
     }
-    public static byte[] CreateListLiteral(List<Card> cards) {
+    public static List<byte> CreateListLiteral(List<Card> cards) {
         List<byte> bytes = new List<byte>();
         foreach (Card card in cards) {
             List<byte> cardBytes = new List<byte>(CreateCardLiteral(card.GetID()));
@@ -114,18 +114,18 @@ public class LiteralFactory {
             bytes.AddRange(new List<byte>(CreateIntLiteral(cardBytes.Count)));
             bytes.Add((byte) Instruction.LIST_ITEM);
         }
-        return CreateListLiteral(bytes.ToArray(), ListType.CARD, cards.Count);
+        return CreateListLiteral(bytes, ListType.CARD, cards.Count);
     }
 
-    public static byte[] CreatePlaceholderLiteral(int id) {
+    public static List<byte> CreatePlaceholderLiteral(int id) {
         List<byte> bytes = new List<byte>();
         bytes.AddRange(CreateIntLiteral(id));
         bytes.Add((byte) Instruction.PLACEHOLDER);
-        return bytes.ToArray();
+        return bytes;
     }
 
-    public static byte[] CreateEnumLiteral(byte b, Instruction enumType) {
-        return new byte[]{b, (byte) enumType};
+    public static List<byte> CreateEnumLiteral(byte b, Instruction enumType) {
+        return new List<byte>{b, (byte) enumType};
     }
 
 }

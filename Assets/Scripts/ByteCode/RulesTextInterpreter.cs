@@ -13,7 +13,7 @@ public class RulesTextInterpreter : ByteManager
     }
     public void DoNothing () {}
 
-    public RulesTextInterpreter(byte[] arr) {
+    public RulesTextInterpreter(List<byte> arr) {
         push(arr);
         readAccessorFirst = ReadAccessorFirst;
         doNothing = DoNothing;
@@ -35,8 +35,8 @@ public class RulesTextInterpreter : ByteManager
         }
         try {
             CheckType(Instruction.INT);
-            byte[] intRepresentation = pop(4);
-            int num = BitConverter.ToInt32(intRepresentation, 0);
+            List<byte> intRepresentation = pop(4);
+            int num = BitConverter.ToInt32(intRepresentation.ToArray(), 0);
             return num.ToString();
         } catch (UnexpectedByteException e) {
             throw e;
@@ -50,8 +50,8 @@ public class RulesTextInterpreter : ByteManager
         try {
             CheckType(Instruction.STRING);
             int arrSize = ReadIntLiteral(doNothing);
-            byte[] strArray = pop(arrSize);
-            char[] chars = System.Text.Encoding.UTF8.GetChars(strArray);
+            List<byte> strArray = pop(arrSize);
+            char[] chars = System.Text.Encoding.UTF8.GetChars(strArray.ToArray());
             return new string(chars);
         } catch (UnexpectedByteException e) {
             throw e;
@@ -134,18 +134,18 @@ public class RulesTextInterpreter : ByteManager
         string[] args = new string[effectData.fields.Length];
         switch(instruction) {
             case Instruction.INT: {
-                byte[] intRepresentation = pop(4);
+                List<byte> intRepresentation = pop(4);
                 args = new string[]{
-                    BitConverter.ToInt32(intRepresentation, 0).ToString()
+                    BitConverter.ToInt32(intRepresentation.ToArray(), 0).ToString()
                 };
                 break;
             }
             case Instruction.STRING: {
                 pop(); // lose INT head
-                byte[] intRepresentation = pop(4);
-                int arrSize = BitConverter.ToInt32(intRepresentation, 0);
-                byte[] strArray = pop(arrSize);
-                char[] chars = System.Text.Encoding.UTF8.GetChars(strArray);
+                List<byte> intRepresentation = pop(4);
+                int arrSize = BitConverter.ToInt32(intRepresentation.ToArray(), 0);
+                List<byte> strArray = pop(arrSize);
+                char[] chars = System.Text.Encoding.UTF8.GetChars(strArray.ToArray());
                 args = new string[]{
                     new string(chars)
                 };

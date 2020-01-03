@@ -53,7 +53,7 @@ public class Interpreter : ByteManager
                         }
                     }
                     if (condition.Evaluate()) {
-                        push(blockBytes.ToArray());
+                        push(blockBytes);
                     }
                     break;
                 }
@@ -78,7 +78,7 @@ public class Interpreter : ByteManager
                         }
                     }
                     if (!condition.Evaluate()) {
-                        push(blockBytes.ToArray());
+                        push(blockBytes);
                     }
                     break;
                 }
@@ -134,7 +134,7 @@ public class Interpreter : ByteManager
                 case Instruction.LOOP: {
                     int id = ReadIntLiteral(skipToNext);
                     int num = ReadIntLiteral(skipToNext);
-                    List<byte[]> instructionArrays = new List<byte[]>();
+                    List<List<byte>> instructionArrays = new List<List<byte>>();
                     while (currentStackSize > 0) {
                         if (peek() == (byte) Instruction.ENDLOOP) {
                             pop();
@@ -144,10 +144,10 @@ public class Interpreter : ByteManager
                             } else {
                                 List<byte> endloopBytes = new List<byte>(LiteralFactory.CreateIntLiteral(endloopID));
                                 endloopBytes.Add((byte) Instruction.ENDLOOP);
-                                instructionArrays.Insert(0, endloopBytes.ToArray());
+                                instructionArrays.Insert(0, endloopBytes);
                             }
                         } else {
-                            byte[] arr = popInstruction(skipToNext);
+                            List<byte> arr = popInstruction(skipToNext);
                             instructionArrays.Insert(0, arr);
                         }
                     }
@@ -162,7 +162,7 @@ public class Interpreter : ByteManager
                 case Instruction.FOR_LOOP: {
                     int ID = ReadIntLiteral(skipToNext);
                     List<byte[]> items = ReadList(skipToNext);
-                    List<byte[]> instructionArrays = new List<byte[]>();
+                    List<List<byte>> instructionArrays = new List<List<byte>>();
                     while (currentStackSize > 0) {
                         if (peek() == (byte) Instruction.ENDLOOP) {
                             pop();
@@ -172,18 +172,18 @@ public class Interpreter : ByteManager
                             } else {
                                 List<byte> endloopBytes = new List<byte>(LiteralFactory.CreateIntLiteral(endloopID));
                                 endloopBytes.Add((byte) Instruction.ENDLOOP);
-                                instructionArrays.Insert(0, endloopBytes.ToArray());
+                                instructionArrays.Insert(0, endloopBytes);
                             }
                         }
-                        byte[] arr = popInstruction(skipToNext);
+                        List<byte> arr = popInstruction(skipToNext);
                         instructionArrays.Insert(0, arr);
                     }
 
-                    byte[] idBytes = LiteralFactory.CreateIntLiteral(ID);
+                    List<byte> idBytes = LiteralFactory.CreateIntLiteral(ID);
                     for (int i = 0; i < items.Count; i++) {
                         List<byte> currentItem = new List<byte>(items[i]);
                         currentItem.Reverse();
-                        byte[] addToRegister = InstructionFactory.Make_AddToRegister(idBytes, currentItem.ToArray());
+                        List<byte> addToRegister = InstructionFactory.Make_AddToRegister(idBytes, currentItem);
                         for (int m = 0; m < instructionArrays.Count; m++) {    
                             push(instructionArrays[m]);
                         }
@@ -195,7 +195,7 @@ public class Interpreter : ByteManager
                 case Instruction.ADD_TO_REGISTER: {
                     int ID = ReadIntLiteral(skipToNext);
                     int size = ReadIntLiteral(skipToNext);
-                    byte[] bytes = pop(size);
+                    List<byte> bytes = pop(size);
                     register[ID] = bytes;
                     break;
                 }
@@ -204,7 +204,7 @@ public class Interpreter : ByteManager
                     int ID = ReadIntLiteral(skipToNext);
                     List<byte> fetch = new List<byte>(register[ID]);
                     fetch.Reverse();
-                    push(fetch.ToArray());
+                    push(fetch);
                     break;
                 }
                 
@@ -372,7 +372,7 @@ public class Interpreter : ByteManager
 
     public void PlayerChoiceCallback (GamePlayer chosenPlayer) {
         if (chosenPlayer != null) {
-            byte[] player = LiteralFactory.CreatePlayerLiteral(chosenPlayer);
+            List<byte> player = LiteralFactory.CreatePlayerLiteral(chosenPlayer);
             GM.AddToStack(player);
         }
         next();
@@ -380,7 +380,7 @@ public class Interpreter : ByteManager
 
     public void CardChoiceCallback (Card chosenCard) {
         if (chosenCard != null) {
-            byte[] card = LiteralFactory.CreateCardLiteral(chosenCard.GetID());
+            List<byte> card = LiteralFactory.CreateCardLiteral(chosenCard.GetID());
             GM.AddToStack(card);
         }
         next();
