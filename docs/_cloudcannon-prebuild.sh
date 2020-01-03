@@ -1,0 +1,1 @@
+cp ../Assets/effects.json ./_data/
