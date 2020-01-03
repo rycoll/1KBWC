@@ -12,7 +12,7 @@
                     {% assign sorted_pages = site.pages | sort: "order_number" %}
                     {% for page in sorted_pages %} 
                         {% if page.order_number %}
-                            <a class="c-page__navlink" href="{{page.url}}">{{ page.title}}</a>
+                            <a class="c-page__navlink" href="{{site.baseurl}}/{{page.url}}">{{ page.title}}</a>
                         {% endif %}
                     {% endfor %}
                 </div>
