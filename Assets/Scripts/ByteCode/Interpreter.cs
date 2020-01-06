@@ -38,7 +38,7 @@ public class Interpreter : ByteManager
                     Condition condition = ReadConditionLiteral(skipToNext);
                     List<byte> blockBytes = new List<byte>();
 
-                    while (currentStackSize > 0) {
+                    while (HasBytes()) {
                         byte b = pop();
                         if (b == (byte) Instruction.ENDIF) {
                             int id = ReadIntLiteral(skipToNext);
@@ -63,7 +63,7 @@ public class Interpreter : ByteManager
                     Condition condition = ReadConditionLiteral(skipToNext);
                     List<byte> blockBytes = new List<byte>();
 
-                    while (currentStackSize > 0) {
+                    while (HasBytes()) {
                         byte b = pop();
                         if (b == (byte) Instruction.ENDIF) {
                             int id = ReadIntLiteral(skipToNext);
@@ -135,7 +135,7 @@ public class Interpreter : ByteManager
                     int id = ReadIntLiteral(skipToNext);
                     int num = ReadIntLiteral(skipToNext);
                     List<List<byte>> instructionArrays = new List<List<byte>>();
-                    while (currentStackSize > 0) {
+                    while (HasBytes()) {
                         if (peek() == (byte) Instruction.ENDLOOP) {
                             pop();
                             int endloopID = ReadIntLiteral(skipToNext);
@@ -163,7 +163,7 @@ public class Interpreter : ByteManager
                     int ID = ReadIntLiteral(skipToNext);
                     List<byte[]> items = ReadList(skipToNext);
                     List<List<byte>> instructionArrays = new List<List<byte>>();
-                    while (currentStackSize > 0) {
+                    while (HasBytes()) {
                         if (peek() == (byte) Instruction.ENDLOOP) {
                             pop();
                             int endloopID = ReadIntLiteral(skipToNext);

@@ -15,7 +15,7 @@ namespace Tests
         }
 
         public void PrintBytes(List<byte> arr) {
-            PrintStack printer = new PrintStack(arr, arr.Count);
+            PrintStack printer = new PrintStack(arr);
             Debug.Log(printer.PrintStackInstructions());
         }
 

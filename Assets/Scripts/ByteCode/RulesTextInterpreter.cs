@@ -110,7 +110,7 @@ public class RulesTextInterpreter : ByteManager
     public string GetFullRulesText () {
         string text = "";
 
-        while (currentStackSize > 0) {
+        while (HasBytes()) {
             text += GetNext();
         }
 

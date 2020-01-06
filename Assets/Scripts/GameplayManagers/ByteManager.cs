@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ByteManager {
 
-    public static int MAX_STACK_SIZE = 2048;
-    protected int currentStackSize = 0;
     protected List<byte> stack = new List<byte>();
 
     protected Dictionary<int, List<byte>> register = new Dictionary<int, List<byte>>();
@@ -19,20 +17,19 @@ public class ByteManager {
     };
 
     public int GetCurrentStackSize () {
-        return currentStackSize;
+        return stack.Count;
     }
 
     public bool HasBytes () {
-        return currentStackSize > 0;
+        return stack.Count > 0;
     }
 
     public void ClearStack () { 
         stack = new List<byte>();
-        currentStackSize = 0;
     }
 
     public string ReportStackContent () {
-        PrintStack printer = new PrintStack(stack, currentStackSize);
+        PrintStack printer = new PrintStack(stack);
         return printer.PrintStackInstructions();
     }
     public void PrintRawBytes () {
@@ -42,16 +39,10 @@ public class ByteManager {
     #region Basic Stack Operations
 
     public void push(byte b) {
-        if (currentStackSize >= MAX_STACK_SIZE) {
-            throw new StackFullException("Stack is too full! Can't push " + b.ToString());
-        }
-        stack[currentStackSize++] = b;
+        stack.Add(b);
     }
 
     public void push(List<byte> arr) {
-        if (currentStackSize + arr.Count >= MAX_STACK_SIZE) {
-            throw new StackFullException("Stack is too full! Can't push " + arr.Count + " bytes!");
-        }
         foreach (byte b in arr) {
             push(b);
         }
@@ -60,10 +51,11 @@ public class ByteManager {
     public byte pop() {
         // needs better error handling
         if (!HasBytes()) {
-            throw new StackEmptyException("Pop failed, stack is empty! " + currentStackSize);
+            throw new StackEmptyException("Pop failed, stack is empty!");
         }
-        stack[currentStackSize] = 255;
-        return stack[--currentStackSize];
+        byte topByte = stack[stack.Count - 1];
+        stack.RemoveAt(stack.Count - 1);
+        return topByte;
     }
 
     public List<byte> pop(int n) {
@@ -115,17 +107,17 @@ public class ByteManager {
 
     public byte peek() {
         if (!HasBytes()) {
-            throw new StackEmptyException("Peek failed, stack is empty! " + currentStackSize);
+            throw new StackEmptyException("Peek failed, stack is empty!");
         }
-        return stack[currentStackSize - 1];
+        return stack[stack.Count - 1];
     }
 
     public byte peek(int n) {
         if (!HasBytes()) {
-            throw new StackEmptyException("Peek failed, stack is empty! " + currentStackSize);
+            throw new StackEmptyException("Peek failed, stack is empty!");
         }
         try {
-            return stack[currentStackSize - n];
+            return stack[stack.Count - n];
         } catch (IndexOutOfRangeException e) {
             Debug.Log("Couldn't peek " + n + " bytes");
             Debug.Log(ReportStackContent());
@@ -354,8 +346,8 @@ public class ByteManager {
     #endregion
 
     public Instruction next () {
-        if (currentStackSize <= 0) {
-            throw new StackEmptyException($"Stack is empty: ({currentStackSize}), can't do next!");
+        if (!HasBytes()) {
+            throw new StackEmptyException($"Stack is empty, can't do next!");
         }
         return (Instruction) pop();
     }

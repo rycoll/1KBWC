@@ -6,16 +6,16 @@ public class PrintStack : ByteManager {
 
     private ReadCallback readAccessorFirst;
 
-    public PrintStack(List<byte> bytes, int size) {
+    public PrintStack(List<byte> bytes) {
         stack = new List<byte>();
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < bytes.Count; i++) {
             push(bytes[i]);
         }
         readAccessorFirst = ReadAccessorFirst;
     }
 
     public static void PrintByteString (List<byte> bytes) {
-        Debug.Log(new PrintStack(bytes, bytes.Count).ReportStackContent());
+        Debug.Log(new PrintStack(bytes).ReportStackContent());
     }
 
     public static void PrintRawBytes (List<byte> bytes) {
