@@ -43,8 +43,8 @@ public class LiteralFactory {
 
     public static List<byte> CreateBoolLiteral(bool b) {
         List<byte> boolArr = new List<byte>();
-        boolArr[0] = b ? (byte) 1 : (byte) 0;
-        boolArr[1] = (byte) Instruction.BOOL;
+        boolArr.Add(b ? (byte) 1 : (byte) 0);
+        boolArr.Add((byte) Instruction.BOOL);
         return boolArr;
     }
 

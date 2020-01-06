@@ -61,7 +61,7 @@ public class ByteManager {
     public List<byte> pop(int n) {
         List<byte> arr = new List<byte>();
         for (int i = 0; i < n; i++) {
-            arr[i] = pop();
+            arr.Add(pop());
         }
         return arr;
     }
