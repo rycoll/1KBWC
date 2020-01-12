@@ -25,11 +25,18 @@ public class EffectData {
         canBeRoot = root;
     }
 
+    public static EffectData GetEffectDataByInstruction (Instruction instruction) {
+        try {
+            return Effects.First(value => value.instruction == instruction);
+        } catch (InvalidOperationException e) {
+            // nothing found
+            Debug.LogWarning("Couldn't find an effect for '" + instruction + "'. " + e);
+            return null;
+        }
+    }
+
     public static EffectData GetEffectDataByName (string n) {
         try {
-            if (n == "ENDLOOP") {
-                Debug.Log("endloop");
-            }
             return Effects.First(value => value.name.ToLower() == n.ToLower());
         } catch (InvalidOperationException e) {
             // nothing found
