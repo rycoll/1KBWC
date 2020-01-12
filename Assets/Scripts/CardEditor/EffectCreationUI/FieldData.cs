@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 public class FieldData {
     public string text;
     public EnterValueType enterValue;
