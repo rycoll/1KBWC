@@ -70,6 +70,12 @@ public class InstructionFactory {
         return bytes;
     }
 
+    public static List<byte> Make_GetCardsInHand (List<byte> id) {
+        List<byte> bytes = new List<byte>(id);
+        bytes.Add((byte) Instruction.GET_CARDS_IN_HAND);
+        return bytes;
+    }   
+
     public static List<byte> Make_NumComparison(List<byte> operandA, List<byte> operandB, byte operatorEnum) {
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(operandB));
