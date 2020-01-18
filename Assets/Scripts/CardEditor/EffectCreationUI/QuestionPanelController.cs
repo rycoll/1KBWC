@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -34,10 +34,6 @@ public class QuestionPanelController : MonoBehaviour
             .Select(effect => effect.name).ToList();
         dropdown.ClearOptions();
         dropdown.AddOptions(options);
-    }
-
-    public void SummaryState () {
-
     }
 
     public void SetState () {
