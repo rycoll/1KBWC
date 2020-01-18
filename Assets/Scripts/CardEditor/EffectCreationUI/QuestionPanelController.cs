@@ -20,8 +20,15 @@ public class QuestionPanelController : MonoBehaviour
     private EffectBuilderItem currentCompilerNode;
     private FieldData currentFieldData;
 
-    public void InitialState () {
+    public void Clear () {
         builder = null;
+        currentCompilerNode = null;
+        currentFieldData = null;
+    }
+
+    public void InitialState () {
+        Clear();
+
         questionText.text  = 
             "What would you like this card to do?\n\nChoose an effect from the list below to continue.";
         Dropdown(true, ReturnType.NONE);
