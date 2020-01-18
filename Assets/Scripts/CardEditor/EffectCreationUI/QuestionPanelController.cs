@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,11 +20,8 @@ public class QuestionPanelController : MonoBehaviour
     private EffectBuilderItem currentCompilerNode;
     private FieldData currentFieldData;
 
-    public void Start() {
-        builder = null;
-    }
-
     public void InitialState () {
+        builder = null;
         questionText.text  = 
             "What would you like this card to do?\n\nChoose an effect from the list below to continue.";
         Dropdown(true, ReturnType.NONE);
