@@ -116,7 +116,9 @@ public class RulesTextInterpreter : ByteManager
 
         while (HasBytes()) {
             string next = GetNext();
-            text += char.ToUpper(next[0]) + next.Substring(1);
+            if (next.Length > 0) {
+                text += char.ToUpper(next[0]) + next.Substring(1);
+            }
         }
 
         return text;
