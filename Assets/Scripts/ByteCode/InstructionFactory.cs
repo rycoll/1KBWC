@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using UnityEngine;
 
 /* These methods help ensure that each instruction type is built consistently! */
 
 public class InstructionFactory {
 
-    private static Random rng = new Random();
+    private static System.Random rng = new System.Random();
     public static int RandomID {
         get {
             return rng.Next(1, Int32.MaxValue);
@@ -280,104 +281,119 @@ public class InstructionFactory {
 
      public static List<byte> RunInstructionFactoryForNode (EffectBuilderItem node) {
 
+         if (node.enteredValue != null && node.enteredValue.Count > 0) {
+            return node.enteredValue;
+         }
+
         List<List<byte>> childInstructions = node.children.Select(childNode => {
             return RunInstructionFactoryForNode(childNode);
         }).ToList();
 
-        switch(node.effectData.instruction) {
-            // FUNCTIONS
-            case Instruction.RANDOM_NUMBER:
-                return Make_RandomNumber(childInstructions[0]);
-            case Instruction.ADD:
-                return Make_Add(childInstructions[0], childInstructions[1]);
-            case Instruction.IF: {
-                List<byte> conditionBytes = new List<byte>();
-                for (int i = 1; i < childInstructions.Count; i++) {
-                    conditionBytes.AddRange(childInstructions[i]);
+        Debug.Log($"Child instructions for {node.effectData.instruction}: {childInstructions.Count}");
+
+        try {
+
+            switch(node.effectData.instruction) {
+                // FUNCTIONS
+                case Instruction.RANDOM_NUMBER:
+                    return Make_RandomNumber(childInstructions[0]);
+                case Instruction.ADD:
+                    return Make_Add(childInstructions[0], childInstructions[1]);
+                case Instruction.IF: {
+                    List<byte> conditionBytes = new List<byte>();
+                    for (int i = 1; i < childInstructions.Count; i++) {
+                        conditionBytes.AddRange(childInstructions[i]);
+                    }
+                    return Make_If(childInstructions[0], conditionBytes);
                 }
-                return Make_If(childInstructions[0], conditionBytes);
-            }
-            case Instruction.UNLESS: {
-                List<byte> conditionBytes = new List<byte>();
-                for (int i = 1; i < childInstructions.Count; i++) {
-                    conditionBytes.AddRange(childInstructions[i]);
+                case Instruction.UNLESS: {
+                    List<byte> conditionBytes = new List<byte>();
+                    for (int i = 1; i < childInstructions.Count; i++) {
+                        conditionBytes.AddRange(childInstructions[i]);
+                    }
+                    return Make_Unless(childInstructions[0], conditionBytes);
                 }
-                return Make_Unless(childInstructions[0], conditionBytes);
-            }
-            case Instruction.LIST_LENGTH:
-                return Make_ListLength(childInstructions[0]);
-            case Instruction.CARD_HAS_TAG:
-                return Make_CardHasTag(childInstructions[0], childInstructions[1]);
-            case Instruction.PLAYER_IS_WINNING:
-                return Make_PlayerIsWinning(childInstructions[0]);
-            case Instruction.PLAYER_IS_LOSING:
-                return Make_PlayerIsLosing(childInstructions[0]);
-            case Instruction.MULTIPLY:
-                return Make_Multiply(childInstructions[0], childInstructions[1]);
-            case Instruction.LOOP: {
-                List<byte> loopBytes = new List<byte>();
-                for (int i = 1; i < childInstructions.Count; i++) {
-                    loopBytes.AddRange(childInstructions[i]);
+                case Instruction.LIST_LENGTH:
+                    return Make_ListLength(childInstructions[0]);
+                case Instruction.CARD_HAS_TAG:
+                    return Make_CardHasTag(childInstructions[0], childInstructions[1]);
+                case Instruction.PLAYER_IS_WINNING:
+                    return Make_PlayerIsWinning(childInstructions[0]);
+                case Instruction.PLAYER_IS_LOSING:
+                    return Make_PlayerIsLosing(childInstructions[0]);
+                case Instruction.MULTIPLY:
+                    return Make_Multiply(childInstructions[0], childInstructions[1]);
+                case Instruction.LOOP: {
+                    List<byte> loopBytes = new List<byte>();
+                    for (int i = 1; i < childInstructions.Count; i++) {
+                        loopBytes.AddRange(childInstructions[i]);
+                    }
+                    return Make_Unless(childInstructions[0], loopBytes);
                 }
-                return Make_Unless(childInstructions[0], loopBytes);
-            }
-            case Instruction.FOR_LOOP: {
-                List<byte> loopBytes = new List<byte>();
-                for (int i = 1; i < childInstructions.Count; i++) {
-                    loopBytes.AddRange(childInstructions[i]);
+                case Instruction.FOR_LOOP: {
+                    List<byte> loopBytes = new List<byte>();
+                    for (int i = 1; i < childInstructions.Count; i++) {
+                        loopBytes.AddRange(childInstructions[i]);
+                    }
+                    return Make_Unless(childInstructions[0], loopBytes);
                 }
-                return Make_Unless(childInstructions[0], loopBytes);
-            }
-            case Instruction.ADD_TO_REGISTER: {
-                List<byte> bytesForRegister = new List<byte>();
-                for (int i = 1; i < childInstructions.Count; i++) {
-                    bytesForRegister.AddRange(childInstructions[i]);
+                case Instruction.ADD_TO_REGISTER: {
+                    List<byte> bytesForRegister = new List<byte>();
+                    for (int i = 1; i < childInstructions.Count; i++) {
+                        bytesForRegister.AddRange(childInstructions[i]);
+                    }
+                    return Make_Unless(childInstructions[0], bytesForRegister);
                 }
-                return Make_Unless(childInstructions[0], bytesForRegister);
+                // QUERIES
+                case Instruction.GET_ACTIVE_PLAYER:
+                    return Make_SingleByteInstruction(Instruction.GET_ACTIVE_PLAYER);
+                case Instruction.GET_ALL_OPPONENTS: 
+                    return Make_SingleByteInstruction(Instruction.GET_ALL_OPPONENTS);
+                case Instruction.GET_ALL_PLAYERS: 
+                    return Make_SingleByteInstruction(Instruction.GET_ALL_PLAYERS);
+                case Instruction.GET_CARDS_IN_DECK:
+                    return Make_SingleByteInstruction(Instruction.GET_CARDS_IN_DECK);
+                case Instruction.GET_CARDS_IN_DISCARD: 
+                    return Make_SingleByteInstruction(Instruction.GET_CARDS_IN_DISCARD);
+                case Instruction.GET_CARDS_IN_HAND: 
+                    return Make_GetCardsInHand(childInstructions[0]);
+                case Instruction.GET_PLAYER:
+                    return Make_GetPlayer(childInstructions[0]);
+                case Instruction.GET_PLAYER_POINTS:
+                    return Make_GetPlayerPoints(childInstructions[0]);
+                case Instruction.READ_COUNTER:
+                    return Make_ReadCounter(childInstructions[0]);
+                case Instruction.NUM_COMPARISON:
+                    return Make_NumComparison(childInstructions[0], childInstructions[1], childInstructions[2][0]);
+                case Instruction.TARGET_PLAYER:
+                    return Make_SingleByteInstruction(Instruction.TARGET_PLAYER);
+                case Instruction.TARGET_CARD:
+                    return Make_SingleByteInstruction(Instruction.TARGET_PLAYER);
+                // EFFECTS
+                case Instruction.INCREMENT_PLAYER_POINTS:
+                    return Make_IncrementPlayerPoints(childInstructions[0], childInstructions[1]);
+                case Instruction.PLAYER_DRAW_CARD:
+                    return Make_PlayerDrawCards(childInstructions[0], childInstructions[1]);
+                case Instruction.SET_COUNTER:
+                    return Make_SetCounter(childInstructions[0], childInstructions[1]);
+                case Instruction.SET_PLAYER_DRAW:
+                    return Make_SetPlayerDraw(childInstructions[0], childInstructions[1]);
+                case Instruction.SET_PLAYER_MAX_HAND:
+                    return Make_SetPlayerMaxHand(childInstructions[0], childInstructions[1]);
+                case Instruction.SET_PLAYER_POINTS:
+                    return Make_SetPlayerPoints(childInstructions[0], childInstructions[1]);
+                case Instruction.MOVE_TO_DECK:
+                    return Make_MoveToDeck(childInstructions[0], (DeckLocation) childInstructions[1][0]);
+                case Instruction.MOVE_TO_DISCARD:
+                    return Make_MoveToDiscard(childInstructions[0]);
+                default:
+                    Debug.LogError($"Unsupported instruction {node.effectData.instruction}");
+                    break;
             }
-            // QUERIES
-            case Instruction.GET_ACTIVE_PLAYER:
-                return Make_SingleByteInstruction(Instruction.GET_ACTIVE_PLAYER);
-            case Instruction.GET_ALL_OPPONENTS: 
-                return Make_SingleByteInstruction(Instruction.GET_ALL_OPPONENTS);
-            case Instruction.GET_ALL_PLAYERS: 
-                return Make_SingleByteInstruction(Instruction.GET_ALL_PLAYERS);
-            case Instruction.GET_CARDS_IN_DECK:
-                return Make_SingleByteInstruction(Instruction.GET_CARDS_IN_DECK);
-            case Instruction.GET_CARDS_IN_DISCARD: 
-                return Make_SingleByteInstruction(Instruction.GET_CARDS_IN_DISCARD);
-            case Instruction.GET_CARDS_IN_HAND: 
-                return Make_GetCardsInHand(childInstructions[0]);
-            case Instruction.GET_PLAYER:
-                return Make_GetPlayer(childInstructions[0]);
-            case Instruction.GET_PLAYER_POINTS:
-                return Make_GetPlayerPoints(childInstructions[0]);
-            case Instruction.READ_COUNTER:
-                return Make_ReadCounter(childInstructions[0]);
-            case Instruction.NUM_COMPARISON:
-                return Make_NumComparison(childInstructions[0], childInstructions[1], childInstructions[2][0]);
-            case Instruction.TARGET_PLAYER:
-                return Make_SingleByteInstruction(Instruction.TARGET_PLAYER);
-            case Instruction.TARGET_CARD:
-                return Make_SingleByteInstruction(Instruction.TARGET_PLAYER);
-            // EFFECTS
-            case Instruction.INCREMENT_PLAYER_POINTS:
-                return Make_IncrementPlayerPoints(childInstructions[0], childInstructions[1]);
-            case Instruction.PLAYER_DRAW_CARD:
-                return Make_PlayerDrawCards(childInstructions[0], childInstructions[1]);
-            case Instruction.SET_COUNTER:
-                return Make_SetCounter(childInstructions[0], childInstructions[1]);
-            case Instruction.SET_PLAYER_DRAW:
-                return Make_SetPlayerDraw(childInstructions[0], childInstructions[1]);
-            case Instruction.SET_PLAYER_MAX_HAND:
-                return Make_SetPlayerMaxHand(childInstructions[0], childInstructions[1]);
-            case Instruction.SET_PLAYER_POINTS:
-                return Make_SetPlayerPoints(childInstructions[0], childInstructions[1]);
-            case Instruction.MOVE_TO_DECK:
-                return Make_MoveToDeck(childInstructions[0], (DeckLocation) childInstructions[1][0]);
-            case Instruction.MOVE_TO_DISCARD:
-                return Make_MoveToDiscard(childInstructions[0]);
             
+        } catch (ArgumentOutOfRangeException e) {
+            Debug.LogError($"Wrong number of params for instruction {node.effectData.instruction}");
+            Debug.LogError(e);
         }
         return new List<byte>();
     }
