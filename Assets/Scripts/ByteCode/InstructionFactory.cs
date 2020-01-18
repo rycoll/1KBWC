@@ -285,6 +285,7 @@ public class InstructionFactory {
             return node.enteredValue;
          }
 
+        node.children.Reverse();
         List<List<byte>> childInstructions = node.children.Select(childNode => {
             return RunInstructionFactoryForNode(childNode);
         }).ToList();

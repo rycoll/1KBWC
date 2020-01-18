@@ -30,7 +30,7 @@ public class EffectBuilderItem {
         if (processingQueue.Count == 0) {
             return null;
         }
-        FieldData nextFieldData = processingQueue[processingQueue.Count - 1];
+        FieldData nextFieldData = processingQueue[0];
         processingQueue.Remove(nextFieldData);
         return nextFieldData;
     }
