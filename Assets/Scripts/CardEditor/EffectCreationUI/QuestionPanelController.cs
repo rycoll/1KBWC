@@ -161,7 +161,9 @@ public class QuestionPanelController : MonoBehaviour
             builder = new EffectBuilder(currentCompilerNode);
         }
 
-        if (currentCompilerNode.processingQueue.Count == 0) {
+        FieldData nextFieldData = currentCompilerNode.GetNextFieldData();
+
+        if (nextFieldData == null) {
             if (currentCompilerNode.parent == null) {
                 Last();
                 return;
@@ -172,8 +174,7 @@ public class QuestionPanelController : MonoBehaviour
             }
         }
 
-        currentFieldData = currentCompilerNode.processingQueue[0];
-        currentCompilerNode.processingQueue.Remove(currentFieldData);
+        currentFieldData = nextFieldData;
 
         // handling for auxiliary bytes
         if (Array.IndexOf(currentFieldData.attributes, "auxiliary") != -1) {
