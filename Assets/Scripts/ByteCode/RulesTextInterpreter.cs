@@ -108,14 +108,16 @@ public class RulesTextInterpreter : ByteManager
     }
 
     public string GetFullRulesText () {
+        Debug.Log("Get rules text");
+        PrintRawBytes();
+        Debug.Log(ReportStackContent());
+
         string text = "";
 
         while (HasBytes()) {
-            text += GetNext();
+            string next = GetNext();
+            text += char.ToUpper(next[0]) + next.Substring(1);
         }
-
-        // uppercase first letter
-        text = char.ToUpper(text[0]) + text.Substring(1);
 
         return text;
     }
