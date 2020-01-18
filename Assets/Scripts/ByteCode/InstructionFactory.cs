@@ -369,7 +369,7 @@ public class InstructionFactory {
                 case Instruction.TARGET_PLAYER:
                     return Make_SingleByteInstruction(Instruction.TARGET_PLAYER);
                 case Instruction.TARGET_CARD:
-                    return Make_SingleByteInstruction(Instruction.TARGET_PLAYER);
+                    return Make_SingleByteInstruction(Instruction.TARGET_CARD);
                 // EFFECTS
                 case Instruction.INCREMENT_PLAYER_POINTS:
                     return Make_IncrementPlayerPoints(childInstructions[0], childInstructions[1]);
