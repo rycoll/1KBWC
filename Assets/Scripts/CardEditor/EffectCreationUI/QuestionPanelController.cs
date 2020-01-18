@@ -1,18 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-
-public struct QuestionnaireQueueItem {
-    public EffectData parent;
-    public FieldData data;
-
-    public QuestionnaireQueueItem(EffectData effect, FieldData field) {
-        parent = effect;
-        data = field;
-    }
-}
 
 public class QuestionPanelController : MonoBehaviour
 {
@@ -27,15 +17,15 @@ public class QuestionPanelController : MonoBehaviour
 
     private EffectBuilder builder;
 
-    private List<QuestionnaireQueueItem> processingQueue = new List<QuestionnaireQueueItem>();
-    private FieldData current;
+    private EffectBuilderItem currentCompilerNode;
+    private FieldData currentFieldData;
 
-    public void SetEffectBuilder(EffectBuilder b) {
-        builder = b;
+    public void Start() {
+        builder = null;
     }
 
     public void InitialState () {
-        questionText.text = 
+        questionText.text  = 
             "What would you like this card to do?\n\nChoose an effect from the list below to continue.";
         Dropdown(true, ReturnType.NONE);
         Input(false);
@@ -46,11 +36,18 @@ public class QuestionPanelController : MonoBehaviour
         dropdown.AddOptions(options);
     }
 
-    public void SetState (QuestionnaireQueueItem data) {
-        current = data.data;
-        questionText.text = $"{data.parent.message}\n\n{current.text}";
-        Dropdown(current.returnType != ReturnType.NONE, current.returnType);
-        Input(current.enterValue != EnterValueType.NONE, current.enterValue);
+    public void SummaryState () {
+
+    }
+
+    public void SetState () {
+        questionText.text = $"{currentFieldData.text}";
+        if (currentCompilerNode.parent != null) {
+            questionText.text.Insert(0, $"{currentCompilerNode.parent.effectData.message}\n\n");
+        }
+
+        Dropdown(currentFieldData.returnType != ReturnType.NONE, currentFieldData.returnType);
+        Input(currentFieldData.enterValue != EnterValueType.NONE, currentFieldData.enterValue);
     }
 
     public void Dropdown (bool active, ReturnType type = ReturnType.NONE) {
@@ -91,11 +88,21 @@ public class QuestionPanelController : MonoBehaviour
             case EnterValueType.TEXT:
                 textInput.contentType = InputField.ContentType.Alphanumeric;
                 break;
+            case EnterValueType.NONE:
+                break;
+            default:
+                Debug.Log($"Unhandled enter-value type: {type}");
+                break;
         }
     }
 
     public void SubmitSelection () {
         string selection = dropdown.options[dropdown.value].text;
+
+        EffectData data = EffectData.GetEffectDataByName(selection);
+        EffectBuilderItem newNode = data != null
+            ? new EffectBuilderItem(data)
+            : null;
 
         // handling for enums
         if (currentCompilerNode != null) {
@@ -115,62 +122,79 @@ public class QuestionPanelController : MonoBehaviour
             }
         }
 
-        EffectData data = EffectData.GetEffectDataByName(selection);
-        builder.Add((byte) data.instruction);
-
-        List<QuestionnaireQueueItem> fields = data.fields.Select(
-            item => new QuestionnaireQueueItem(data, item)
-        ).ToList();
-        processingQueue.InsertRange(0, fields);
+        if (newNode != null) {
+            currentCompilerNode = newNode;
+        }
         Next();
     }
 
     public void SubmitTextInput () {
         string selection = InputFieldText.text;
 
-        switch(current.enterValue) {
+        switch(currentFieldData.enterValue) {
             case EnterValueType.NUMBER: {
                 if (Int32.TryParse(selection, out int numValue)) {
-                    byte[] arr = LiteralFactory.CreateIntLiteral(numValue);
-                    builder.Add(arr); 
+                    List<byte> arr = LiteralFactory.CreateIntLiteral(numValue);
+                    currentCompilerNode.Add(
+                        new EffectBuilderItem(arr)
+                    ); 
                 } else Debug.Log($"Couldn't parse {selection}");
                 break;
             }
             case EnterValueType.TEXT: {
-                byte[] arr = LiteralFactory.CreateStringLiteral(selection);
-                builder.Add(arr);
+                List<byte> arr = LiteralFactory.CreateStringLiteral(selection);
+                currentCompilerNode.Add(
+                    new EffectBuilderItem(arr)
+                );
                 break;
             }
+            default:
+                Debug.LogWarning("Unsupported text input type: " + currentFieldData.enterValue);
+                break;
         }
         Next();
     }
 
     public void Next () {
-        if (processingQueue.Count > 0) {
-            QuestionnaireQueueItem next = processingQueue[0];
-            processingQueue.Remove(next);
 
-            // handling for auxiliary bytes
-            if (Array.IndexOf(next.data.attributes, "auxiliary") != -1) {
-                string typeString = next.data.returnType.ToString();
-                Instruction instruction = EffectData.GetEffectDataByName(typeString).instruction;
-                builder.Add((byte) instruction);
+        if (builder == null) {
+            builder = new EffectBuilder(currentCompilerNode);
+        }
+
+        if (currentCompilerNode.processingQueue.Count == 0) {
+            if (currentCompilerNode.parent == null) {
+                Last();
+                return;
+            } else {
+                currentCompilerNode = currentCompilerNode.parent;
                 Next();
                 return;
             }
-            
-            SetState(next);
-        } else {
-            Last();
         }
+
+        currentFieldData = currentCompilerNode.processingQueue[0];
+        currentCompilerNode.processingQueue.Remove(currentFieldData);
+
+        // handling for auxiliary bytes
+        if (Array.IndexOf(currentFieldData.attributes, "auxiliary") != -1) {
+            string typeString = currentFieldData.returnType.ToString();
+            Instruction instruction = EffectData.GetEffectDataByName(typeString).instruction;
+            currentCompilerNode.Add(
+                new EffectBuilderItem(new List<byte>{(byte) instruction})
+            );
+            Next();
+            return;
+        }
+
+        SetState();
     }
 
     public void Last () {
-        RulesTextInterpreter rulesTextBuilder = new RulesTextInterpreter(
-            builder.ExportEffect(true)
-        );
-        string rulesText = rulesTextBuilder.GetFullRulesText();
-        Debug.Log(rulesText);
+        builder.PrintBytes();
+        List<byte> exportCurrent = builder.ExportEffect();
+
+        controller.AddEffect(exportCurrent.ToArray());
+        controller.OpenSummaryPanel();
     }
 
 }
