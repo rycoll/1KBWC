@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -98,16 +98,22 @@ public class QuestionPanelController : MonoBehaviour
         string selection = dropdown.options[dropdown.value].text;
 
         // handling for enums
-        if (current != null) {
-            string typeString = current.returnType.ToString();
+        if (currentCompilerNode != null) {
+            string typeString = currentFieldData.returnType.ToString();
             if (typeString.StartsWith("ENUM")) {
                 EnumRepesentation enumRepesentation = EnumRepesentation.EnumLookup(typeString);
-                builder.Add((byte) enumRepesentation.getInstruction());
-                builder.Add((byte) enumRepesentation.getIndex(selection));
+                Instruction enumInstruction = enumRepesentation.getInstruction();
+                EffectData effectDataForEnumInstruction = EffectData.GetEffectDataByInstruction(enumInstruction);
+                EffectBuilderItem compilerNode = new EffectBuilderItem(effectDataForEnumInstruction);
+                currentCompilerNode.Add(compilerNode);
+                byte enumValue = (byte) enumRepesentation.getIndex(selection);
+                compilerNode.Add(new EffectBuilderItem(new List<byte>{enumValue}));
                 Next();
                 return;
+            } else if (newNode != null) {
+                currentCompilerNode.Add(newNode);
             }
-        } 
+        }
 
         EffectData data = EffectData.GetEffectDataByName(selection);
         builder.Add((byte) data.instruction);

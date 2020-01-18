@@ -127,28 +127,28 @@ namespace Tests
 
             bytes.push(InstructionFactory.Make_MoveToDeck(
                 LiteralFactory.CreateCardLiteral(c1.GetID()),
-                DeckLocation.TOP
+                new List<byte>{(byte) DeckLocation.TOP}
             ));
             game.ExecuteNext();
             Assert.AreSame(game.Cards.Deck.GetCard(DeckLocation.TOP), c1);
 
             bytes.push(InstructionFactory.Make_MoveToDeck(
                 LiteralFactory.CreateCardLiteral(c2.GetID()),
-                DeckLocation.BOTTOM
+                new List<byte>{(byte) DeckLocation.BOTTOM}
             ));
             game.ExecuteNext();
             Assert.AreSame(game.Cards.Deck.GetCard(DeckLocation.BOTTOM), c2);
 
             bytes.push(InstructionFactory.Make_MoveToDeck(
                 LiteralFactory.CreateCardLiteral(c3.GetID()),
-                DeckLocation.TOP
+                new List<byte>{(byte) DeckLocation.TOP}
             ));
             game.ExecuteNext();
             Assert.AreSame(game.Cards.Deck.GetCard(DeckLocation.TOP), c3);
 
             bytes.push(InstructionFactory.Make_MoveToDeck(
                 LiteralFactory.CreateCardLiteral(c4.GetID()),
-                DeckLocation.SHUFFLE
+                new List<byte>{(byte) DeckLocation.SHUFFLE}
             ));
             game.ExecuteNext();
             Assert.IsNotNull(game.Cards.Deck.GetCard(c4.GetID()));

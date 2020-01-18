@@ -256,10 +256,10 @@ public class InstructionFactory {
         return bytes;
     }
 
-    public static List<byte> Make_MoveToDeck(List<byte> card, DeckLocation location) {
+    public static List<byte> Make_MoveToDeck(List<byte> card, List<byte> location) {
         List<byte> bytes = new List<byte>(
             new List<byte>(
-                LiteralFactory.CreateEnumLiteral((byte) location, Instruction.ENUM_DECK_POSITION)
+                LiteralFactory.CreateEnumLiteral(location[0], Instruction.ENUM_DECK_POSITION)
             )
         );
         bytes.AddRange(new List<byte>(card));
@@ -383,9 +383,18 @@ public class InstructionFactory {
                 case Instruction.SET_PLAYER_POINTS:
                     return Make_SetPlayerPoints(childInstructions[0], childInstructions[1]);
                 case Instruction.MOVE_TO_DECK:
-                    return Make_MoveToDeck(childInstructions[0], (DeckLocation) childInstructions[1][0]);
+                    return Make_MoveToDeck(childInstructions[0], childInstructions[1]);
                 case Instruction.MOVE_TO_DISCARD:
                     return Make_MoveToDiscard(childInstructions[0]);
+                // ENUMS
+                case Instruction.ENUM_CONDITION_OPERATOR:
+                    return LiteralFactory.CreateEnumLiteral(childInstructions[0][0], Instruction.ENUM_CONDITION_OPERATOR);
+                case Instruction.ENUM_CONDITION_TYPE:
+                    return LiteralFactory.CreateEnumLiteral(childInstructions[0][0], Instruction.ENUM_CONDITION_TYPE);
+                case Instruction.ENUM_DECK_POSITION:
+                    return LiteralFactory.CreateEnumLiteral(childInstructions[0][0], Instruction.ENUM_DECK_POSITION);
+                case Instruction.ENUM_LIST_TYPE:
+                    return LiteralFactory.CreateEnumLiteral(childInstructions[0][0], Instruction.ENUM_LIST_TYPE);
                 default:
                     Debug.LogError($"Unsupported instruction {node.effectData.instruction}");
                     break;
