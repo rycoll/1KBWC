@@ -78,6 +78,15 @@ public class InstructionFactory {
         return bytes;
     }   
 
+    public static List<byte> Make_BoolComparison(List<byte> operandA, List<byte> operandB, byte operatorEnum) {
+        List<byte> bytes = new List<byte>();
+        bytes.AddRange(new List<byte>(operandB));
+        bytes.AddRange(LiteralFactory.CreateEnumLiteral(operatorEnum, Instruction.ENUM_CONDITION_OPERATOR));
+        bytes.AddRange(new List<byte>(operandA));
+        bytes.Add((byte) Instruction.BOOL_COMPARISON);
+        return bytes;
+    }
+
     public static List<byte> Make_NumComparison(List<byte> operandA, List<byte> operandB, byte operatorEnum) {
         List<byte> bytes = new List<byte>();
         bytes.AddRange(new List<byte>(operandB));
@@ -362,6 +371,16 @@ public class InstructionFactory {
                     return Make_GetPlayer(childInstructions[0]);
                 case Instruction.GET_PLAYER_POINTS:
                     return Make_GetPlayerPoints(childInstructions[0]);
+                case Instruction.IS_TRUE:
+                    return Make_BoolComparison(
+                        childInstructions[0],
+                        LiteralFactory.CreateBoolLiteral(true),
+                        (byte) ConditionOperator.EQUAL);
+                case Instruction.IS_FALSE:
+                    return Make_BoolComparison(
+                        childInstructions[0],
+                        LiteralFactory.CreateBoolLiteral(false),
+                        (byte) ConditionOperator.EQUAL);
                 case Instruction.READ_COUNTER:
                     return Make_ReadCounter(childInstructions[0]);
                 case Instruction.NUM_COMPARISON:
