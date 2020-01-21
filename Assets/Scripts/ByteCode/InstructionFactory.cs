@@ -314,14 +314,14 @@ public class InstructionFactory {
                     for (int i = 1; i < childInstructions.Count; i++) {
                         conditionBytes.AddRange(childInstructions[i]);
                     }
-                    return Make_If(childInstructions[0], conditionBytes);
+                    return Make_If(conditionBytes, childInstructions[0]);
                 }
                 case Instruction.UNLESS: {
                     List<byte> conditionBytes = new List<byte>();
                     for (int i = 1; i < childInstructions.Count; i++) {
                         conditionBytes.AddRange(childInstructions[i]);
                     }
-                    return Make_Unless(childInstructions[0], conditionBytes);
+                    return Make_Unless(conditionBytes, childInstructions[0]);
                 }
                 case Instruction.LIST_LENGTH:
                     return Make_ListLength(childInstructions[0]);
