@@ -22,8 +22,8 @@ namespace Tests
         [Test]
         public void YouGainRandomPoints () {
             List<byte> bytes = InstructionFactory.Make_IncrementPlayerPoints(
-                InstructionFactory.Make_RandomNumber(LiteralFactory.CreateIntLiteral(10)),
-                new List<byte>{ (byte) Instruction.GET_ACTIVE_PLAYER }
+                new List<byte>{ (byte) Instruction.GET_ACTIVE_PLAYER },
+                InstructionFactory.Make_RandomNumber(LiteralFactory.CreateIntLiteral(10))
             );
             string text = getText(bytes);
             Assert.AreEqual("You gain points equal to a random number between 1 and 10.", text);
@@ -32,8 +32,8 @@ namespace Tests
         [Test]
         public void YouSet10Points () {
             List<byte> bytes = InstructionFactory.Make_SetPlayerPoints(
-                LiteralFactory.CreateIntLiteral(10),
-                new List<byte>{ (byte) Instruction.GET_ACTIVE_PLAYER }
+                new List<byte>{ (byte) Instruction.GET_ACTIVE_PLAYER },
+                LiteralFactory.CreateIntLiteral(10)
             );
             string text = getText(bytes);
             Assert.AreEqual("Set your score to 10.", text);
@@ -105,8 +105,8 @@ namespace Tests
         public void EachPlayerDrawsACard () {
             List<byte> items = new List<byte>{ (byte) Instruction.GET_ALL_PLAYERS };
             List<byte> code = InstructionFactory.Make_SetPlayerPoints(
-                LiteralFactory.CreateIntLiteral(50),
-                LiteralFactory.CreatePlaceholderLiteral(0)
+                LiteralFactory.CreatePlaceholderLiteral(0),
+                LiteralFactory.CreateIntLiteral(50)
             );
             List<byte> bytes = InstructionFactory.Make_ForLoop(items, code, 0);
 

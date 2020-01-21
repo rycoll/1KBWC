@@ -159,8 +159,8 @@ namespace Tests
             List<byte> items = new List<byte>{ (byte) Instruction.GET_ALL_PLAYERS };
 
             List<byte> code = InstructionFactory.Make_SetPlayerPoints(
-                LiteralFactory.CreateIntLiteral(50),
-                LiteralFactory.CreatePlaceholderLiteral(0)
+                LiteralFactory.CreatePlaceholderLiteral(0),
+                LiteralFactory.CreateIntLiteral(50)
             );
 
             bytes.push(InstructionFactory.Make_ForLoop(items, code, 0));

@@ -34,8 +34,8 @@ namespace Tests
             GamePlayer target = game.Players.GetPlayer(0);
             target.SetDrawPerTurn(0);
             bytes.push(InstructionFactory.Make_SetPlayerDraw(
-                LiteralFactory.CreateIntLiteral(5),
-                LiteralFactory.CreatePlayerLiteral(target)
+                LiteralFactory.CreatePlayerLiteral(target),
+                LiteralFactory.CreateIntLiteral(5)
             ));
             game.ExecuteNext();
             Assert.AreEqual(target.DrawPerTurn, 5);
@@ -47,8 +47,8 @@ namespace Tests
             GamePlayer target = game.Players.GetPlayer(0);
             target.Hand.SetMax(0);
             bytes.push(InstructionFactory.Make_SetPlayerMaxHand(
-                LiteralFactory.CreateIntLiteral(5),
-                LiteralFactory.CreatePlayerLiteral(target)
+                LiteralFactory.CreatePlayerLiteral(target),
+                LiteralFactory.CreateIntLiteral(5)
             ));
             game.ExecuteNext();
             Assert.AreEqual(target.Hand.MaxHandSize, 5);
@@ -60,8 +60,8 @@ namespace Tests
             GamePlayer target = game.Players.GetPlayer(0);
             target.Points = 0;
             bytes.push(InstructionFactory.Make_SetPlayerPoints(
-                LiteralFactory.CreateIntLiteral(100),
-                LiteralFactory.CreatePlayerLiteral(target)
+                LiteralFactory.CreatePlayerLiteral(target),
+                LiteralFactory.CreateIntLiteral(100)
             ));
             game.ExecuteNext();
             Assert.AreEqual(target.Points, 100);
@@ -73,8 +73,8 @@ namespace Tests
             GamePlayer target = game.Players.GetPlayer(0);
             target.Points = 5;
             bytes.push(InstructionFactory.Make_IncrementPlayerPoints(
-                LiteralFactory.CreateIntLiteral(20),
-                LiteralFactory.CreatePlayerLiteral(target)
+                LiteralFactory.CreatePlayerLiteral(target),
+                LiteralFactory.CreateIntLiteral(20)
             ));
             game.ExecuteNext();
             Assert.AreEqual(target.Points, 25);

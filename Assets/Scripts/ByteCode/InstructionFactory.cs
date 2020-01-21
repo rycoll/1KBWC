@@ -228,28 +228,28 @@ public class InstructionFactory {
         return bytes;
     }
 
-    public static List<byte> Make_SetPlayerDraw (List<byte> num, List<byte> player) {
+    public static List<byte> Make_SetPlayerDraw (List<byte> player, List<byte> num) {
         List<byte> bytes = new List<byte>(new List<byte>(num));
         bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.SET_PLAYER_DRAW);
         return bytes;
     }
 
-    public static List<byte> Make_SetPlayerMaxHand (List<byte> num, List<byte> player) {
+    public static List<byte> Make_SetPlayerMaxHand (List<byte> player, List<byte> num) {
         List<byte> bytes = new List<byte>(new List<byte>(num));
         bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.SET_PLAYER_MAX_HAND);
         return bytes;
     }
 
-    public static List<byte> Make_SetPlayerPoints (List<byte> num, List<byte> player) {
+    public static List<byte> Make_SetPlayerPoints (List<byte> player, List<byte> num) {
         List<byte> bytes = new List<byte>(new List<byte>(num));
         bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.SET_PLAYER_POINTS);
         return bytes;
     }
 
-    public static List<byte> Make_IncrementPlayerPoints(List<byte> num, List<byte> player) {
+    public static List<byte> Make_IncrementPlayerPoints(List<byte> player, List<byte> num) {
         List<byte> bytes = new List<byte>(new List<byte>(num));
         bytes.AddRange(new List<byte>(player));
         bytes.Add((byte) Instruction.INCREMENT_PLAYER_POINTS);
