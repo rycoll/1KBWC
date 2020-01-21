@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -79,6 +79,7 @@ public class QuestionPanelController : MonoBehaviour
 
     public void Input (bool active, EnterValueType type = EnterValueType.NONE) {
         textInput.gameObject.SetActive(active);
+        textInput.text = "";
         submitInputButton.gameObject.SetActive(active);
 
         switch(type) {
