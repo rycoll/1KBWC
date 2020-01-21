@@ -182,10 +182,6 @@
             "type": "ROOT_EFFECT",
             "desc": "What effect should be looped?",
             "attributes": []
-        }, {
-            "type": "ENDLOOP",
-            "desc": "Signals end of loop",
-            "attributes": ["auxiliary"]
         }],
         "canBeRoot": true
     },                 
@@ -203,10 +199,6 @@
             "type": "ROOT_EFFECT",
             "desc": "What should happen for each item in the list?",
             "attributes": []
-        }, {
-            "type": "ENDLOOP",
-            "desc": "Signals end of loop",
-            "attributes": ["auxiliary"]
         }],
         "canBeRoot": true
     },             
