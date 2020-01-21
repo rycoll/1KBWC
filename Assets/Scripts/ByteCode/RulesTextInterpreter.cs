@@ -134,7 +134,11 @@ public class RulesTextInterpreter : ByteManager
 
     public string GetNext() {
         Instruction instruction = this.next();
-        EffectData effectData = EffectData.Effects.First(effect => effect.instruction == instruction);
+        EffectData effectData = EffectData.Effects.FirstOrDefault(effect => effect.instruction == instruction);
+        if (effectData == null) {
+            Debug.LogWarning("Null effect data for " + instruction.ToString());
+            return GetNext();
+        }
         string[] args = new string[effectData.fields.Length];
         switch(instruction) {
             case Instruction.INT: {
