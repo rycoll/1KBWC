@@ -167,12 +167,12 @@ public class RulesTextBuilder {
                 case Instruction.TARGET_CARD: return "a card of your choice";
                 case Instruction.TARGET_PLAYER: return "a player of your choice";
                 case Instruction.PLAYER_IS_WINNING: {
-                    string player = args[1];
+                    string player = args[0];
                     string verb = (player.ToLower() == "you") ? "have" : "has";
                     return $"{player} {verb} the highest score";
                 }
                 case Instruction.PLAYER_IS_LOSING: {
-                    string player = args[1];
+                    string player = args[0];
                     string verb = (player.ToLower() == "you") ? "have" : "has";
                     return $"{player} {verb} the lowest score";
                 }
