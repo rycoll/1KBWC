@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -74,7 +74,13 @@ public class QuestionPanelController : MonoBehaviour
         // need to check all ancestors for potential placeholders
 
         dropdown.ClearOptions();
-        dropdown.AddOptions(options);
+
+        if (options.Count > 0) {
+            dropdown.AddOptions(options);
+        } else {
+            dropdown.gameObject.SetActive(false);
+            submitSelectionButton.gameObject.SetActive(false);
+        }
     }
 
     public void Input (bool active, EnterValueType type = EnterValueType.NONE) {
@@ -198,6 +204,7 @@ public class QuestionPanelController : MonoBehaviour
     public void Last () {
         builder.PrintBytes();
         List<byte> exportCurrent = builder.ExportEffect();
+        PrintStack.PrintByteString(exportCurrent);
 
         controller.AddEffect(exportCurrent.ToArray());
         controller.OpenSummaryPanel();
