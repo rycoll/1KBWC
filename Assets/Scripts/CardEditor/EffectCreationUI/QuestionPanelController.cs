@@ -132,6 +132,10 @@ public class QuestionPanelController : MonoBehaviour
     public void SubmitTextInput () {
         string selection = InputFieldText.text;
 
+        if (String.IsNullOrEmpty(selection)) {
+            return;
+        }
+
         switch(currentFieldData.enterValue) {
             case EnterValueType.NUMBER: {
                 if (Int32.TryParse(selection, out int numValue)) {
