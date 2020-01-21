@@ -139,10 +139,6 @@
                 "type": "ROOT_EFFECT",
                 "desc": "What should happen when the condition is met?",
                 "attributes": []
-            }, {
-                "type": "ENDIF",
-                "desc": "Signals end of IF block",
-                "attributes": ["auxiliary"]
             }],
         "canBeRoot": true
     },                   
@@ -160,10 +156,6 @@
                 "type": "ROOT_EFFECT",
                 "desc": "What should happen, unless the condition is met?",
                 "attributes": []
-            }, {
-                "type": "ENDIF",
-                "desc": "Signals end of IF block",
-                "attributes": ["auxiliary"]
             }],
         "canBeRoot": true
     },                   
@@ -392,6 +384,26 @@
         "fields": [{
             "type": "BOOL",
             "desc": "Thing to check is false",
+            "attributes": []
+        }]
+    }, 
+    {
+        "name": "Compare Bools",
+        "type": "primitive",
+        "instruction": "BOOL_COMPARISON",
+        "message": "Compare two bools",
+        "returnType": "CONDITION",
+        "fields": [{
+            "type": "BOOL",
+            "desc": "First number to compare",
+            "attributes": []
+        }, {
+            "type": "ENUM_CONDITION_OPERATOR",
+            "desc": "Comparison operator",
+            "attributes": []
+        }, {
+            "type": "BOOL",
+            "desc": "Second number to compare",
             "attributes": []
         }]
     }, 
