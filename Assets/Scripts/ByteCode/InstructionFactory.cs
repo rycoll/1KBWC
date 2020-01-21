@@ -338,14 +338,14 @@ public class InstructionFactory {
                     for (int i = 1; i < childInstructions.Count; i++) {
                         loopBytes.AddRange(childInstructions[i]);
                     }
-                    return Make_Unless(childInstructions[0], loopBytes);
+                    return Make_Loop(childInstructions[0], loopBytes);
                 }
                 case Instruction.FOR_LOOP: {
                     List<byte> loopBytes = new List<byte>();
                     for (int i = 1; i < childInstructions.Count; i++) {
                         loopBytes.AddRange(childInstructions[i]);
                     }
-                    return Make_Unless(childInstructions[0], loopBytes);
+                    return Make_ForLoop(childInstructions[0], loopBytes);
                 }
                 case Instruction.ADD_TO_REGISTER: {
                     List<byte> bytesForRegister = new List<byte>();
