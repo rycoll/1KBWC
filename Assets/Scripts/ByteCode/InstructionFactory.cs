@@ -384,7 +384,7 @@ public class InstructionFactory {
                 case Instruction.READ_COUNTER:
                     return Make_ReadCounter(childInstructions[0]);
                 case Instruction.NUM_COMPARISON:
-                    return Make_NumComparison(childInstructions[0], childInstructions[1], childInstructions[2][0]);
+                    return Make_NumComparison(childInstructions[0], childInstructions[2], childInstructions[1][0]);
                 case Instruction.TARGET_PLAYER:
                     return Make_SingleByteInstruction(Instruction.TARGET_PLAYER);
                 case Instruction.TARGET_CARD:
