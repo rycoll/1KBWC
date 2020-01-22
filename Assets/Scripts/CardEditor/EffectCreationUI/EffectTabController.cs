@@ -8,7 +8,7 @@ public class EffectTabController : MonoBehaviour
     public GameObject questionPanel;
     public GameObject summaryPanel;
 
-    private List<byte[]> builtEffects = new List<byte[]>();
+    private List<List<byte>> builtEffects = new List<List<byte>>();
 
     public void OpenIntroPanel () {
         CloseAllPanels();
@@ -39,7 +39,7 @@ public class EffectTabController : MonoBehaviour
         question.InitialState();
     }
 
-    public void AddEffect (byte[] effect) {
+    public void AddEffect (List<byte> effect) {
         builtEffects.Insert(0, effect);
     }
 
@@ -51,8 +51,8 @@ public class EffectTabController : MonoBehaviour
 
     public List<byte> GetConcatenatedEffects () {
         List<byte> bytes = new List<byte>();
-        foreach (byte[] arr in builtEffects) {
-            bytes.AddRange(new List<byte>(arr));
+        foreach (List<byte> list in builtEffects) {
+            bytes.AddRange(new List<byte>(list.ToArray()));
             bytes.Add((byte) Instruction.EFFECT_DELIMITER);
         }
         return bytes;

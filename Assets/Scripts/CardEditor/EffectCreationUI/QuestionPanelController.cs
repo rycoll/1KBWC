@@ -206,7 +206,7 @@ public class QuestionPanelController : MonoBehaviour
         List<byte> exportCurrent = builder.ExportEffect();
         PrintStack.PrintByteString(exportCurrent);
 
-        controller.AddEffect(exportCurrent.ToArray());
+        controller.AddEffect(exportCurrent);
         controller.OpenSummaryPanel();
     }
 
