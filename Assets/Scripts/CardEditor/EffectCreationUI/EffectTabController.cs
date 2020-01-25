@@ -56,7 +56,7 @@ public class EffectTabController : MonoBehaviour
     public void DeleteEffect (int index) {
         builtEffects.RemoveAt(index);
         SummaryPanelController summary = summaryPanel.GetComponent<SummaryPanelController>();
-        summary.DisplayEffectSummary(GetConcatenatedEffects());
+        summary.DisplayEffectSummary(builtEffects);
     }
 
     public List<byte> GetConcatenatedEffects () {
@@ -66,6 +66,10 @@ public class EffectTabController : MonoBehaviour
             bytes.Add((byte) Instruction.EFFECT_DELIMITER);
         }
         return bytes;
+    }
+
+    public int GetNumberOfEffects () {
+        return builtEffects.Count;
     }
 
 }
