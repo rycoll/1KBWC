@@ -4,9 +4,14 @@ using System.Collections.Generic;
 public class EffectTabController : MonoBehaviour
 {
 
-    public GameObject introPanel;
-    public GameObject questionPanel;
-    public GameObject summaryPanel;
+    [SerializeField]
+    private GameObject introPanel;
+    [SerializeField]
+    private GameObject questionPanel;
+    [SerializeField]
+    private GameObject summaryPanel;
+    [SerializeField]
+    private EffectCreationController parentController;
 
     private List<List<byte>> builtEffects = new List<List<byte>>();
 
@@ -20,11 +25,16 @@ public class EffectTabController : MonoBehaviour
         questionPanel.SetActive(true);
     }
 
+    public void ReportError(string errorMessage) {
+        OpenSummaryPanel();
+        parentController.ReportError(errorMessage);
+    }
+
     public void OpenSummaryPanel () {
         CloseAllPanels();
         summaryPanel.SetActive(true);
         SummaryPanelController summary = summaryPanel.GetComponent<SummaryPanelController>();
-        summary.DisplayEffectSummary(GetConcatenatedEffects());
+        summary.DisplayEffectSummary(builtEffects);
     }
 
     public void CloseAllPanels () {

@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class EffectCreationController : MonoBehaviour
 {
-    public GameObject returnModal;
+    [SerializeField]
+    private GameObject returnModal;
+    [SerializeField]
+    private ErrorModal errorModal;
 
     public void PromptReturnToMenu () {
         returnModal.SetActive(true);
+    }
+
+    public void ReportError(string errorMessage) {
+        errorModal.ShowError(errorMessage);
     }
 
     public void CloseReturnPrompt () {

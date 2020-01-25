@@ -140,6 +140,9 @@ public class RulesTextInterpreter : ByteManager
             return GetNext();
         }
         string[] args = new string[effectData.fields.Length];
+
+        try {
+
         switch(instruction) {
             case Instruction.INT: {
                 List<byte> intRepresentation = pop(4);
@@ -271,6 +274,11 @@ public class RulesTextInterpreter : ByteManager
             // no args
             default:
                 break;
+        }
+
+        } catch(UnexpectedByteException e) {
+            Debug.LogError($"Unexpected byte parsing {instruction}! {e}");
+            throw e;
         }
 
         return RulesTextBuilder.GetInstructionText(effectData, args);

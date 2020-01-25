@@ -204,7 +204,14 @@ public class QuestionPanelController : MonoBehaviour
     public void Last () {
         builder.PrintBytes();
         List<byte> exportCurrent = builder.ExportEffect();
-        PrintStack.PrintByteString(exportCurrent);
+
+        try {
+            RulesTextInterpreter RTI = new RulesTextInterpreter(exportCurrent);
+            RTI.GetFullRulesText();
+        } catch (UnexpectedByteException e) {
+            controller.ReportError("There was an error building this effect. Please try again, and/or tell a dev.");
+            return;
+        }
 
         controller.AddEffect(exportCurrent);
         controller.OpenSummaryPanel();
