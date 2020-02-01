@@ -16,12 +16,10 @@ public class EffectTabController : MonoBehaviour
     private List<List<byte>> builtEffects = new List<List<byte>>();
 
     public void OpenIntroPanel () {
-        CloseAllPanels();
         introPanel.SetActive(true);
     }
 
     public void OpenQuestionPanel () {
-        CloseAllPanels();
         questionPanel.SetActive(true);
     }
 
@@ -31,16 +29,9 @@ public class EffectTabController : MonoBehaviour
     }
 
     public void OpenSummaryPanel () {
-        CloseAllPanels();
         summaryPanel.SetActive(true);
         SummaryPanelController summary = summaryPanel.GetComponent<SummaryPanelController>();
         summary.DisplayEffectSummary(builtEffects);
-    }
-
-    public void CloseAllPanels () {
-        introPanel.SetActive(false);
-        questionPanel.SetActive(false);
-        summaryPanel.SetActive(false);
     }
 
     public void Begin () {
