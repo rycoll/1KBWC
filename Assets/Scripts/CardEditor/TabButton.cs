@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TabTag : MonoBehaviour
+public class TabButton : MonoBehaviour
 {
     public GameObject tab;
     public static Color activeColour;

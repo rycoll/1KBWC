@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class TabInterface : MonoBehaviour
 {
-    public GameObject tabTagContainer;
+    public GameObject tabButtonContainer;
     public Color inactiveColour;
     public Color activeColour;
 
     private void Start () {
         GetComponent<Image>().color = activeColour;
-        TabTag.activeColour = activeColour;
+        TabButton.activeColour = activeColour;
         SetTabColoursInactive();
     }
 
@@ -22,7 +22,7 @@ public class TabInterface : MonoBehaviour
     }
 
     public void SetTabColoursInactive () {
-        foreach (Transform child in tabTagContainer.transform) {
+        foreach (Transform child in tabButtonContainer.transform) {
             child.gameObject.GetComponent<Image>().color = inactiveColour;
         }
     }
