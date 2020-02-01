@@ -16,7 +16,10 @@ public class MutuallyExclusiveGameObjects : MonoBehaviour
     private void Start () {
         callback = Callback;
         foreach(GameObject gameObject in gameObjects) {
-            OnEnableListener listener = gameObject.AddComponent(typeof(OnEnableListener)) as OnEnableListener;
+            OnEnableListener listener = gameObject.GetComponent<OnEnableListener>();
+            if (listener == null) {
+                listener = gameObject.AddComponent(typeof(OnEnableListener)) as OnEnableListener;
+            }
             listener.SetCallback(callback);
         }
     }
