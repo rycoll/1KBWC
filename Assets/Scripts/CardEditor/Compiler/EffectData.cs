@@ -5,6 +5,9 @@ using UnityEngine;
 
 [System.Serializable]
 public class EffectData {
+
+    public static string CompilerVersion = "0.1.0";
+    
     public Instruction instruction { get; private set; }
     public string name { get; private set; }
     public string type { get; private set; }

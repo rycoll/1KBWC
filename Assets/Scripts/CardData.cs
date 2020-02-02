@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class CardData {
 
+    public string compilerVersion { get; set; }
+
     public string Name { get; set; }
     private string rulesText;
     private List<string> Tags = new List<string>();

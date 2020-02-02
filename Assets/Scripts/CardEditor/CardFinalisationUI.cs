@@ -80,6 +80,7 @@ public class CardFinalisationUI : MonoBehaviour
         foreach(string tag in tagTab.GetTags()) {
             card.AddTag(tag);
         }
+        card.compilerVersion = EffectData.CompilerVersion;
 
         Debug.Log($"Saving a new card! {cardName}, {tagTab.GetTags().Count} tags, {effectTab.GetNumberOfEffects()} effects. [{card.GetID()}]");
 
