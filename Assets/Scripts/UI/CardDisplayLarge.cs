@@ -26,7 +26,7 @@ public class CardDisplayLarge : MonoBehaviour, IPointerExitHandler
     private void RefreshDisplay()
     {
         titleText.text = card.GetName();
-        cardImage.sprite = (Sprite) card.cardArt;
+        cardImage.sprite = card.GetSprite();
         rulesText.text = card.GetRulesText();
         rulesScrollbar.value = 1f;
     }
