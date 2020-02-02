@@ -34,9 +34,9 @@ public class LiteralFactory {
         return bytes;
     }
 
-    public static List<byte> CreateCardLiteral(int n) {
+    public static List<byte> CreateCardLiteral(string id) {
         List<byte> bytes = new List<byte>();
-        bytes.AddRange(new List<byte>(CreateIntLiteral(n)));
+        bytes.AddRange(new List<byte>(CreateStringLiteral(id)));
         bytes.Add((byte) Instruction.CARD);
         return bytes;
     }

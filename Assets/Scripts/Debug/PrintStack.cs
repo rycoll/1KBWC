@@ -63,7 +63,7 @@ public class PrintStack : ByteManager {
                     return $"{instruction.ToString()}({player})";
                 }
                 case Instruction.CARD: {
-                    int card = ReadCardLiteral(readAccessorFirst);
+                    string card = ReadCardLiteral(readAccessorFirst);
                     return $"{instruction.ToString()}({card})";
                 }
                 case Instruction.LIST: {

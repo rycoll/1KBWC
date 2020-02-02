@@ -62,16 +62,16 @@ namespace Tests
         [Test]
         public void Card()
         {
-            bytes.push(LiteralFactory.CreateCardLiteral(5));
+            bytes.push(LiteralFactory.CreateCardLiteral("my-card-guid"));
             Assert.AreEqual(
                 bytes.ReportStackContent(),
-                "CARD(5) "
+                "CARD(my-card-guid) "
             );
         }
 
         private class TestCard : Card {
             public TestCard () {
-                SetID();
+                GenerateID();
             }
         }
 

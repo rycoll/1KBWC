@@ -43,7 +43,7 @@ public class PlayerManager {
 
     #endregion
 
-    public Card FindCardById (int id) {
+    public Card FindCardById (string id) {
         foreach (GamePlayer player in players) {
             Card[] hand = player.Hand.GetCards().Where(card => card.GetID() == id).ToArray();
             if (hand.Length > 0) {

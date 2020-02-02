@@ -11,7 +11,7 @@ public class CardManager {
         Table = new Table();
     }
 
-    public Card FindCardById (int id) {
+    public Card FindCardById (string id) {
         Card[] cards = Table.GetCards().Where(card => card.GetID() == id).ToArray();
         if (cards.Length > 0) {
             return cards[0];

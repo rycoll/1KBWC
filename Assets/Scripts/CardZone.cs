@@ -18,7 +18,7 @@ public class CardZone {
         return cards.ToArray();
     }
 
-    public virtual Card GetCard (int id) {
+    public virtual Card GetCard (string id) {
         foreach (Card card in cards) {
             if (card.GetID() == id) {
                 return card;
@@ -33,7 +33,7 @@ public class CardZone {
         return true;
     }
 
-    public virtual bool RemoveCard (int id) {
+    public virtual bool RemoveCard (string id) {
         Card card = GetCard(id);
         if (card != null) {
             return cards.Remove(card);
@@ -46,7 +46,7 @@ public class CardZone {
         return cards.Count;
     }
 
-    public bool MoveCard (CardZone dest, int id) {
+    public bool MoveCard (CardZone dest, string id) {
         Card card = GetCard(id);
         if (card == null || !RemoveCard(id)) {
             return false;

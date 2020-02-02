@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,21 +17,14 @@ public abstract class Card {
     public CardZone Zone { get; set; }
 
     public Card () {
-        SetID();
-    }
-    
-    private static int idCount = 0;
-    public static int NextId {
-        get {
-            return idCount++;
-        }
+        GenerateID();
     }
 
-    private int id;
-    public void SetID () {
-        id = NextId;
+    private string id;
+    public void GenerateID () {
+        id = System.Guid.NewGuid().ToString();
     }
-    public int GetID () {
+    public string GetID () {
         return id;
     }
 

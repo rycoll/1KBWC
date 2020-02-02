@@ -42,7 +42,7 @@ public class GameMaster {
 
     #region Card stuff
 
-    public Card FindCardById (int id) {
+    public Card FindCardById (string id) {
         Card card = Cards.FindCardById(id);
         if (card == null) {
             card = Players.FindCardById(id);
@@ -82,7 +82,7 @@ public class GameMaster {
     }
 
     public Card ReadCardFromStack () {
-        int id = Bytes.ReadCardLiteral(queryCheck);
+        string id = Bytes.ReadCardLiteral(queryCheck);
         return FindCardById(id);
     }
 
@@ -96,10 +96,10 @@ public class GameMaster {
     }
 
     public List<Card> ReadCardListFromStack () {
-        List<int> cardIDList = Bytes.ReadCardList(queryCheck);
+        List<string> cardIDList = Bytes.ReadCardList(queryCheck);
         List<Card> cardList = new List<Card>();
-        foreach (int num in cardIDList) {
-            cardList.Add(FindCardById(num));
+        foreach (string id in cardIDList) {
+            cardList.Add(FindCardById(id));
         }
         return cardList;
     }

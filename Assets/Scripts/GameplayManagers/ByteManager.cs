@@ -219,13 +219,13 @@ public class ByteManager {
         }
     }
 
-    public int ReadCardLiteral(ReadCallback cb) {
+    public string ReadCardLiteral(ReadCallback cb) {
         if (NextInstructionIsAccessor()) {
             cb();
         }
         try {
             CheckType(Instruction.CARD);
-            return ReadIntLiteral(cb);
+            return ReadStringLiteral(cb);
         } catch (UnexpectedByteException e) {
             throw e;
         }
@@ -319,7 +319,7 @@ public class ByteManager {
             throw e;
         }
     }
-    public List<int> ReadCardList (ReadCallback cb) {
+    public List<string> ReadCardList (ReadCallback cb) {
         if (NextInstructionIsAccessor()) {
             cb();
         }
@@ -330,7 +330,7 @@ public class ByteManager {
                 throw new UnexpectedByteException("Expected card list, got list of type " + listType);
             }
             int num = ReadIntLiteral(cb);
-            List<int> cards = new List<int>();
+            List<string> cards = new List<string>();
             for (int i = 0; i < num; i++) {
                 CheckType(Instruction.LIST_ITEM);
                 // discard size
