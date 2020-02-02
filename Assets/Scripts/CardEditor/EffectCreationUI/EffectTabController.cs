@@ -11,7 +11,7 @@ public class EffectTabController : MonoBehaviour
     [SerializeField]
     private GameObject summaryPanel = null;
     [SerializeField]
-    private EffectCreationController parentController = null;
+    private CardCreationController parentController = null;
 
     private List<List<byte>> builtEffects = new List<List<byte>>();
 

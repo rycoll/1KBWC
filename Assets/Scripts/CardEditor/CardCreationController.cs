@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectCreationController : MonoBehaviour
+public class CardCreationController : MonoBehaviour
 {
     [SerializeField]
     private GameObject returnModal = null;
