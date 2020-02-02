@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour {
     public void PlayCard(GamePlayer player, Card card) {
         player.Hand.RemoveCard(card.GetID());
         // clone card effects instead??
-        GM.ExecuteEffects(card.Effects);
+        GM.ExecuteEffects(card.GetEffectBytes());
         GM.Cards.Discard.AddCard(card, DeckLocation.TOP);
         // rack up animations etc asynchronously, play them, THEN continue on
     }

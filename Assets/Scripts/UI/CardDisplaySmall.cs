@@ -26,7 +26,7 @@ public class CardDisplaySmall : MonoBehaviour, IPointerClickHandler {
 
     private void RefreshDisplay ()
     {
-        titleText.text = card.cardName;
+        titleText.text = card.GetName();
         cardImage.sprite = (Sprite) card.cardArt;
     }
 

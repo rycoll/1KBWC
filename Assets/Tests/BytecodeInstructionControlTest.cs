@@ -181,7 +181,7 @@ namespace Tests
 
         private class TestCard : Card {
             public TestCard () {
-                GenerateID();
+                Info = new CardData();
             }
         }
 

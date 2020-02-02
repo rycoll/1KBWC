@@ -130,8 +130,8 @@ public class UIController : MonoBehaviour {
             
             ChoiceItemDisplay displayInfo = display.GetComponent<ChoiceItemDisplay>();
             displayInfo.SetText(
-                card.cardName,
-                card.GetRuleText()
+                card.GetName(),
+                card.GetRulesText()
             );
             Button button = display.GetComponent<Button>();
             button.onClick.AddListener(() => {
