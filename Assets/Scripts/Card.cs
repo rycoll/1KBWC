@@ -6,9 +6,7 @@ public class Card {
 
     protected CardData Info;
 
-    // cardArt ought to be a Sprite, but that's not serializable :/
-    public object cardArt;
-
+    private Sprite cardArt = null;
 
     private CardZone zone;
     public CardZone Zone { get; set; }
@@ -39,5 +37,16 @@ public class Card {
 
     public bool HasTag (string tag) {
         return Info.HasTag(tag);
+    }
+
+    public Sprite GetSprite() {
+        if (cardArt == null) {
+            cardArt = Sprite.Create(
+                Info.ArtTexture,
+                new Rect(0, 0, 100, 100),
+                new Vector2(0.5f, 0.5f)
+            );
+        }
+        return cardArt;
     }
 }

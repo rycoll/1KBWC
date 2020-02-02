@@ -5,10 +5,12 @@ using UnityEngine;
 [System.Serializable]
 public class CardData {
 
-    public string Name {get; set; }
+    public string Name { get; set; }
     private string rulesText;
-    public List<string> Tags = new List<string>();
-    public List<byte> Effects { get; set; }
+    private List<string> Tags = new List<string>();
+    private List<byte> Effects = new List<byte>();
+
+    public Texture2D ArtTexture { get; set; }
 
     public CardData () {
         GenerateID();
@@ -43,9 +45,6 @@ public class CardData {
         return Tags.Contains(tag);
     }
 
-    public void AddEffect(byte[] effect) {
-        AddEffect(new List<byte>(effect));
-    }
 	public void AddEffect (List<byte> effect) {
         if (Effects == null) {
             Effects = new List<byte>();
