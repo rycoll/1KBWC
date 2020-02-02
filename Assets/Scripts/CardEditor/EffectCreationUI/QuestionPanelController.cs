@@ -208,7 +208,7 @@ public class QuestionPanelController : MonoBehaviour
         try {
             RulesTextInterpreter RTI = new RulesTextInterpreter(exportCurrent);
             RTI.GetFullRulesText();
-        } catch (UnexpectedByteException e) {
+        } catch (UnexpectedByteException) {
             controller.ReportError("There was an error building this effect. Please try again, and/or tell a dev.");
             return;
         }

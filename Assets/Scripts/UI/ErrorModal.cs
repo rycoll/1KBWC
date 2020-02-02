@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ErrorModal : MonoBehaviour
 {
     [SerializeField]
-    private Text errorText;
+    private Text errorText = null;
 
     public void ShowError(string errorMessage) {
         this.gameObject.SetActive(true);

@@ -5,9 +5,9 @@ using UnityEngine;
 public class EffectCreationController : MonoBehaviour
 {
     [SerializeField]
-    private GameObject returnModal;
+    private GameObject returnModal = null;
     [SerializeField]
-    private ErrorModal errorModal;
+    private ErrorModal errorModal = null;
 
     public void PromptReturnToMenu () {
         returnModal.SetActive(true);

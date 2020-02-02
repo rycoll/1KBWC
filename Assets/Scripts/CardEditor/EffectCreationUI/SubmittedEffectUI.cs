@@ -5,9 +5,9 @@ using System.Collections.Generic;
 public class SubmittedEffectUI : MonoBehaviour
 {
     [SerializeField]
-    private Text rulesText;
+    private Text rulesText = null;
     [SerializeField]
-    private SummaryPanelController controller;
+    private SummaryPanelController controller = null;
 
     public void SetRulesText(string text) {
         rulesText.text = text;

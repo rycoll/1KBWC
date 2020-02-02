@@ -6,7 +6,7 @@ using UnityEngine;
 public class MutuallyExclusiveGameObjects : MonoBehaviour
 {
     [SerializeField]
-    private List<GameObject> gameObjects;
+    private List<GameObject> gameObjects = null;
 
     private OnEnableCallback callback;
     public void Callback (GameObject gameObjectToEnable) {

@@ -5,13 +5,13 @@ public class EffectTabController : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject introPanel;
+    private GameObject introPanel = null;
     [SerializeField]
-    private GameObject questionPanel;
+    private GameObject questionPanel = null;
     [SerializeField]
-    private GameObject summaryPanel;
+    private GameObject summaryPanel = null;
     [SerializeField]
-    private EffectCreationController parentController;
+    private EffectCreationController parentController = null;
 
     private List<List<byte>> builtEffects = new List<List<byte>>();
 

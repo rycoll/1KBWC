@@ -5,9 +5,9 @@ using System.Collections.Generic;
 public class SummaryPanelController : MonoBehaviour
 {
     [SerializeField]
-    private EffectTabController controller;
+    private EffectTabController controller = null;
     [SerializeField]
-    private List<SubmittedEffectUI> submittedEffectUIs;
+    private List<SubmittedEffectUI> submittedEffectUIs = null;
 
     private const int MAX_EFFECTS_PER_CARD = 5;
 
