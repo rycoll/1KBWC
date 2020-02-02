@@ -12,12 +12,10 @@ public class TagEditor : MonoBehaviour
     public InputField newTagField;
     public Text newTagErrorText;
 
-    private List<string> tags;
-    private List<string> unusedTags;
+    private List<string> tags = new List<string>();
+    private List<string> unusedTags= new List<string>();
 
     public void Start () {
-        tags = new List<string>();
-        unusedTags = new List<string>();
         AddUnusedTag("Cheese");
         AddUnusedTag("Avocado");
         AddUnusedTag("Stench");

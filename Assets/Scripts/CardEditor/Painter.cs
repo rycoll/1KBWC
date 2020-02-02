@@ -17,14 +17,25 @@ public class Painter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
     int width = 300;
     int height = 300;
 
+    public Texture2D ExportTexture () {
+        return texBuffer;
+    }
+
     private int prevX, prevY = -1;
 
     private void Start () {
         rect = GetComponent<RectTransform>();
         image = GetComponent<Image>();
-        
-        texBuffer= new Texture2D(width, height);
+        texBuffer = new Texture2D(width, height);
+
+        // set all pixels to white to start
+        Color[] colours = texBuffer.GetPixels();
+        for (int i = 0; i < colours.Length; i++) {
+            colours[i] = Color.white;
+        }
+        texBuffer.SetPixels(colours);
         image.material.mainTexture = texBuffer;
+        texBuffer.Apply();
 
         brushSize = 1;
         fillMode = false;
