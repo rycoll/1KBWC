@@ -7,15 +7,15 @@ public class BinaryCardLoader {
     const string FOLDER_NAME = "SavedCards";
     const string FILE_EXTENSION = ".bwc";
 
-    public void SaveCards (List<Card> cards) {
+    public void SaveCards (List<CardData> cards) {
         //string folderPath = Path.Combine(Application.persistentDataPath, FOLDER_NAME);
         string folderPath = FOLDER_NAME;
         if (!Directory.Exists(folderPath)) {
             Directory.CreateDirectory(folderPath);
         }
         
-        foreach (Card card in cards) {
-            string dataPath = Path.Combine(folderPath, card.cardName + FILE_EXTENSION);
+        foreach (CardData card in cards) {
+            string dataPath = Path.Combine(folderPath, card.Name + FILE_EXTENSION);
             BinaryFormatter bf = new BinaryFormatter();
             using (FileStream fileStream = File.Open(dataPath, FileMode.OpenOrCreate)) {
                 bf.Serialize(fileStream, card);
