@@ -11,4 +11,8 @@ public class TitleScreenUIController : MonoBehaviour
     public void OpenCardViewer() {
         SceneManager.LoadScene("card-viewer");
     }
+
+    public void QuitGame() {
+        Application.Quit();
+    }
 }
