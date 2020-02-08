@@ -43,7 +43,7 @@ public class Card {
         if (cardArt == null) {
             cardArt = Sprite.Create(
                 Info.ArtTexture,
-                new Rect(0, 0, 100, 100),
+                new Rect(0, 0, 300, 300),
                 new Vector2(0.5f, 0.5f)
             );
         }

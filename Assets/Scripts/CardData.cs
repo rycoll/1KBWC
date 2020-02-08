@@ -12,7 +12,7 @@ public class CardData {
     private List<string> Tags = new List<string>();
     private List<byte> Effects = new List<byte>();
 
-    public Texture2D ArtTexture { get; set; }
+    [System.NonSerialized] public Texture2D ArtTexture;
 
     public CardData () {
         GenerateID();

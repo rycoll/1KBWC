@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1266920012355098, guid: caf2b0cb7b4658542a2bea12e16f7a4b, type: 3}
       propertyPath: m_Name
-      value: Card - Hand
+      value: Card - Small
       objectReference: {fileID: 0}
     - target: {fileID: 224168965932306676, guid: caf2b0cb7b4658542a2bea12e16f7a4b,
         type: 3}
@@ -115,6 +115,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114269173432509454, guid: caf2b0cb7b4658542a2bea12e16f7a4b,
+        type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 114381050230256928, guid: caf2b0cb7b4658542a2bea12e16f7a4b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114381050230256928, guid: caf2b0cb7b4658542a2bea12e16f7a4b,
+        type: 3}
+      propertyPath: m_Type
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114802854072321276, guid: caf2b0cb7b4658542a2bea12e16f7a4b, type: 3}
