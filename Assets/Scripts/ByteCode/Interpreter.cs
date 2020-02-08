@@ -251,12 +251,6 @@ public class Interpreter : ByteManager
                     break;
                 }
 
-                case Instruction.GET_PLAYER : {
-                    int id = ReadIntLiteral(skipToNext);
-                    push(LiteralFactory.CreatePlayerLiteral(id));
-                    break;
-                }
-
                 case Instruction.GET_PLAYER_POINTS: {
                     GamePlayer player = GM.ReadPlayerFromStack();
                     int points = player.Points;

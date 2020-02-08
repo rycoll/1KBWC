@@ -60,12 +60,6 @@ public class InstructionFactory {
         return bytes;
     }
 
-    public static List<byte> Make_GetPlayer (List<byte> id) {
-        List<byte> bytes = new List<byte>(id);
-        bytes.Add((byte) Instruction.GET_PLAYER);
-        return bytes;
-    }
-
     public static List<byte> Make_GetPlayerPoints (List<byte> id) {
         List<byte> bytes = new List<byte>(id);
         bytes.Add((byte) Instruction.GET_PLAYER_POINTS);
@@ -290,16 +284,40 @@ public class InstructionFactory {
 
      public static List<byte> RunInstructionFactoryForNode (EffectBuilderItem node) {
 
-         if (node.enteredValue != null && node.enteredValue.Count > 0) {
+        if (node.enteredValue != null && node.enteredValue.Count > 0) {
             return node.enteredValue;
-         }
+        }
 
-        node.children.Reverse();
+        string printInstructions = $"Child instructions for {node.effectData.instruction}: ";
+        for (int i = 0; i < node.children.Count; i++) {
+            EffectBuilderItem child = node.children[i];
+            if (child.effectData != null) {
+                printInstructions += child.effectData.instruction.ToString() + " ";
+            }
+            if (child.enteredValue != null && child.enteredValue.Count > 0) {
+                printInstructions += "value[";
+                for (int j = 0; j < child.enteredValue.Count; j++) {
+                    printInstructions += child.enteredValue[j].ToString();
+                }
+                printInstructions += "] ";
+            }
+        }
+        Debug.Log(printInstructions);
+
         List<List<byte>> childInstructions = node.children.Select(childNode => {
             return RunInstructionFactoryForNode(childNode);
         }).ToList();
 
-        Debug.Log($"Child instructions for {node.effectData.instruction}: {childInstructions.Count}");
+        printInstructions = $"Compiled children: ";
+        for (int i = 0; i < childInstructions.Count; i++) {
+            List<byte> child = childInstructions[i];
+            printInstructions += "[";
+            for (int j = 0; j < child.Count; j++) {
+                printInstructions += child[j].ToString();
+            }
+            printInstructions += "] ";
+        }
+        Debug.Log(printInstructions);
 
         try {
 
@@ -367,8 +385,6 @@ public class InstructionFactory {
                     return Make_SingleByteInstruction(Instruction.GET_CARDS_IN_DISCARD);
                 case Instruction.GET_CARDS_IN_HAND: 
                     return Make_GetCardsInHand(childInstructions[0]);
-                case Instruction.GET_PLAYER:
-                    return Make_GetPlayer(childInstructions[0]);
                 case Instruction.GET_PLAYER_POINTS:
                     return Make_GetPlayerPoints(childInstructions[0]);
                 case Instruction.IS_TRUE:

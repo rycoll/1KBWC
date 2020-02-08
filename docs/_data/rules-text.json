@@ -96,9 +96,6 @@
           "cards held by [player]",
           "cards in [player]r hand"
          ]
-    },   
-    "GET_PLAYER": {
-       "text": []
     },           
     "GET_PLAYER_POINTS": {
        "text": [

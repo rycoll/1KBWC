@@ -328,20 +328,7 @@
             "attributes": []
         }],
         "canBeRoot": false
-    }, 
-    {
-        "name": "Get Player",
-        "type": "getter",
-        "instruction": "GET_PLAYER",
-        "message": "Get a player",
-        "returnType": "PLAYER",
-        "fields": [{
-            "type": "NUMBER",
-            "desc": "ID of player to get",
-            "attributes": []
-        }],
-        "canBeRoot": false
-    },           
+    },         
     {
         "name": "Get Player's Points",
         "type": "getter",

@@ -34,7 +34,7 @@ public enum Instruction {
     GET_CARDS_IN_DECK       = 043,
     GET_CARDS_IN_DISCARD    = 044,
     GET_CARDS_IN_HAND       = 045,
-    GET_PLAYER              = 046,
+    
     GET_PLAYER_POINTS       = 047,
     BOOL_COMPARISON         = 048,
     IS_TRUE                 = 049,

@@ -41,10 +41,6 @@ public class RulesTextBuilder {
                         ? $"cards in your hand"
                         : $"cards held by {player}";
                 }
-                case Instruction.GET_PLAYER: {
-                    string id = args[0];
-                    return $"player {id}";
-                }
                 case Instruction.GET_PLAYER_POINTS: {
                     string player = args[0];
                     return (player.ToLower() == "you")

@@ -128,11 +128,7 @@
     "GET_CARDS_IN_HAND": {
        "code": ["player"],
        "notes": []
-    },   
-    "GET_PLAYER": {
-       "code": ["int"],
-       "notes": []
-    },           
+    },             
     "GET_PLAYER_POINTS": {
        "code": ["player"],
        "notes": []

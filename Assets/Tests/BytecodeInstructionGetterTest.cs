@@ -57,18 +57,6 @@ namespace Tests
         }
 
         [Test]
-        public void GetPlayer() {
-            game.Players = new PlayerManager(4);
-            GamePlayer target = game.Players.GetPlayer(1);
-            bytes.push(InstructionFactory.Make_GetPlayer(
-                LiteralFactory.CreateIntLiteral(target.Index)
-            ));
-            game.ExecuteNext();
-            GamePlayer player = game.ReadPlayerFromStack();
-            Assert.AreSame(target, player);
-        }
-
-        [Test]
         public void GetPlayerPoints() {
             game.Players = new PlayerManager(4);
             GamePlayer target = game.Players.GetPlayer(1);

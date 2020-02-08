@@ -171,7 +171,6 @@ public class RulesTextInterpreter : ByteManager
                 break;
             // [int]
             case Instruction.RANDOM_NUMBER:
-            case Instruction.GET_PLAYER:
                 args[0] = ReadIntLiteral(readAccessorFirst);
                 break;
             // [int, int]
