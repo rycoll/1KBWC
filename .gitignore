@@ -35,3 +35,6 @@ sysinfo.txt
 *.apk
 *.unitypackage
 Assets/.vscode/
+
+# Saved Cards
+SavedCards/
