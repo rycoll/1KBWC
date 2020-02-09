@@ -132,6 +132,9 @@ public class RulesTextBuilder {
                 case Instruction.READ_COUNTER: {
                     return args[0].ToUpper();
                 }
+                case Instruction.FLAVOUR_TEXT: {
+                    return $"'{args[0]}'";
+                }
                 case Instruction.SET_COUNTER: {
                     string key = args[0], num = args[1];
                     return $"set {key.ToUpper()} to {num}.";

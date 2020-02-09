@@ -611,6 +611,19 @@
         "canBeRoot": true
     },                 
     {
+        "name": "Flavour Text",
+        "type": "setter",
+        "instruction": "FLAVOUR_TEXT",
+        "message": "Flavour text!",
+        "returnType": "NONE",
+        "fields": [{
+            "type": "TEXT",
+            "desc": "Flavour text for this card.",
+            "attributes": []
+        }],
+        "canBeRoot": true
+    },                 
+    {
         "name": "Error",
         "type": "primitive",
         "instruction": "ERROR",

@@ -63,6 +63,7 @@ public enum Instruction {
     SET_COUNTER                 = 105,
     MOVE_TO_DISCARD             = 106,
     MOVE_TO_DECK                = 107,
+    FLAVOUR_TEXT                = 108,
 
     // for internal logic (hidden)
     ADD_TO_REGISTER             = 200,

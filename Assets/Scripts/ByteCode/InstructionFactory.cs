@@ -276,6 +276,12 @@ public class InstructionFactory {
         return bytes;
     }
 
+    public static List<byte> Make_FlavourText(List<byte> flavourText) {
+        List<byte> bytes = new List<byte>(flavourText);
+        bytes.Add((byte) Instruction.FLAVOUR_TEXT);
+        return bytes;
+    }
+
     public static List<byte> Make_SingleByteInstruction(Instruction instruction) {
         return new List<byte>{(byte) instruction};
     }
@@ -422,6 +428,8 @@ public class InstructionFactory {
                     return Make_MoveToDeck(childInstructions[0], childInstructions[1]);
                 case Instruction.MOVE_TO_DISCARD:
                     return Make_MoveToDiscard(childInstructions[0]);
+                case Instruction.FLAVOUR_TEXT:
+                    return Make_FlavourText(childInstructions[0]);
                 // ENUMS
                 case Instruction.ENUM_CONDITION_OPERATOR:
                     return LiteralFactory.CreateEnumLiteral(childInstructions[0][0], Instruction.ENUM_CONDITION_OPERATOR);

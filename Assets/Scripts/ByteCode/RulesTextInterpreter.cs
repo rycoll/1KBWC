@@ -200,6 +200,7 @@ public class RulesTextInterpreter : ByteManager
                 args[0] = ReadPlayerLiteral(readAccessorFirst);
                 break;
             // [string]
+            case Instruction.FLAVOUR_TEXT:
             case Instruction.READ_COUNTER:
                 args[0] = ReadStringLiteral(readAccessorFirst);
                 break;
