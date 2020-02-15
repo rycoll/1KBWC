@@ -80,13 +80,6 @@ namespace Tests
             Assert.AreEqual(target.Points, 25);
         }
 
-        private class TestCard : Card {
-            public TestCard () {
-                Info = new CardData();
-                Zone = new CardZone();
-            }
-        }
-
         [Test]
         public void PlayerDrawCards() {
             game.Cards = new CardManager();
