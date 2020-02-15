@@ -139,10 +139,6 @@
                 "type": "ROOT_EFFECT",
                 "desc": "What should happen when the condition is met?",
                 "attributes": []
-            }, {
-                "type": "ENDIF",
-                "desc": "Signals end of IF block",
-                "attributes": ["auxiliary"]
             }],
         "canBeRoot": true
     },                   
@@ -160,10 +156,6 @@
                 "type": "ROOT_EFFECT",
                 "desc": "What should happen, unless the condition is met?",
                 "attributes": []
-            }, {
-                "type": "ENDIF",
-                "desc": "Signals end of IF block",
-                "attributes": ["auxiliary"]
             }],
         "canBeRoot": true
     },                   
@@ -190,10 +182,6 @@
             "type": "ROOT_EFFECT",
             "desc": "What effect should be looped?",
             "attributes": []
-        }, {
-            "type": "ENDLOOP",
-            "desc": "Signals end of loop",
-            "attributes": ["auxiliary"]
         }],
         "canBeRoot": true
     },                 
@@ -211,10 +199,6 @@
             "type": "ROOT_EFFECT",
             "desc": "What should happen for each item in the list?",
             "attributes": []
-        }, {
-            "type": "ENDLOOP",
-            "desc": "Signals end of loop",
-            "attributes": ["auxiliary"]
         }],
         "canBeRoot": true
     },             
@@ -344,20 +328,7 @@
             "attributes": []
         }],
         "canBeRoot": false
-    }, 
-    {
-        "name": "Get Player",
-        "type": "getter",
-        "instruction": "GET_PLAYER",
-        "message": "Get a player",
-        "returnType": "PLAYER",
-        "fields": [{
-            "type": "NUMBER",
-            "desc": "ID of player to get",
-            "attributes": []
-        }],
-        "canBeRoot": false
-    },           
+    },         
     {
         "name": "Get Player's Points",
         "type": "getter",
@@ -392,6 +363,26 @@
         "fields": [{
             "type": "BOOL",
             "desc": "Thing to check is false",
+            "attributes": []
+        }]
+    }, 
+    {
+        "name": "Compare Bools",
+        "type": "primitive",
+        "instruction": "BOOL_COMPARISON",
+        "message": "Compare two bools",
+        "returnType": "CONDITION",
+        "fields": [{
+            "type": "BOOL",
+            "desc": "First number to compare",
+            "attributes": []
+        }, {
+            "type": "ENUM_CONDITION_OPERATOR",
+            "desc": "Comparison operator",
+            "attributes": []
+        }, {
+            "type": "BOOL",
+            "desc": "Second number to compare",
             "attributes": []
         }]
     }, 
@@ -465,12 +456,43 @@
         "canBeRoot": false
     },        
     {
-        "name": "Target Card",
+        "name": "Target Opponent",
         "type": "getter",
-        "instruction": "TARGET_CARD",
-        "message": "A card of your (the current player) choice",
+        "instruction": "TARGET_OPPONENT",
+        "message": "An opponent of your (the current player) choice",
+        "returnType": "PLAYER",
+        "fields": [],
+        "canBeRoot": false
+    },        
+    {
+        "name": "Target Card From Deck",
+        "type": "getter",
+        "instruction": "TARGET_CARD_IN_DECK",
+        "message": "A chosen card from the deck",
         "returnType": "CARD",
         "fields": [],
+        "canBeRoot": false
+    },          
+    {
+        "name": "Target Card From Discard",
+        "type": "getter",
+        "instruction": "TARGET_CARD_IN_DISCARD",
+        "message": "A chosen card from the discard",
+        "returnType": "CARD",
+        "fields": [],
+        "canBeRoot": false
+    },          
+    {
+        "name": "Target Card From Player's Hand",
+        "type": "getter",
+        "instruction": "TARGET_CARD_IN_HAND",
+        "message": "A chosen card a specified player's hand.",
+        "returnType": "CARD",
+        "fields": [{
+            "type": "PLAYER",
+            "desc": "The player whose hand should be chosen from",
+            "attributes": []
+        }],
         "canBeRoot": false
     },          
     {
@@ -615,6 +637,19 @@
         }, {
             "type": "ENUM_DECK_POSITION",
             "desc": "Position in the deck",
+            "attributes": []
+        }],
+        "canBeRoot": true
+    },                 
+    {
+        "name": "Flavour Text",
+        "type": "setter",
+        "instruction": "FLAVOUR_TEXT",
+        "message": "Flavour text!",
+        "returnType": "NONE",
+        "fields": [{
+            "type": "TEXT",
+            "desc": "Flavour text for this card.",
             "attributes": []
         }],
         "canBeRoot": true

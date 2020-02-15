@@ -486,11 +486,60 @@
         "name": "Target Card From Player's Hand",
         "type": "getter",
         "instruction": "TARGET_CARD_IN_HAND",
-        "message": "A chosen card a specified player's hand.",
+        "message": "A chosen card from a specified player's hand.",
         "returnType": "CARD",
         "fields": [{
             "type": "PLAYER",
             "desc": "The player whose hand should be chosen from",
+            "attributes": []
+        }],
+        "canBeRoot": false
+    },          
+    {
+        "name": "Random Player",
+        "type": "getter",
+        "instruction": "RANDOM_PLAYER",
+        "message": "A random player",
+        "returnType": "PLAYER",
+        "fields": [],
+        "canBeRoot": false
+    },        
+    {
+        "name": "Random Opponent",
+        "type": "getter",
+        "instruction": "RANDOM_OPPONENT",
+        "message": "A random opponent",
+        "returnType": "PLAYER",
+        "fields": [],
+        "canBeRoot": false
+    },        
+    {
+        "name": "Random Card From Deck",
+        "type": "getter",
+        "instruction": "RANDOM_CARD_IN_DECK",
+        "message": "A random card from the deck",
+        "returnType": "CARD",
+        "fields": [],
+        "canBeRoot": false
+    },          
+    {
+        "name": "Random Card From Discard",
+        "type": "getter",
+        "instruction": "RANDOM_CARD_IN_DISCARD",
+        "message": "A random card from the discard",
+        "returnType": "CARD",
+        "fields": [],
+        "canBeRoot": false
+    },          
+    {
+        "name": "Random Card From Player's Hand",
+        "type": "getter",
+        "instruction": "RANDOM_CARD_IN_HAND",
+        "message": "A random card a specified player's hand.",
+        "returnType": "CARD",
+        "fields": [{
+            "type": "PLAYER",
+            "desc": "The player whose hand should be randomly picked from",
             "attributes": []
         }],
         "canBeRoot": false

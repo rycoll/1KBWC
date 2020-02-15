@@ -308,6 +308,39 @@ public class Interpreter : ByteManager
                     break;
                 }
 
+                case Instruction.RANDOM_PLAYER: {
+                    GamePlayer[] players = GM.Players.GetPlayers();
+                    GamePlayer randomPlayer = players[UnityEngine.Random.Range(0, players.Length)];
+                    push(LiteralFactory.CreatePlayerLiteral(randomPlayer));
+                    break;
+                }
+                case Instruction.RANDOM_OPPONENT: {
+                    GamePlayer[] opponents = GM.Players.GetOpponents();
+                    GamePlayer randomOpponent = opponents[UnityEngine.Random.Range(0, opponents.Length)];
+                    push(LiteralFactory.CreatePlayerLiteral(randomOpponent));
+                    break;
+                }
+
+                case Instruction.RANDOM_CARD_IN_DECK: {
+                    Card[] deckCards = GM.Cards.Deck.GetCards();
+                    Card randomCard = deckCards[UnityEngine.Random.Range(0, deckCards.Length)];
+                    push(LiteralFactory.CreateCardLiteral(randomCard));
+                    break;
+                }
+                case Instruction.RANDOM_CARD_IN_DISCARD: {
+                    Card[] discardCards = GM.Cards.Discard.GetCards();
+                    Card randomCard = discardCards[UnityEngine.Random.Range(0, discardCards.Length)];
+                    push(LiteralFactory.CreateCardLiteral(randomCard));
+                    break;
+                }
+                case Instruction.RANDOM_CARD_IN_HAND: {
+                    GamePlayer player = GM.ReadPlayerFromStack();
+                    Card[] handCards = player.Hand.GetCards();
+                    Card randomCard = handCards[UnityEngine.Random.Range(0, handCards.Length)];
+                    push(LiteralFactory.CreateCardLiteral(randomCard));
+                    break;
+                }
+
                 // EFFECTS
  
                 case Instruction.INCREMENT_PLAYER_POINTS: {

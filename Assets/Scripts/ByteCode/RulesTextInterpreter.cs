@@ -198,6 +198,7 @@ public class RulesTextInterpreter : ByteManager
             case Instruction.PLAYER_IS_WINNING:
             case Instruction.PLAYER_IS_LOSING:
             case Instruction.TARGET_CARD_IN_HAND:
+            case Instruction.RANDOM_CARD_IN_HAND:
                 args[0] = ReadPlayerLiteral(readAccessorFirst);
                 break;
             // [string]

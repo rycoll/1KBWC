@@ -175,6 +175,18 @@ public class RulesTextBuilder {
                 }
                 case Instruction.TARGET_PLAYER: return "a player of your choice";
                 case Instruction.TARGET_OPPONENT: return "an opponent of your choice";
+                case Instruction.RANDOM_CARD_IN_DECK: return "a random card from the deck";
+                case Instruction.RANDOM_CARD_IN_DISCARD: return "a random card from the discard";
+                case Instruction.RANDOM_CARD_IN_HAND: {
+                    string player = args[0];
+                    if (player.ToLower() == "you") {
+                        return "a random card from your hand";
+                    } else {
+                        return $"a random card from {player}'s hand";
+                    }
+                }
+                case Instruction.RANDOM_PLAYER: return "a random player";
+                case Instruction.RANDOM_OPPONENT: return "a random opponent";
                 case Instruction.PLAYER_IS_WINNING: {
                     string player = args[0];
                     string verb = (player.ToLower() == "you") ? "have" : "has";
