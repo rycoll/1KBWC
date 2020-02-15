@@ -106,6 +106,44 @@ namespace Tests
             Condition trueCondition = bytes.ReadConditionLiteral(game.queryCheck);
             Assert.IsTrue(trueCondition.Evaluate());
         }
+
+        [Test]
+        public void RandomGettersReturnAppropriately() {
+            game.Players = new PlayerManager(4);
+            game.Cards = new TestCardManager(5, 5, 5);
+            
+            // RANDOM_PLAYER
+            bytes.push((byte) Instruction.RANDOM_PLAYER);
+            game.ExecuteNext();
+            Assert.NotNull(game.ReadPlayerFromStack());
+            
+            // RANDOM_OPPONENT
+            bytes.push((byte) Instruction.RANDOM_OPPONENT);
+            game.ExecuteNext();
+            GamePlayer opponent = game.ReadPlayerFromStack();
+            Assert.NotNull(opponent);
+            Assert.AreNotEqual(game.Players.GetActivePlayer(), opponent);
+
+            // RANDOM_CARD_IN_DECK
+            bytes.push((byte) Instruction.RANDOM_CARD_IN_DECK);
+            game.ExecuteNext();
+            Assert.NotNull(game.ReadCardFromStack());
+
+            // RANDOM_CARD_IN_DISCARD
+            bytes.push((byte) Instruction.RANDOM_CARD_IN_DISCARD);
+            game.ExecuteNext();
+            Assert.NotNull(game.ReadCardFromStack());
+
+            // RANDOM_CARD_IN_HAND
+            Hand hand = new Hand(0);
+            hand.AddCard(new TestCard());
+            game.Players.GetPlayer(0).Hand = hand;
+            bytes.push(InstructionFactory.Make_RandomCardInHand(
+                LiteralFactory.CreatePlayerLiteral(0)
+            ));
+            game.ExecuteNext();
+            Assert.NotNull(game.ReadCardFromStack());
+        }
         
     }
 }
