@@ -38,12 +38,9 @@ public class CardDisplaySmall : MonoBehaviour, IPointerClickHandler {
             
             bigDisplay.transform.position = this.transform.position;
 
-            Debug.Log("Clicky clicky");
-
             // have to do some weird stuff about parenting for proper behaviour
             ReparentChildCardUI reparentInfo = this.transform.parent.GetComponent<ReparentChildCardUI>();
             if (reparentInfo) {
-                Debug.Log(reparentInfo);
                 bigDisplay.transform.SetParent(reparentInfo.targetContainer);
                 if (reparentInfo.hand) {
                     bigDisplay.transform.Translate(0f, 50f, 0f);
