@@ -60,12 +60,12 @@ namespace Tests
         }
 
         [Test]
-        public void DiscardTargetCard () {
+        public void MillTargetCard () {
             List<byte> bytes = InstructionFactory.Make_MoveToDiscard(
-                new List<byte>{ (byte) Instruction.TARGET_CARD }
+                new List<byte>{ (byte) Instruction.TARGET_CARD_IN_DECK }
             );
             string text = getText(bytes);
-            Assert.AreEqual("Put a card of your choice into Discard.", text);
+            Assert.AreEqual("Put a card of your choice from the deck into Discard.", text);
         }
 
         [Test]
@@ -94,11 +94,11 @@ namespace Tests
                     new List<byte>{(byte) Instruction.GET_ALL_PLAYERS}
                 ),
                 InstructionFactory.Make_MoveToDiscard(
-                    new List<byte>{(byte) Instruction.TARGET_CARD} 
+                    new List<byte>{(byte) Instruction.TARGET_CARD_IN_DECK} 
                 )
             );
             string text = getText(bytes);
-            Assert.AreEqual("Do this a number of times equal to the number of players: put a card of your choice into Discard.", text);
+            Assert.AreEqual("Do this a number of times equal to the number of players: put a card of your choice from the deck into Discard.", text);
         }
 
         [Test]

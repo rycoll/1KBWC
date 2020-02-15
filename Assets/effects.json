@@ -456,12 +456,43 @@
         "canBeRoot": false
     },        
     {
-        "name": "Target Card",
+        "name": "Target Opponent",
         "type": "getter",
-        "instruction": "TARGET_CARD",
-        "message": "A card of your (the current player) choice",
+        "instruction": "TARGET_OPPONENT",
+        "message": "An opponent of your (the current player) choice",
+        "returnType": "PLAYER",
+        "fields": [],
+        "canBeRoot": false
+    },        
+    {
+        "name": "Target Card From Deck",
+        "type": "getter",
+        "instruction": "TARGET_CARD_IN_DECK",
+        "message": "A chosen card from the deck",
         "returnType": "CARD",
         "fields": [],
+        "canBeRoot": false
+    },          
+    {
+        "name": "Target Card From Discard",
+        "type": "getter",
+        "instruction": "TARGET_CARD_IN_DISCARD",
+        "message": "A chosen card from the discard",
+        "returnType": "CARD",
+        "fields": [],
+        "canBeRoot": false
+    },          
+    {
+        "name": "Target Card From Player's Hand",
+        "type": "getter",
+        "instruction": "TARGET_CARD_IN_HAND",
+        "message": "A chosen card a specified player's hand.",
+        "returnType": "CARD",
+        "fields": [{
+            "type": "PLAYER",
+            "desc": "The player whose hand should be chosen from",
+            "attributes": []
+        }],
         "canBeRoot": false
     },          
     {

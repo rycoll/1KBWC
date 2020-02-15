@@ -121,8 +121,16 @@
     "TARGET_PLAYER": {
        "text": ["player of your choice"]
     },        
-    "TARGET_CARD": {
-       "text": ["card of your choice"]
+    "TARGET_CARD_IN_DECK": {
+       "text": ["card of your choice from the deck"]
+    },
+    "TARGET_CARD_IN_DISCARD": {
+       "text": ["card of your choice from the discard"]
+    },
+    "TARGET_CARD_IN_HAND": {
+       "text": ["card of your choice from [player]r hand",
+       "card of your choice from [player]'s hand"
+       ]
     },
     "RANDOM_NUMBER": {
        "text": ["a number between 1 and [num]"]

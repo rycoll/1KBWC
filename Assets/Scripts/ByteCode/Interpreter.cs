@@ -289,9 +289,22 @@ public class Interpreter : ByteManager
                     GM.UI.PresentChoiceOfPlayers(new List<GamePlayer>(GM.Players.GetPlayers()), this);
                     break;
                 }
+                case Instruction.TARGET_OPPONENT: {
+                    GM.UI.PresentChoiceOfPlayers(new List<GamePlayer>(GM.Players.GetOpponents()), this);
+                    break;
+                }
 
-                case Instruction.TARGET_CARD: {
-                    GM.UI.PresentChoiceOfCards(new List<Card>(GM.Cards.Table.GetCards()), this);
+                case Instruction.TARGET_CARD_IN_DECK: {
+                    GM.UI.PresentChoiceOfCards(new List<Card>(GM.Cards.Deck.GetCards()), this);
+                    break;
+                }
+                case Instruction.TARGET_CARD_IN_DISCARD: {
+                    GM.UI.PresentChoiceOfCards(new List<Card>(GM.Cards.Discard.GetCards()), this);
+                    break;
+                }
+                case Instruction.TARGET_CARD_IN_HAND: {
+                    GamePlayer player = GM.ReadPlayerFromStack();
+                    GM.UI.PresentChoiceOfCards(new List<Card>(player.Hand.GetCards()), this);
                     break;
                 }
 

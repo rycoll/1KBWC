@@ -163,8 +163,18 @@ public class RulesTextBuilder {
                         ? $"{player} has their score set equal to {num}."
                         : $"{player} has their score set to {num}";
                 }
-                case Instruction.TARGET_CARD: return "a card of your choice";
+                case Instruction.TARGET_CARD_IN_DECK: return "a card of your choice from the deck";
+                case Instruction.TARGET_CARD_IN_DISCARD: return "a card of your choice from the discard";
+                case Instruction.TARGET_CARD_IN_HAND: {
+                    string player = args[0];
+                    if (player.ToLower() == "you") {
+                        return "a card of your choice from your hand";
+                    } else {
+                        return $"a card of your choice from {player}'s hand";
+                    }
+                }
                 case Instruction.TARGET_PLAYER: return "a player of your choice";
+                case Instruction.TARGET_OPPONENT: return "an opponent of your choice";
                 case Instruction.PLAYER_IS_WINNING: {
                     string player = args[0];
                     string verb = (player.ToLower() == "you") ? "have" : "has";

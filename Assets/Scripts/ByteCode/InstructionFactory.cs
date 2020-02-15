@@ -259,6 +259,12 @@ public class InstructionFactory {
         return bytes;
     }
 
+    public static List<byte> Make_TargetCardInHand(List<byte> player) {
+        List<byte> bytes = new List<byte>(new List<byte>(player));
+        bytes.Add((byte) Instruction.TARGET_CARD_IN_HAND);
+        return bytes;
+    }
+
     public static List<byte> Make_MoveToDeck(List<byte> card, List<byte> location) {
         List<byte> bytes = new List<byte>(
             new List<byte>(
@@ -409,8 +415,14 @@ public class InstructionFactory {
                     return Make_NumComparison(childInstructions[0], childInstructions[2], childInstructions[1][0]);
                 case Instruction.TARGET_PLAYER:
                     return Make_SingleByteInstruction(Instruction.TARGET_PLAYER);
-                case Instruction.TARGET_CARD:
-                    return Make_SingleByteInstruction(Instruction.TARGET_CARD);
+                case Instruction.TARGET_OPPONENT:
+                    return Make_SingleByteInstruction(Instruction.TARGET_OPPONENT);
+                case Instruction.TARGET_CARD_IN_DECK:
+                    return Make_SingleByteInstruction(Instruction.TARGET_CARD_IN_DECK);
+                case Instruction.TARGET_CARD_IN_DISCARD:
+                    return Make_SingleByteInstruction(Instruction.TARGET_CARD_IN_DISCARD);
+                case Instruction.TARGET_CARD_IN_HAND:
+                    return Make_TargetCardInHand(childInstructions[0]);
                 // EFFECTS
                 case Instruction.INCREMENT_PLAYER_POINTS:
                     return Make_IncrementPlayerPoints(childInstructions[0], childInstructions[1]);
