@@ -93,7 +93,7 @@ public class QuestionPanelController : MonoBehaviour
                 textInput.contentType = InputField.ContentType.IntegerNumber;
                 break;
             case EnterValueType.TEXT:
-                textInput.contentType = InputField.ContentType.Alphanumeric;
+                textInput.contentType = InputField.ContentType.Standard;
                 break;
             case EnterValueType.NONE:
                 break;
