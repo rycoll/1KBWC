@@ -47,6 +47,10 @@ public class CardData {
         return Tags.Contains(tag);
     }
 
+    public List<string> GetTags() {
+        return new List<string>(Tags.ToArray());
+    }
+
 	public void AddEffect (List<byte> effect) {
         if (Effects == null) {
             Effects = new List<byte>();

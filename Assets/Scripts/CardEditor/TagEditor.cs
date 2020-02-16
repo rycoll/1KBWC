@@ -13,12 +13,20 @@ public class TagEditor : MonoBehaviour
     public Text newTagErrorText;
 
     private List<string> tags = new List<string>();
-    private List<string> unusedTags= new List<string>();
+    private List<string> unusedTags = new List<string>();
 
     public void Start () {
-        AddUnusedTag("Cheese");
-        AddUnusedTag("Avocado");
-        AddUnusedTag("Stench");
+        if (unusedTags.Count == 0) {
+            BinaryCardLoader cardLoader = new BinaryCardLoader();
+            LoadCardCallback loadCardCallback = LoadExistingTag;
+            cardLoader.LoadCardsAsync(loadCardCallback);
+        }
+    }
+
+    public void LoadExistingTag(CardData cardData) {
+        foreach(string tag in cardData.GetTags()) {
+            AddUnusedTag(tag);
+        }
     }
 
     public void AddNewTag () {

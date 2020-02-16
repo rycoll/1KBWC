@@ -33,5 +33,3 @@ public class CardViewerUI : MonoBehaviour
     }
 
 }
-
-public delegate void LoadCardCallback(CardData card);

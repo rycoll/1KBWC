@@ -79,6 +79,7 @@ public class BinaryCardLoader {
                 callback(cardData);
             }
         }
-
     }
 }
+
+public delegate void LoadCardCallback(CardData card);
