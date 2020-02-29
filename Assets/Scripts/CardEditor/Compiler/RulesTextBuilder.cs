@@ -73,7 +73,7 @@ public class RulesTextBuilder {
                     string firstBool = args[0];
                     string secondBool = args[1];
                     string operation = args[2].ToLower();
-                    return (operation == "equals") 
+                    return (operation.ToLower() == "equals") 
                         ? $"{firstBool} is {secondBool}"
                         : $"{firstBool} isn't {secondBool}";
                 }
