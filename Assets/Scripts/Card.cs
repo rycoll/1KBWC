@@ -38,6 +38,9 @@ public class Card {
     public bool HasTag (string tag) {
         return Info.HasTag(tag);
     }
+    public string GetCommaSpaceSeparatedTags () {
+        return String.Join(", ", Info.GetTags().ToArray());
+    }
 
     public Sprite GetSprite() {
         if (cardArt == null) {
