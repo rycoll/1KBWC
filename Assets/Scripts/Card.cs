@@ -26,6 +26,10 @@ public class Card {
         return Info.Name;
     }
 
+    public CardData GetData () {
+        return Info;
+    }
+
     public string GetRulesText ()
     {
         return Info.GetRulesText();
