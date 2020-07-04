@@ -6,11 +6,13 @@ using UnityEngine.EventSystems;
 
 public class CardDisplaySmall : MonoBehaviour, IPointerClickHandler {
 
-    // make sure this is assigned as an INSTANCE of the card type
-    // two cards of the same type shouldn't both be bound here
     public Card card;
     public Text titleText;
     public Image cardImage;
+    [SerializeField] 
+    private Image background;
+    private bool selected = false;
+    private bool selectable = false;
 
     public GameObject bigDisplayPrefab;
 
@@ -28,6 +30,24 @@ public class CardDisplaySmall : MonoBehaviour, IPointerClickHandler {
     {
         titleText.text = card.GetName();
         cardImage.sprite = card.GetSprite();
+    }
+
+    public void SetBackground (bool active, Color color) {
+        background.gameObject.SetActive(active);
+        background.color = color;
+    }
+
+    public void SetSelected (bool b) {
+        selected = b;
+        SetBackground(b, new Color(255f, 255f, 0));
+    }
+
+    public void SetSelectable (bool b) {
+        selectable = b;
+    }
+
+    public bool isSelected () {
+        return selected;
     }
 
     // on mouse-over, display large version of card
@@ -50,6 +70,10 @@ public class CardDisplaySmall : MonoBehaviour, IPointerClickHandler {
                 bigDisplay.transform.SetParent(this.transform);
             }
             bigDisplay.GetComponent<CardDisplayLarge>().SetCard(this.card);
+        }
+
+        if (selectable && eventData.button == PointerEventData.InputButton.Left) {
+            SetSelected(!selected);
         }
     }
 
