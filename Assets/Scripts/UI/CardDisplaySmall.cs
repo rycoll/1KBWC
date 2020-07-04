@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class CardDisplaySmall : MonoBehaviour, IPointerClickHandler {
 
-    private Card card;
+    public Card card;
     public Text titleText;
     public Image cardImage;
     [SerializeField] 
@@ -24,11 +24,6 @@ public class CardDisplaySmall : MonoBehaviour, IPointerClickHandler {
     {
         this.card = c;
         RefreshDisplay();
-    }
-
-    public Card GetCard ()
-    {
-        return card;
     }
 
     private void RefreshDisplay ()

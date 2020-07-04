@@ -44,7 +44,7 @@ public class CardViewerUI : MonoBehaviour
         foreach (Transform child in cardDisplayArea.transform) {
             CardDisplaySmall cardDisplay = child.gameObject.GetComponent<CardDisplaySmall>();
             if (cardDisplay && cardDisplay.isSelected()) {
-                Card card = cardDisplay.GetCard();
+                Card card = cardDisplay.card;
                 if (card != null) {
                     CardData cardData = card.GetData();
                     selectedCards.Add(cardData);
