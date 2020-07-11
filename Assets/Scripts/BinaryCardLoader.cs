@@ -13,22 +13,30 @@ public class BinaryCardLoader {
         if (!Directory.Exists(folderPath)) {
             Directory.CreateDirectory(folderPath);
         }
-        string directory = Path.Combine(folderPath, cardName);
+        string directory = Path.Combine(folderPath, EscapePath(cardName));
         if (!Directory.Exists(directory)) {
             Directory.CreateDirectory(directory);
         }
-        return Path.Combine(directory, cardName + FILE_EXTENSION);
+        return Path.Combine(directory, EscapePath(cardName) + FILE_EXTENSION);
     }
     public string GetImagePath(string cardName, string cardID) {
         string folderPath = FOLDER_NAME;
         if (!Directory.Exists(folderPath)) {
             Directory.CreateDirectory(folderPath);
         }
-        string directory = Path.Combine(folderPath, cardName);
+        string directory = Path.Combine(folderPath, EscapePath(cardName));
         if (!Directory.Exists(directory)) {
             Directory.CreateDirectory(directory);
         }
-        return Path.Combine(directory, cardID + IMAGE_FORMAT);
+        return Path.Combine(directory, EscapePath(cardID) + IMAGE_FORMAT);
+    }
+
+    public string EscapePath(string unescapedPath) {
+        unescapedPath = unescapedPath.Replace('/', '-');
+        return string.Join(
+            "-", 
+            unescapedPath.Split(Path.GetInvalidFileNameChars())
+        );
     }
 
     public void SaveCard (CardData card) {
