@@ -11,6 +11,8 @@ public class EffectTabController : MonoBehaviour
     [SerializeField]
     private GameObject summaryPanel = null;
     [SerializeField]
+    private GameObject postFinishModal = null;
+    [SerializeField]
     private CardCreationController parentController = null;
 
     private List<List<byte>> builtEffects = new List<List<byte>>();
@@ -38,6 +40,13 @@ public class EffectTabController : MonoBehaviour
         OpenQuestionPanel();
         QuestionPanelController question = questionPanel.GetComponent<QuestionPanelController>();
         question.InitialState();
+    }
+
+    public void PostFinishSteps (CardData card) {
+        postFinishModal.SetActive(true);
+        PostCreationModalController finalSteps = postFinishModal.GetComponent<PostCreationModalController>();
+        
+        finalSteps.Begin(card);
     }
 
     public void AddEffect (List<byte> effect) {

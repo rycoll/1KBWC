@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CardViewerUI : MonoBehaviour
 {
@@ -17,7 +17,6 @@ public class CardViewerUI : MonoBehaviour
 
     public void Start () {
         loadCardCallback = LoadCard;
-        LoadCards();
     }
 
     public void LoadCard(CardData cardData) {
@@ -28,30 +27,42 @@ public class CardViewerUI : MonoBehaviour
         displayInfo.SetSelectable(cardsAreSelectable);
     }
 
+    public void ClearAllCards () {
+        List<CardDisplaySmall> cards = GetCardDisplays();
+        foreach (CardDisplaySmall card in cards) {
+            Destroy(card.gameObject);
+        }
+    }
+
     public void LoadCards () {
+        ClearAllCards();
+        if (loadCardCallback == null) {
+            loadCardCallback = LoadCard;
+        }
+        Debug.Log($"Loading cards with {loadCardCallback}");
         cardLoader.LoadCardsAsync(loadCardCallback);
     }
 
-    public void ReturnToTitle() {
-        SceneManager.LoadScene("title");
+    public List<CardDisplaySmall> GetCardDisplays () {
+        List<CardDisplaySmall> cards = new List<CardDisplaySmall>();
+        foreach (Transform child in cardDisplayArea.transform) {
+            CardDisplaySmall cardDisplay = child.gameObject.GetComponent<CardDisplaySmall>();
+            if (cardDisplay) {
+                cards.Add(cardDisplay);
+            }
+        }
+        return cards;
     }
 
     public List<CardData> GetSelectedCards() {
         if (!cardsAreSelectable) {
             return new List<CardData>();
         }
-        List<CardData> selectedCards = new List<CardData>();
-        foreach (Transform child in cardDisplayArea.transform) {
-            CardDisplaySmall cardDisplay = child.gameObject.GetComponent<CardDisplaySmall>();
-            if (cardDisplay && cardDisplay.isSelected()) {
-                Card card = cardDisplay.card;
-                if (card != null) {
-                    CardData cardData = card.GetData();
-                    selectedCards.Add(cardData);
-                }
-            }
-        }
-
+        List<CardData> selectedCards = 
+            GetCardDisplays()
+            .Where(card => card.isSelected())
+            .Select(card => card.card.GetData())
+            .ToList();
         return selectedCards;
     }
 

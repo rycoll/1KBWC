@@ -92,8 +92,11 @@ public class Interpreter : ByteManager
                 case Instruction.CARD_HAS_TAG: {
                     Card card = GM.ReadCardFromStack();
                     string tagName = ReadStringLiteral(skipToNext);
-                    push(LiteralFactory.CreateBoolLiteral(
-                        card.HasTag(tagName)
+                    push(LiteralFactory.CreateConditionLiteral(
+                        LiteralFactory.CreateBoolLiteral(card.HasTag(tagName)),
+                        LiteralFactory.CreateBoolLiteral(true),
+                        ConditionType.BOOL,
+                        ConditionOperator.EQUAL
                     ));
                     break;	
                 }
@@ -107,7 +110,12 @@ public class Interpreter : ByteManager
                             break;
                         }
                     }
-                    push(LiteralFactory.CreateBoolLiteral(winning));
+                    push(LiteralFactory.CreateConditionLiteral(
+                        LiteralFactory.CreateBoolLiteral(winning),
+                        LiteralFactory.CreateBoolLiteral(true),
+                        ConditionType.BOOL,
+                        ConditionOperator.EQUAL
+                    ));
                     break;	
                 }
 

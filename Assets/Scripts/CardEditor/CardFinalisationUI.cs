@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class CardFinalisationUI : MonoBehaviour
 {
@@ -20,8 +19,6 @@ public class CardFinalisationUI : MonoBehaviour
     private TagEditor tagTab = null;
     [SerializeField]
     private ArtEditor artTab = null;
-
-    private BinaryCardLoader binaryCardLoader = new BinaryCardLoader();
 
     private void OnEnable() { 
         SetRulesText();
@@ -86,7 +83,6 @@ public class CardFinalisationUI : MonoBehaviour
 
         Debug.Log($"Saving a new card! {cardName}, {tagTab.GetTags().Count} tags, {effectTab.GetNumberOfEffects()} effects. [{card.GetID()}]");
 
-        binaryCardLoader.SaveCards(new List<CardData>{ card });
-        SceneManager.LoadScene("title");
+        effectTab.PostFinishSteps(card);
     }
 }

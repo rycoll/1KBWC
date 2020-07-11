@@ -13,10 +13,10 @@ public class TagEditor : MonoBehaviour
     public Text newTagErrorText;
 
     private List<string> tags = new List<string>();
-    private List<string> unusedTags = new List<string>();
+    private List<string> existingTags = new List<string>();
 
     public void Start () {
-        if (unusedTags.Count == 0) {
+        if (existingTags.Count == 0) {
             BinaryCardLoader cardLoader = new BinaryCardLoader();
             LoadCardCallback loadCardCallback = LoadExistingTag;
             cardLoader.LoadCardsAsync(loadCardCallback);
@@ -41,7 +41,7 @@ public class TagEditor : MonoBehaviour
             newTagErrorText.text = "The card already has this tag!";
             return;
         }
-        if (unusedTags.Contains(newTag)) {
+        if (existingTags.Contains(newTag)) {
             //RemoveUnusedTag(newTag);
         }
         AddTag(newTag);
@@ -68,13 +68,13 @@ public class TagEditor : MonoBehaviour
     }
 
     public void AddUnusedTag(string str) {
-        if (!unusedTags.Contains(str)) {
+        if (!existingTags.Contains(str)) {
             GameObject tagDisplay = Instantiate(tagPrefab) as GameObject;
             tagDisplay.transform.SetParent(existingTagPanel.transform);
             tagDisplay.GetComponent<TagItemDisplay>().SetTag(str);
             Button button = tagDisplay.GetComponent<Button>();
             button.onClick.AddListener(delegate{UseExistingTag(tagDisplay);});
-            unusedTags.Add(str);
+            existingTags.Add(str);
         }
     }
 
@@ -88,7 +88,7 @@ public class TagEditor : MonoBehaviour
 
     public void RemoveUnusedTag (GameObject tagObject) {
         TagItemDisplay display = tagObject.GetComponent<TagItemDisplay>();
-        unusedTags.Remove(display.GetTag());
+        existingTags.Remove(display.GetTag());
         Destroy(tagObject);
     }
 
@@ -99,6 +99,13 @@ public class TagEditor : MonoBehaviour
                 RemoveUnusedTag(child.gameObject);
             }
         }
+    }
+
+    public List<string> GetExistingTags () {
+        return existingTags;
+    }
+    public List<string> GetUsedTags () {
+        return tags;
     }
 
 }

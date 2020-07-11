@@ -1,0 +1,4 @@
+interface PostCreationStep
+{
+    void DoStep ();
+}

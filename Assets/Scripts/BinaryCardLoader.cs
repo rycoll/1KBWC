@@ -8,29 +8,53 @@ public class BinaryCardLoader {
     const string FILE_EXTENSION = ".bwc";
     const string IMAGE_FORMAT = ".png";
 
-    public void SaveCards (List<CardData> cards) {
+    public string GetCardPath(string cardName) {
         string folderPath = FOLDER_NAME;
         if (!Directory.Exists(folderPath)) {
             Directory.CreateDirectory(folderPath);
         }
-        
-        foreach (CardData card in cards) {
-            string directory = Path.Combine(folderPath, card.Name);
-            if (!Directory.Exists(directory)) {
-                Directory.CreateDirectory(directory);
-            }
-            Debug.Log(directory);
-            string dataPath = Path.Combine(directory, card.Name + FILE_EXTENSION);
-            BinaryFormatter bf = new BinaryFormatter();
-            using (FileStream fileStream = File.Open(dataPath, FileMode.OpenOrCreate)) {
-                bf.Serialize(fileStream, card);
-            }
-
-            byte[] imageBytes = card.ArtTexture.EncodeToPNG();
-            
-            string imagePath = Path.Combine(directory, card.GetID() + IMAGE_FORMAT);
-            File.WriteAllBytes(imagePath, imageBytes);
+        string directory = Path.Combine(folderPath, cardName);
+        if (!Directory.Exists(directory)) {
+            Directory.CreateDirectory(directory);
         }
+        return Path.Combine(directory, cardName + FILE_EXTENSION);
+    }
+    public string GetImagePath(string cardName, string cardID) {
+        string folderPath = FOLDER_NAME;
+        if (!Directory.Exists(folderPath)) {
+            Directory.CreateDirectory(folderPath);
+        }
+        string directory = Path.Combine(folderPath, cardName);
+        if (!Directory.Exists(directory)) {
+            Directory.CreateDirectory(directory);
+        }
+        return Path.Combine(directory, cardID + IMAGE_FORMAT);
+    }
+
+    public void SaveCard (CardData card) {
+        string path = GetCardPath(card.Name);
+        BinaryFormatter bf = new BinaryFormatter();
+        using (FileStream fileStream = File.Open(path, FileMode.OpenOrCreate)) {
+            bf.Serialize(fileStream, card);
+        }
+        byte[] imageBytes = card.ArtTexture.EncodeToPNG();
+        string imagePath = GetImagePath(card.Name, card.GetID());
+        File.WriteAllBytes(imagePath, imageBytes);
+    }
+
+    public void SaveCards (List<CardData> cards) {
+        foreach (CardData card in cards) {
+            SaveCard(card);
+        }
+    }
+
+    public CardData LoadCardData (string path) {
+        BinaryFormatter bf = new BinaryFormatter();
+        CardData cardData;
+        using (FileStream fileStream = File.Open(path, FileMode.Open)) {
+            cardData = (CardData) bf.Deserialize(fileStream);
+        }
+        return cardData;
     }
 
     public List<CardData> LoadCards () {
@@ -39,11 +63,7 @@ public class BinaryCardLoader {
 
         List<CardData> cards = new List<CardData>();
         foreach (string dataPath in filePaths) {
-            BinaryFormatter bf = new BinaryFormatter();
-            CardData cardData;
-            using (FileStream fileStream = File.Open(dataPath, FileMode.Open)) {
-                cardData = (CardData) bf.Deserialize(fileStream);
-            }
+            CardData cardData = LoadCardData(dataPath);
             if (cardData != null) {
                 cards.Add(cardData);
                 string dirName = Path.GetDirectoryName(dataPath);
@@ -63,11 +83,7 @@ public class BinaryCardLoader {
 
         List<CardData> cards = new List<CardData>();
         foreach (string dataPath in filePaths) {
-            BinaryFormatter bf = new BinaryFormatter();
-            CardData cardData;
-            using (FileStream fileStream = File.Open(dataPath, FileMode.Open)) {
-                cardData = (CardData) bf.Deserialize(fileStream);
-            }
+            CardData cardData = LoadCardData(dataPath);
             if (cardData != null) {
                 cards.Add(cardData);
                 string dirName = Path.GetDirectoryName(dataPath);
@@ -79,6 +95,16 @@ public class BinaryCardLoader {
                 callback(cardData);
             }
         }
+    }
+
+    // return true if successful, false if failed
+    public void UpdateCardData (CardData newData) {
+        // string path = GetCardPath(newData.Name);
+        // CardData existingData = LoadCardData(path);
+        // if (existingData == null) return false;  
+
+        // return true;
+        SaveCard(newData);
     }
 }
 
